@@ -46,8 +46,12 @@ const config = {
         use: [stylesHandler, "css-loader", "sass-loader"],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: "asset",
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif)$/i,
+        type: "asset/resource",
+      },
+      {
+        test: /\.html$/,
+        use: ["html-loader"],
       },
 
       // Add your rules for custom modules here
