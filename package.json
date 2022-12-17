@@ -9,7 +9,8 @@
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve"
+    "serve": "webpack serve",
+    "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,8 @@
     "autoprefixer": "^10.4.13",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.3",
+    "eslint": "^8.30.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-webpack-plugin": "^3.2.0",
     "file-loader": "^6.2.0",
     "html-loader": "^4.2.0",
