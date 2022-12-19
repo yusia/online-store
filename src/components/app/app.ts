@@ -1,16 +1,14 @@
 import Router from "../router/router";
 import Route from "../router/route";
 
+import CatalogView from '../views/catalog/catalog.view';
+import Bin from '../views/bin/bin.view'
 export default class App {
-  constructor() {
-  }
-
   public start(): void {
-    var router = new Router([
-      new Route('home', 'home'),
-      new Route('about', 'about'),
-      new Route('catalog', 'catalog', true)
+    const router = new Router([
+      new Route('bin', 'bin', new Bin()),
+      new Route('catalog', 'catalog',new CatalogView(), true),
     ]);
-    console.log("Application started");
+    router.init();
   }
 }
