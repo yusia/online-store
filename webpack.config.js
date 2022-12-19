@@ -3,6 +3,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -11,6 +13,7 @@ const stylesHandler = MiniCssExtractPlugin.loader;
 const config = {
   entry: "./src/index.ts",
   output: {
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
   },
   devServer: {
@@ -23,6 +26,8 @@ const config = {
     }),
 
     new MiniCssExtractPlugin(),
+    new CleanWebpackPlugin(),
+    new ESLintPlugin({ extensions: "ts" }),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
@@ -55,11 +60,12 @@ const config = {
         ],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: "asset",
-      },      {
-        test: /\.html$/i,
-        loader: "html-loader",
+        test: /\.(eot|svg|ttf|woff|woff2|png|jpe?g|gif)$/i,
+        type: "asset/resource",
+      },
+      {
+        test: /\.html$/,
+        use: ["html-loader"],
       },
     ],
   },
