@@ -6,7 +6,7 @@ class DataService {
 
   getResp(
     callback = (data: Response) => {
-      console.error("No callback for GET response");
+      console.error('No callback for GET response');
     }
   ) {
     this.load(callback);

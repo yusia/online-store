@@ -1,4 +1,4 @@
-import ProductInterface from "./product.interface";
+import ProductInterface from './product.interface';
 
 interface ProductResponseInterface extends Response {
   limit: number;

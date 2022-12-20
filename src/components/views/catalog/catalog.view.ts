@@ -1,5 +1,5 @@
-import catalog from "../catalog/catalog.html";
-import View from "../../../global/interfaces/view.interface";
+import catalog from '../catalog/catalog.html';
+import View from '../../../global/interfaces/view.interface';
 
 export default class CatalogView implements View {
   loadContent(rootElem: string): void {

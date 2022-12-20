@@ -1,4 +1,4 @@
-import View from "../../global/interfaces/view.interface";
+import View from '../../global/interfaces/view.interface';
 
 export default class Route {
   default: boolean | undefined = false;
@@ -11,6 +11,6 @@ export default class Route {
     this.default = defaultRoute;
   }
   isActiveRoute(hashedPath: string) {
-    return hashedPath.replace("#", "") === this.name;
+    return hashedPath.replace('#', '') === this.name;
   }
 }
