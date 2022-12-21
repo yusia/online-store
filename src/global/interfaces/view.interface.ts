@@ -1,3 +1,3 @@
 export default interface View {
-  loadContent(rootElem: string, params: (string | number)[]): void;
+  loadContent(rootElem: string): void;
 }

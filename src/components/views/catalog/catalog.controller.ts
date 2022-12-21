@@ -8,6 +8,6 @@ export default class CatalogController implements ControllerInterface {
   }
   
   initView() {
-    this.viewInstance.loadContent('app',['sd']);
+    this.viewInstance.loadContent('app');
   }
 }

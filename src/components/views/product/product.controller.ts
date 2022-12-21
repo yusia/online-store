@@ -1,17 +1,16 @@
 import ControllerInterface from '../../../global/interfaces/controller.interface';
-import View from '../../../global/interfaces/view.interface'
 import ProductsService from '../../../global/services/products.service';
-//import DataService from '../../../global/services/dataService';
+import ProductView from './product.view';
 
 export default class ProductController implements ControllerInterface {
   private filterParam = 'prodId';
-  constructor(private viewInstance: View, private prodService: ProductsService) {
+  constructor(private viewInstance: ProductView, private prodService: ProductsService) {
 
   }
 
-  initView(params: URLSearchParams) {
+  initView(params: URLSearchParams,) {
     const productId = +(params.get(this.filterParam) as string);//todo looks strange
-    const name = this.prodService.getProductById(productId);
-    this.viewInstance.loadContent('app', [productId, name]);
+    const product = this.prodService.getProductById(productId);
+    this.viewInstance.loadContent('app', product);
   }
 }
