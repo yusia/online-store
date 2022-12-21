@@ -9,6 +9,6 @@ interface ProductInterface {
   rating: number;
   stock: number;
   thumbnail: string;
-  title: number;
+  title: string;
 }
 export default ProductInterface;
