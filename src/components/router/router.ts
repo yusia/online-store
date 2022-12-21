@@ -1,6 +1,6 @@
-import Route from "./route";
-import NotFoundPageView from '../views/404page/notFoundPage.view'
-import View from '../../global/view.interface';
+import Route from './route';
+import NotFoundPageView from '../views/404page/notFoundPage.view';
+import View from '../../global/interfaces/view.interface';
 
 export default class Router {
   rootElemId: string;
@@ -16,7 +16,10 @@ export default class Router {
   hasChanged() {
     let routeInstance = new NotFoundPageView();
     if (window.location.hash.length > 0) {
-      routeInstance = this.routes.filter((r) => r.isActiveRoute(window.location.hash.substr(1)))[0]?.instance ?? routeInstance;
+      routeInstance =
+        this.routes.filter((r) =>
+          r.isActiveRoute(window.location.hash.substr(1))
+        )[0]?.instance ?? routeInstance;
     } else {
       routeInstance = this.routes.filter((r) => r.default)[0]?.instance;
     }
