@@ -1,13 +1,11 @@
-import View from '../../global/interfaces/view.interface';
+import ControllerInterface from "../../global/interfaces/controller.interface";
 
 export default class Route {
   default: boolean | undefined = false;
-  constructor(
-    private name: string,
+  constructor(private name: string,
     public htmlName: string,
-    public instance: View,
-    defaultRoute?: boolean
-  ) {
+    public controller: ControllerInterface,
+    defaultRoute?: boolean) {
     this.default = defaultRoute;
   }
   isActiveRoute(hashedPath: string) {
