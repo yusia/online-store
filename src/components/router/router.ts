@@ -1,6 +1,6 @@
 import Route from './route';
-// import NotFoundPageView from '../views/404page/notFoundPage.view'
-// import View from '../../global/interfaces/view.interface';
+import NotFoundPageView from '../views/404page/notFoundPage.view'
+import NotFoundController from '../views/404page/notFound.controller'
 import ControllerInterface from "../../global/interfaces/controller.interface";
 
 export default class Router {
@@ -15,8 +15,7 @@ export default class Router {
   }
 
   hasChanged() {
-    // let routeInstance = new NotFoundPageView();
-    let routeInstance = null;
+    let routeInstance: ControllerInterface = new NotFoundController(new NotFoundPageView());
     if (window.location.hash.length > 0) {
       routeInstance = this.routes.filter((r) => r.isActiveRoute(this.getRouteName(window.location.hash.slice(1))))[0]?.controller ?? routeInstance;
     } else {
@@ -28,8 +27,6 @@ export default class Router {
     const url = `?${window.location.href.split('?')[1]}`;
     const params = new URLSearchParams(url);
     controller.initView(params);
-    // if (params.get('productId')) console.log("id: ", (params.get('productId')));
-    // view.loadContent('app', [2]);
   }
 
   getRouteName(fullPath: string): string {

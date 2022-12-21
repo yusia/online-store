@@ -11,7 +11,7 @@ export default class ProductController implements ControllerInterface {
 
   initView(params: URLSearchParams) {
     const productId = +(params.get(this.filterParam) as string);//todo looks strange
-    const name = ProductsService.getProductById(productId);
+    const name = this.prodService.getProductById(productId);
     this.viewInstance.loadContent('app', [productId, name]);
   }
 }

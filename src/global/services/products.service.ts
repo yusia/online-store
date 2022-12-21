@@ -2,11 +2,10 @@ import DataService from "./dataService";
 export default class ProductsService {
   private products: string[];
   constructor(dataService: DataService) {
-    dataService.load((data:Response)=>{console.log(data)});
-   //this.products = dataService.load();
+    dataService.load((data: Response) => { console.log(data) });
+    this.products = ["hh", "ddd", "ijysl"];
   }
-  static getProductById(id: number): string {
-    const productsName = ["hh", "ddd", "ijysl"];
-    return productsName[id];
+  getProductById(id: number): string {
+    return this.products[id];
   }
 }

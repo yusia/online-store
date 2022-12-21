@@ -1,13 +1,13 @@
 import ControllerInterface from '../../../global/interfaces/controller.interface';
-import View from '../../../global/interfaces/view.interface'
+import BinView from './bin.view';
 //import DataService from '../../../global/services/dataService';
 
 export default class BinController implements ControllerInterface {
-  constructor(private viewInstance: View, ) {
+  constructor(private viewInstance: BinView, ) {
 
   }
   
   initView() {
-    this.viewInstance.loadContent('app',['sd']);
+    this.viewInstance.loadContent('app');
   }
 }
