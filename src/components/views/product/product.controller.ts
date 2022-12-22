@@ -12,11 +12,18 @@ export default class ProductController implements ControllerInterface {
     const productId = +(params.get(this.filterParam) as string);//todo looks strange
     const product = this.prodService.getProductById(productId);
     if (product === null) {
-      window.dispatchEvent(new Event('route-changed'));
+      window.dispatchEvent(new CustomEvent('routechanged'));
     }
     else {
-      this.viewInstance.loadContent('app', product);
-
+      const isAddedToBin = this.prodService.countInBin(product.id) > 0;
+      this.viewInstance.loadContent('app', product, isAddedToBin);
     }
+    window.addEventListener('binadded', ((e: CustomEvent) => {
+      this.prodService.addToBin(e.detail.productId);
+    }) as EventListener);
+    
+    window.addEventListener('bindeleted',  ((e: CustomEvent) => {
+      this.prodService.deleteFromBin(e.detail.productId);
+    }) as EventListener);
   }
 }
