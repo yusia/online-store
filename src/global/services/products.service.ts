@@ -2,16 +2,25 @@ import ProductInterface from '../interfaces/product.interface';
 import DataService from './dataService';
 export default class ProductsService {
   private _products: ProductInterface[] = [];
+  private _categories: string[] = [];
   private bin: number[] = [];
 
   constructor(private dataService: DataService) {}
+
+  get products() {
+    return this._products;
+  }
+
+  get categories() {
+    return this._categories;
+  }
 
   async getProducts() {
     this._products = await this.dataService.getProducts();
   }
 
-  get products() {
-    return this._products;
+  async getCategoties() {
+    this._categories = await this.dataService.getCategoties();
   }
 
   getProductById(id: number): ProductInterface | null {

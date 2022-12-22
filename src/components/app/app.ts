@@ -16,6 +16,7 @@ export default class App {
     this.dataService = new DataService('https://dummyjson.com/products');
     this.productsService = new ProductsService(this.dataService);
     await this.productsService.getProducts();
+    await this.productsService.getCategoties();
     const router = new Router([
       new Route('bin', 'bin', new BinController(new BinView())),
       new Route(

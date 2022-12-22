@@ -12,6 +12,10 @@ class DataService {
       .then((data) => data.products);
   }
 
+  async getCategoties() {
+    return this.load(this.baseLink + '/categories');
+  }
+
   errorHandler(res: {
     ok: boolean;
     status: number;

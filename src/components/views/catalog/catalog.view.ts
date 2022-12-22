@@ -3,7 +3,6 @@ import ProductInterface from '../../../global/interfaces/product.interface';
 
 export default class CatalogView {
   loadContent(rootElem: string, products: Array<ProductInterface>): void {
-    console.log('catalog', products);
     const rootElemHtml = document.getElementById(rootElem) as HTMLElement;
     rootElemHtml.innerHTML = catalog;
 
