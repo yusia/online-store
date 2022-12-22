@@ -1,25 +1,47 @@
 <div class="container">
+  <div class="row breadcrumbs">
+    store / {{brand}} / {{category}} / <span class="bold">{{title}}</span>
+  </div>
   <div class="row">
-    store/ {{brand}} / {{category}}</div>
-  <div class="row">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <img class="img-thumbnail"
-            src={{thumbnail}} alt="cake" />
+    <div class="col">
+      <div class="container">
+        <div class="row">
+          <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
         </div>
-        <div class="col">
-          <h3>{{title}} id:{{id}}</h3>
-          <div class="row">some info</div>
-          <div class="row">
-            <div class="container">
-              <button id="prod-buy-btn">Buy now</button>
-              <button id="prod-add-cart">Add to cart</button>
-            </div>
+        <div class="row images">
+          <div class=" col">
+            <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
+          </div>
+          <div class=" col">
+            <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
+          </div>
+          <div class=" col">
+            <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
+          </div>
+          <div class=" col">
+            <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col">
+      <div class="container ">
+        <h3>{{title}}</h3>
+        <div class="row">discountPercentage: {{discountPercentage}}</div>
+        <div class="row">rating: {{rating}}</div>
+        <div class="row">stock: {{stock}}</div>
+        <div class="row">brand: {{brand}}</div>
+        <div class="row">category: {{category}}</div>
+        <div class="row">
+          <div class="container">
+            <button id="prod-buy-btn">Buy now</button>
+            <button id="prod-add-cart">Add to cart</button>
           </div>
         </div>
       </div>
     </div>
+
   </div>
   <div class="row">
     <h5>Description</h5>
