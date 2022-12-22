@@ -9,7 +9,6 @@ export default class CatalogController implements ControllerInterface {
   ) {}
 
   initView() {
-    const products = this.prodService.getAllProducts();
-    this.viewInstance.loadContent('app', products);
+    this.viewInstance.loadContent('app', this.prodService.products);
   }
 }

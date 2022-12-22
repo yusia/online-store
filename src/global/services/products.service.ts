@@ -1,21 +1,21 @@
 import ProductInterface from '../interfaces/product.interface';
 import DataService from './dataService';
 export default class ProductsService {
-  private products: ProductInterface[] = [];
+  private _products: ProductInterface[] = [];
   private bin: number[] = [];
 
   constructor(private dataService: DataService) {}
 
   async getProducts() {
-    this.products = await this.dataService.getProducts();
+    this._products = await this.dataService.getProducts();
   }
 
-  getAllProducts() {
-    return this.products;
+  get products() {
+    return this._products;
   }
 
   getProductById(id: number): ProductInterface | null {
-    const prod = this.products.filter((p) => p.id === id)[0];
+    const prod = this._products.filter((p) => p.id === id)[0];
     return prod ?? null;
   }
 

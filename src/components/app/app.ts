@@ -12,10 +12,10 @@ import BinController from '../views/bin/bin.controller';
 export default class App {
   private dataService: DataService | undefined;
   private productsService: ProductsService | undefined;
-  public start(): void {
+  public async start() {
     this.dataService = new DataService('https://dummyjson.com/products');
     this.productsService = new ProductsService(this.dataService);
-    this.productsService.getProducts();
+    await this.productsService.getProducts();
     const router = new Router([
       new Route('bin', 'bin', new BinController(new BinView())),
       new Route(
