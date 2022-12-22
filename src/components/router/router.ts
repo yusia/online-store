@@ -10,7 +10,10 @@ export default class Router {
   }
 
   init() {
-    window.addEventListener('hashchange', () => this.hasChanged());
+    window.addEventListener('hashchange', () => {
+        this.hasChanged();
+ });
+    window.addEventListener('route-changed',()=>{ this.goToRoute(new NotFoundController(new NotFoundPageView()));});
     this.hasChanged();
   }
 

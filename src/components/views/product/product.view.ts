@@ -18,6 +18,14 @@ export default class ProductView {
     rootElemHtml.innerHTML = "";
 
     rootElemHtml.innerHTML = this.fillTemplate(product);
+    const buttonBuy = document.getElementById("prod-buy-btn");
+    const buttonAdd = document.getElementById("prod-add-cart");
+    
+    buttonBuy?.addEventListener('click', () => {console.log("prod-buy-now") })
+    buttonAdd?.addEventListener('click', () => {  console.log("prod-add-cart");})
   }
 
+  addToCart(): void {
+    console.log("title");
+  }
 }
