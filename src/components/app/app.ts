@@ -26,7 +26,7 @@ export default class App {
       new Route(
         'catalog',
         'catalog',
-        new CatalogController(new CatalogView()),
+        new CatalogController(new CatalogView(), this.productsService),
         true
       ),
     ]);
