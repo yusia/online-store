@@ -4,12 +4,13 @@ import ProductView from './product.view';
 
 export default class ProductController implements ControllerInterface {
   private filterParam = 'prodId';
-  constructor(private viewInstance: ProductView, private prodService: ProductsService) {
+  constructor(
+    private viewInstance: ProductView,
+    private prodService: ProductsService
+  ) {}
 
-  }
-
-  initView(params: URLSearchParams,) {
-    const productId = +(params.get(this.filterParam) as string);//todo looks strange
+  initView(params: URLSearchParams) {
+    const productId = +(params.get(this.filterParam) as string); //todo looks strange
     const product = this.prodService.getProductById(productId);
     this.viewInstance.loadContent('app', product);
   }
