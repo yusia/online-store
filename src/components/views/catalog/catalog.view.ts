@@ -1,8 +1,14 @@
 import catalog from '../catalog/catalog.html';
 import ProductInterface from '../../../global/interfaces/product.interface';
+import FilterParametersInterface from '../../../global/interfaces/filterPearameters.interface';
 
 export default class CatalogView {
-  loadContent(rootElem: string, products: Array<ProductInterface>): void {
+  loadContent(
+    rootElem: string,
+    products: Array<ProductInterface>,
+    filterParams: FilterParametersInterface
+  ): void {
+    console.log(filterParams);
     const rootElemHtml = document.getElementById(rootElem) as HTMLElement;
     rootElemHtml.innerHTML = catalog;
 

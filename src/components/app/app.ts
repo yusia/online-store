@@ -2,7 +2,7 @@ import Router from '../router/router';
 import Route from '../router/route';
 import ProductView from '../views/product/product.view';
 import ProductController from '../views/product/product.controller';
-import DataService from './../../global/services/dataService';
+import DataService from '../../global/services/data.service';
 import ProductsService from './../../global/services/products.service';
 import CatalogView from '../views/catalog/catalog.view';
 import CatalogController from '../views/catalog/catalog.controller';
@@ -16,7 +16,7 @@ export default class App {
     this.dataService = new DataService('https://dummyjson.com/products');
     this.productsService = new ProductsService(this.dataService);
     await this.productsService.getProducts();
-    await this.productsService.getCategoties();
+    await this.productsService.getFilterData();
     const router = new Router([
       new Route('bin', 'bin', new BinController(new BinView())),
       new Route(

@@ -1,9 +1,14 @@
 import ProductInterface from '../interfaces/product.interface';
-import DataService from './dataService';
+import DataService from './data.service';
 export default class ProductsService {
   private _products: ProductInterface[] = [];
   private _categories: string[] = [];
+  private _brands: string[] = [];
   private bin: number[] = [];
+  private _minPrice = 0;
+  private _maxPrice = 0;
+  private _minStock = 0;
+  private _maxStock = 0;
 
   constructor(private dataService: DataService) {}
 
@@ -15,12 +20,63 @@ export default class ProductsService {
     return this._categories;
   }
 
+  get brands() {
+    return this._brands;
+  }
+
+  get minPrice() {
+    return this._minPrice;
+  }
+
+  get maxPrice() {
+    return this._maxPrice;
+  }
+
+  get minStock() {
+    return this._minStock;
+  }
+
+  get maxStock() {
+    return this._maxStock;
+  }
+
   async getProducts() {
     this._products = await this.dataService.getProducts();
   }
 
-  async getCategoties() {
+  async getFilterData() {
+    await this.getCategories();
+    this.getBrands();
+    this.getPrices();
+    this.getStocks();
+  }
+
+  async getCategories() {
     this._categories = await this.dataService.getCategoties();
+  }
+
+  getBrands() {
+    this._brands = Array.from(
+      new Set(this._products.map((product) => product.brand))
+    );
+  }
+
+  getPrices() {
+    this._minPrice = Math.min(
+      ...this._products.map((product) => product.price)
+    );
+    this._maxPrice = Math.max(
+      ...this._products.map((product) => product.price)
+    );
+  }
+
+  getStocks() {
+    this._minStock = Math.min(
+      ...this._products.map((product) => product.stock)
+    );
+    this._maxStock = Math.max(
+      ...this._products.map((product) => product.stock)
+    );
   }
 
   getProductById(id: number): ProductInterface | null {
