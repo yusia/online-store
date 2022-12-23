@@ -7,9 +7,13 @@ class DataService {
   }
 
   async getProducts() {
-    return this.load(this.baseLink)
+    return this.load(this.baseLink + '?limit=100')
       .then((data) => data as ProductResponseInterface)
       .then((data) => data.products);
+  }
+
+  async getCategoties() {
+    return this.load(this.baseLink + '/categories');
   }
 
   errorHandler(res: {

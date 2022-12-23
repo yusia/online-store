@@ -1,51 +1,98 @@
 import ProductInterface from '../interfaces/product.interface';
-import DataService from './dataService';
+import DataService from './data.service';
 export default class ProductsService {
-  private products: ProductInterface[] = [];
+  private _products: ProductInterface[] = [];
+  private _categories: string[] = [];
+  private _brands: string[] = [];
   private bin: number[] = [];
+  private _minPrice = 0;
+  private _maxPrice = 0;
+  private _minStock = 0;
+  private _maxStock = 0;
 
-  constructor(private dataService: DataService) {
-    this.products = [
-      {
-        brand: 'brand',
-        category: 'category',
-        description: 'description',
-        discountPercentage: 10,
-        id: 1,
-        images: [
-          'https://i.dummyjson.com/data/products/8/1.jpg',
-          'https://i.dummyjson.com/data/products/8/2.jpg',
-          'https://i.dummyjson.com/data/products/8/3.jpg',
-          'https://i.dummyjson.com/data/products/8/4.jpg',
-        ],
-        price: 33,
-        rating: 1,
-        stock: 10,
-        thumbnail: 'thumbnail',
-        title: 'title',
-      },
-    ];
+  constructor(private dataService: DataService) {}
+
+  get products() {
+    return this._products;
+  }
+
+  get categories() {
+    return this._categories;
+  }
+
+  get brands() {
+    return this._brands;
+  }
+
+  get minPrice() {
+    return this._minPrice;
+  }
+
+  get maxPrice() {
+    return this._maxPrice;
+  }
+
+  get minStock() {
+    return this._minStock;
+  }
+
+  get maxStock() {
+    return this._maxStock;
   }
 
   async getProducts() {
-    this.products = await this.dataService.getProducts();
+    this._products = await this.dataService.getProducts();
+  }
+
+  async getFilterData() {
+    await this.getCategories();
+    this.getBrands();
+    this.getPrices();
+    this.getStocks();
+  }
+
+  async getCategories() {
+    this._categories = await this.dataService.getCategoties();
+  }
+
+  getBrands() {
+    this._brands = Array.from(
+      new Set(this._products.map((product) => product.brand))
+    );
+  }
+
+  getPrices() {
+    this._minPrice = Math.min(
+      ...this._products.map((product) => product.price)
+    );
+    this._maxPrice = Math.max(
+      ...this._products.map((product) => product.price)
+    );
+  }
+
+  getStocks() {
+    this._minStock = Math.min(
+      ...this._products.map((product) => product.stock)
+    );
+    this._maxStock = Math.max(
+      ...this._products.map((product) => product.stock)
+    );
   }
 
   getProductById(id: number): ProductInterface | null {
-    const prod = this.products.filter((p) => p.id === id)[0];
+    const prod = this._products.filter((p) => p.id === id)[0];
     return prod ?? null;
   }
 
   addToBin(productId: number) {
-  //  this.bin.push(productId);
-  console.log('item added:',productId);
+    //  this.bin.push(productId);
+    console.log('item added:', productId);
   }
   deleteFromBin(productId: number) {
-
-    console.log('item deleted:',productId);
-  //  this.bin.(productId);
+    console.log('item deleted:', productId);
+    //  this.bin.(productId);
   }
-  countInBin(productId: number) : number {
-    return this.bin.filter(p => p === productId).length;
+  countInBin(productId: number): number {
+    return this.bin.filter((p) => p === productId).length;
   }
 }
