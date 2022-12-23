@@ -18,7 +18,7 @@ export default class App {
     await this.productsService.getProducts();
     await this.productsService.getFilterData();
     const router = new Router([
-      new Route('bin', 'bin', new BinController(new BinView())),
+      new Route('bin', 'bin', new BinController(new BinView(), this.productsService)),
       new Route(
         'product',
         'product',

@@ -6,11 +6,11 @@ export default class ProductController implements ControllerInterface {
   private filterParam = 'prodId';
   constructor(private viewInstance: ProductView, private prodService: ProductsService) {
     window.addEventListener('binadded', ((e: CustomEvent) => {
-      this.prodService.addToBin(e.detail.productId);
+      this.prodService.addOneProdToBin(e.detail.productId);
     }) as EventListener);
 
     window.addEventListener('bindeleted',  ((e: CustomEvent) => {
-      this.prodService.deleteFromBin(e.detail.productId);
+      this.prodService.deleteProdFromBin(e.detail.productId);
     }) as EventListener);
   }
 
