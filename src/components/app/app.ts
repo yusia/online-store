@@ -11,7 +11,8 @@ import BinController from '../views/bin/bin.controller';
 
 export default class App {
   private dataService: DataService | undefined;
-  private productsService: ProductsService | undefined;
+  private productsService!: ProductsService;
+
   public async start() {
     this.dataService = new DataService('https://dummyjson.com/products');
     this.productsService = new ProductsService(this.dataService);
@@ -32,5 +33,12 @@ export default class App {
       ),
     ]);
     router.init();
+    this.setBinCount();
+    window.addEventListener('binchanged', this.setBinCount);
+  }
+
+  private setBinCount() {
+    const bin = document.getElementById('bin') as HTMLElement;
+    bin.innerText = this.productsService.getCountAllProductInBin().toString();
   }
 }

@@ -1,6 +1,8 @@
 import ProductInterface from '../interfaces/product.interface';
 import DataService from './data.service';
+import { BinStorageType } from '../interfaces/selectedProductView.interface'
 export default class ProductsService {
+  private storageKey = 'bin';
   private _products: ProductInterface[] = [];
   private _categories: [] = [];
   private _brands: string[] = [];
@@ -10,7 +12,21 @@ export default class ProductsService {
   private _minStock = 0;
   private _maxStock = 0;
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService) {
+    this.bin = this.getBinFromLocalStrg();
+  }
+  
+  private getBinFromLocalStrg(): Map<number, number> {
+    const bin = new Map();
+    const binStrgJson = localStorage.getItem(this.storageKey);
+    const binStrg: BinStorageType[] = binStrgJson ? JSON.parse(binStrgJson) : [];
+    binStrg.forEach((item) => {
+      if (item.count > 0) {
+        bin.set(item.id, item.count);
+      }
+    })
+    return bin;
+  }
   get selectedProducts(): Map<number, number> {
     return this.bin;
   }
@@ -86,20 +102,43 @@ export default class ProductsService {
     return prod ?? null;
   }
 
-  addOneProdToBin(productId: number) {
+  private saveBinToLocalStrg(): void {
+    const binJson: BinStorageType[] = [];
+    this.bin.forEach((value, key) => {
+      if (value > 0) {
+        binJson.push({ id: key, count: value });
+      }
+    });
+    localStorage.setItem('bin', JSON.stringify(binJson));
+    window.dispatchEvent(new CustomEvent('binchanged'));
+  }
+
+  addOneProdToBin(productId: number): void {
     this.bin.set(productId, 1);
-    console.log('item added:', productId);
+    this.saveBinToLocalStrg();
   }
 
   deleteProdFromBin(productId: number) {
     this.bin.delete(productId);
+    this.saveBinToLocalStrg();
   }
 
   changeCountProdInBin(productId: number, value: number) {
     this.bin.set(productId, value);
+    this.saveBinToLocalStrg();
   }
+
   countInBin(productId: number): number {
     return this.bin.get(productId) ?? 0;
+  }
+
+  getCountAllProductInBin(): number {
+    let count = 0;
+
+    this.bin.forEach((value) => {
+      count += value;
+    });
+    return count;
   }
 
   getCountByCategoty(category: string) {
