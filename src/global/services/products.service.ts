@@ -2,7 +2,7 @@ import ProductInterface from '../interfaces/product.interface';
 import DataService from './data.service';
 export default class ProductsService {
   private _products: ProductInterface[] = [];
-  private _categories: string[] = [];
+  private _categories: [] = [];
   private _brands: string[] = [];
   private bin: Map<number, number> = new Map();
   private _minPrice = 0;
@@ -10,7 +10,7 @@ export default class ProductsService {
   private _minStock = 0;
   private _maxStock = 0;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService) {}
   get selectedProducts(): Map<number, number> {
     return this.bin;
   }
@@ -101,5 +101,12 @@ export default class ProductsService {
   countInBin(productId: number): number {
     return this.bin.get(productId) ?? 0;
   }
-  
+
+  getCountByCategoty(category: string) {
+    return this._products.filter((value) => value.category === category).length;
+  }
+
+  getCountByBrand(brand: string) {
+    return this._products.filter((value) => value.brand === brand).length;
+  }
 }

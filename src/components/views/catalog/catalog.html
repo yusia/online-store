@@ -1,7 +1,26 @@
-<div class="container" style ="display: flex; flex-flow: wrap;">
+<div class="container" style ="display: flex;">
+  <div class="container" id ="filter" style ="display: flex;flex-flow: column; width: 450px;">
+    <h3>Category</h3>
+    <div id="category-list" style="height: 300px; overflow: scroll;width: 100%;">
+    </div>
+    <h3>Brand</h3>
+    <div id="brand-list" style="height: 300px; overflow: scroll; width: 100%;">
+    </div>
+    <h3>Price</h3>
+    <div id="price" style ="display: flex; justify-content: space-between; width: 100%">
+      <p id ="min-price"></p>
+      <p id ="max-price"></p>
+    </div>
+    <h3>Stock</h3>
+    <div id="stock" style ="display: flex; justify-content: space-between; width: 100%">
+      <p id ="min-stock"></p>
+      <p id ="max-stock"></p></div>
+  </div>
+  <div class="container" id ="product-list" style ="display: flex; flex-flow: wrap;">
+  </div>
 </div>
 
-<template>
+<template id = "card-template">
   <div class="card" style="width: 18rem;">
     <div class="card-body">
       <h5 class="card-title">Card title</h5>
@@ -9,5 +28,14 @@
       <p class="card-text"></p>
         <a class="nav-link" href="#">Show details</a>
     </div>
+  </div>
+</template>
+
+<template id="category-brand-template">
+  <div class="category-brand-wrapper" style="display: flex; justify-content: space-between;">
+    <div style="display: flex;">
+      <input class="category-brand-name" type="checkbox"></input>
+      <div class = "category-brand-label"></div></div>
+    <div class = "count"></div>
   </div>
 </template>
