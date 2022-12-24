@@ -1,4 +1,4 @@
-import SelectedProductViewInterface from '../../../global/interfaces/selectedProductView.interface';
+import {SelectedProductViewInterface} from '../../../global/interfaces/selectedProductView.interface';
 import content from '../bin/bin.html';
 
 export default class BinView {

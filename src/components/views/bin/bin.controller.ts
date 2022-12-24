@@ -1,5 +1,5 @@
 import ControllerInterface from '../../../global/interfaces/controller.interface';
-import SelectedProductViewInterface from '../../../global/interfaces/selectedProductView.interface';
+import {SelectedProductViewInterface} from '../../../global/interfaces/selectedProductView.interface';
 import ProductsService from '../../../global/services/products.service';
 import BinView from './bin.view';
 

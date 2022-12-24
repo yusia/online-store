@@ -1,6 +1,10 @@
 import ProductInterface from "./product.interface";
 
-export default interface SelectedProductViewInterface {
+export  interface SelectedProductViewInterface {
   product: ProductInterface | null;
   count: number;
+}
+export  interface BinStorageType {
+  id: number;
+  count: number
 }
