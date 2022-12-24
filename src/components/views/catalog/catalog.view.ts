@@ -1,6 +1,6 @@
 import catalog from '../catalog/catalog.html';
 import ProductInterface from '../../../global/interfaces/product.interface';
-import FilterParametersInterface from '../../../global/interfaces/filterPearameters.interface';
+import FilterParametersInterface from '../../../global/interfaces/filterParameters.interface';
 
 export default class CatalogView {
   loadContent(

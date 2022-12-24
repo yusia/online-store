@@ -1,7 +1,7 @@
 import ControllerInterface from '../../../global/interfaces/controller.interface';
 import ProductsService from '../../../global/services/products.service';
 import CatalogView from './catalog.view';
-import FilterParametersInterface from '../../../global/interfaces/filterPearameters.interface';
+import FilterParametersInterface from '../../../global/interfaces/filterParameters.interface';
 
 export default class CatalogController implements ControllerInterface {
   constructor(
