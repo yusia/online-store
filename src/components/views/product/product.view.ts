@@ -35,12 +35,36 @@ export default class ProductView {
     return buttonAdd;
   }
 
+  private changeImage(e: Event): void {
+    const img = e.target as HTMLImageElement;
+    if (img.src !== undefined) {
+      const imageSet = document.getElementById("big-image") as HTMLImageElement;
+      imageSet.src = img.src;
+    }
+  }
+
+  private appendImageSet(images: string[]): void {
+    const imageSet = document.getElementById('images-set') as HTMLDivElement;
+    imageSet.addEventListener('click', this.changeImage);
+    for (const image of images) {
+      const img = document.createElement('img') as HTMLImageElement;
+      img.src = image;
+      img.alt = 'product image';
+      img.classList.add('img-thumbnail');
+      const div = document.createElement('div');
+      div.classList.add('col');
+      div.append(img);
+      imageSet.append(div);
+    }
+  }
+
   loadContent(rootElem: string, product: ProductInterface, isAddedToBin: boolean): void {
     this.isAddedToBin = isAddedToBin;
     const rootElemHtml = document.getElementById(rootElem) as HTMLElement;
     rootElemHtml.innerHTML = "";
-
     rootElemHtml.innerHTML = this.fillTemplate(product);
+    this.appendImageSet(product.images);
+
     const buttonBuy = document.getElementById("prod-buy-btn") as HTMLButtonElement;
     const buttonAdd = this.setBinBtnText(isAddedToBin);
 

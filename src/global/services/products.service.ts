@@ -4,14 +4,16 @@ export default class ProductsService {
   private _products: ProductInterface[] = [];
   private _categories: string[] = [];
   private _brands: string[] = [];
-  private bin: number[] = [];
+  private bin: Map<number, number> = new Map();
   private _minPrice = 0;
   private _maxPrice = 0;
   private _minStock = 0;
   private _maxStock = 0;
 
-  constructor(private dataService: DataService) {}
-
+  constructor(private dataService: DataService) { }
+  get selectedProducts(): Map<number, number> {
+    return this.bin;
+  }
   get products() {
     return this._products;
   }
@@ -84,15 +86,20 @@ export default class ProductsService {
     return prod ?? null;
   }
 
-  addToBin(productId: number) {
-    //  this.bin.push(productId);
+  addOneProdToBin(productId: number) {
+    this.bin.set(productId, 1);
     console.log('item added:', productId);
   }
-  deleteFromBin(productId: number) {
-    console.log('item deleted:', productId);
-    //  this.bin.(productId);
+
+  deleteProdFromBin(productId: number) {
+    this.bin.delete(productId);
+  }
+
+  changeCountProdInBin(productId: number, value: number) {
+    this.bin.set(productId, value);
   }
   countInBin(productId: number): number {
-    return this.bin.filter((p) => p === productId).length;
+    return this.bin.get(productId) ?? 0;
   }
+  
 }

@@ -1,26 +1,22 @@
-<div class="container">
-  <div class="row breadcrumbs">
-    store / {{brand}} / {{category}} / <span class="bold">{{title}}</span>
+<div class="container product-view">
+  <div class="col breadcrumbs">
+    <span >
+      <a href="#" class="brcmb-link">Store</a>
+    </span>
+    <span class="col-md-auto">/</span>
+    <span class="col">{{brand}}</span>
+    <span class="col-md-auto">/</span>
+    <span class="col">{{category}}</span>
+    <span class="col-md-auto">/</span>
+    <span class="col-md-auto bold">{{title}}</span>
   </div>
-  <div class="row">
+  <div class="row prod-info">
     <div class="col">
       <div class="container">
         <div class="row">
-          <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
+          <img class="img-thumbnail" id="big-image" src="{{thumbnail}}" alt="main image" />
         </div>
-        <div class="row images">
-          <div class=" col">
-            <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
-          </div>
-          <div class=" col">
-            <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
-          </div>
-          <div class=" col">
-            <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
-          </div>
-          <div class=" col">
-            <img class="img-thumbnail" src="{{thumbnail}}" alt="cake" />
-          </div>
+        <div class="row images-set" id="images-set">
         </div>
       </div>
 
@@ -34,7 +30,7 @@
         <div class="row">brand: {{brand}}</div>
         <div class="row">category: {{category}}</div>
         <div class="row">
-          <div class="container">
+          <div class="container buttons">
             <button id="prod-buy-btn">Buy now</button>
             <button id="prod-add-cart">Add to cart</button>
           </div>
@@ -43,7 +39,7 @@
     </div>
 
   </div>
-  <div class="row">
+  <div class="row description">
     <h5>Description</h5>
     <p>{{description}}</p>
   </div>

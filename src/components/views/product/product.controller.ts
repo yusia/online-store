@@ -5,7 +5,13 @@ import ProductView from './product.view';
 export default class ProductController implements ControllerInterface {
   private filterParam = 'prodId';
   constructor(private viewInstance: ProductView, private prodService: ProductsService) {
+    window.addEventListener('binadded', ((e: CustomEvent) => {
+      this.prodService.addOneProdToBin(e.detail.productId);
+    }) as EventListener);
 
+    window.addEventListener('bindeleted',  ((e: CustomEvent) => {
+      this.prodService.deleteProdFromBin(e.detail.productId);
+    }) as EventListener);
   }
 
   initView(params: URLSearchParams,) {
@@ -18,12 +24,5 @@ export default class ProductController implements ControllerInterface {
       const isAddedToBin = this.prodService.countInBin(product.id) > 0;
       this.viewInstance.loadContent('app', product, isAddedToBin);
     }
-    window.addEventListener('binadded', ((e: CustomEvent) => {
-      this.prodService.addToBin(e.detail.productId);
-    }) as EventListener);
-    
-    window.addEventListener('bindeleted',  ((e: CustomEvent) => {
-      this.prodService.deleteFromBin(e.detail.productId);
-    }) as EventListener);
   }
 }
