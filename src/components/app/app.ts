@@ -18,6 +18,7 @@ export default class App {
     this.productsService = new ProductsService(this.dataService);
     await this.productsService.getProducts();
     await this.productsService.getFilterData();
+    this.setBinCount();
     const router = new Router([
       new Route('bin', 'bin', new BinController(new BinView(), this.productsService)),
       new Route(
@@ -33,8 +34,7 @@ export default class App {
       ),
     ]);
     router.init();
-    this.setBinCount();
-    window.addEventListener('binchanged', this.setBinCount);
+    window.addEventListener('binchanged', this.setBinCount.bind(this));
   }
 
   private setBinCount() {

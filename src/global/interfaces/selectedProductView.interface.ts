@@ -2,7 +2,7 @@ import ProductInterface from "./product.interface";
 
 export  interface SelectedProductViewInterface {
   product: ProductInterface | null;
-  count: number;
+  total: number;
 }
 export  interface BinStorageType {
   id: number;

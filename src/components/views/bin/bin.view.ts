@@ -1,4 +1,4 @@
-import {SelectedProductViewInterface} from '../../../global/interfaces/selectedProductView.interface';
+import { SelectedProductViewInterface } from '../../../global/interfaces/selectedProductView.interface';
 import content from '../bin/bin.html';
 
 export default class BinView {
@@ -9,20 +9,35 @@ export default class BinView {
       rootElemHtml.innerHTML = "<div>Cart is Empty</div>";
     } else {
       let contentTemplate = "";
-      products.forEach((product: SelectedProductViewInterface) => {
-        contentTemplate += this.fillTemplate(product, content);
+      products.forEach((productBin: SelectedProductViewInterface) => {
+        contentTemplate += this.fillTemplate(productBin, content);
+
+
       });
-      rootElemHtml.innerHTML = contentTemplate
+      rootElemHtml.innerHTML = contentTemplate;
+      this.changeCountBindListener(products);
     }
   }
+  private changeCountBindListener(products: SelectedProductViewInterface[]): void {
+    products.forEach((productBin: SelectedProductViewInterface) => {
+      document.getElementById(`prod-count-${productBin.product?.id}`)?.addEventListener('input', (e) => {
 
+        const count = (e.target as HTMLInputElement).value;
+        console.log(count);
+        window.dispatchEvent(new CustomEvent("bincountchanged", {
+          detail: { productId: productBin.product?.id, count: count }
+        }));
+      });
+    });
+  }
   private fillTemplate(product: object, template: string): string {
     const entries = Object.entries(product);
     for (const [key, value] of entries) {
-      if (typeof value === 'object') template = this.fillTemplate(value, template);
-      else{
-        template = template.replace(new RegExp(`{{${key}}}`, 'g'), value.toString());
-      }
+      const isImages=Array.isArray(value);
+      if (typeof value === 'object' && !isImages) template = this.fillTemplate(value, template);
+      else {
+          template = template.replace(new RegExp(`{{${key}}}`, 'g'), value.toString());
+        }
     }
     return template;
   }
