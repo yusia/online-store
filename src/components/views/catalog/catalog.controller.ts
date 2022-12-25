@@ -68,6 +68,7 @@ export default class CatalogController implements ControllerInterface {
       this.getProducts(this.prodService.productsFiltered),
       this.getFilterParameters(),
       this.updateUrl.bind(this)
+
     );
   }
 }
