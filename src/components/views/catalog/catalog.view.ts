@@ -87,10 +87,9 @@ export default class CatalogView {
   loadContent(
     rootElem: string,
     products: Array<{ product: ProductInterface; isAddedToBin: boolean }>,
-    filterParams: FilterParametersInterface
+    filterParams: FilterParametersInterface,
+    updateUrl: (filterParam: string, value: string | number) => void
   ): void {
-    console.log(filterParams);
-
     const rootElemHtml = document.getElementById(rootElem) as HTMLElement;
     rootElemHtml.innerHTML = catalog;
 
@@ -103,9 +102,22 @@ export default class CatalogView {
     const containerCategory = rootElemHtml.querySelector('#category-list');
 
     filterParams.categories.forEach((category) => {
-      const categoryElement = templateCategoryBrand?.content.cloneNode(
+      const categoryElementNode = templateCategoryBrand?.content.cloneNode(
         true
       ) as HTMLElement;
+
+      const categoryElement = categoryElementNode.querySelector(
+        '.category-brand-wrapper'
+      ) as HTMLElement;
+
+      categoryElement.addEventListener('click', () =>
+        updateUrl('category', category.name)
+      );
+
+      const check = categoryElement.querySelector(
+        '.category-brand-name'
+      ) as HTMLInputElement;
+      check.checked = category.chacked;
 
       const name = categoryElement.querySelector(
         '.category-brand-label'
@@ -121,9 +133,22 @@ export default class CatalogView {
     const containerBrand = rootElemHtml.querySelector('#brand-list');
 
     filterParams.brands.forEach((brand) => {
-      const brandElement = templateCategoryBrand?.content.cloneNode(
+      const brandElementNode = templateCategoryBrand?.content.cloneNode(
         true
       ) as HTMLElement;
+
+      const brandElement = brandElementNode.querySelector(
+        '.category-brand-wrapper'
+      ) as HTMLElement;
+
+      brandElement.addEventListener('click', () =>
+        updateUrl('brand', brand.name)
+      );
+
+      const check = brandElement.querySelector(
+        '.category-brand-name'
+      ) as HTMLInputElement;
+      check.checked = brand.chacked;
 
       const name = brandElement.querySelector(
         '.category-brand-label'

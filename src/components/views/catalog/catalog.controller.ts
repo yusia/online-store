@@ -17,6 +17,15 @@ export default class CatalogController implements ControllerInterface {
     window.addEventListener('bindeleted', ((e: CustomEvent) => {
       this.prodService.deleteProdFromBin(e.detail.productId);
     }) as EventListener);
+
+    window.addEventListener('hashchange', ((event: HashChangeEvent) => {
+      this.prodService.updateFilterByUrl(event.newURL);
+    }) as EventListener);
+  }
+
+  updateUrl(filterParam: string, value: string | number) {
+    console.log(filterParam, value);
+    this.prodService.updateFilter(filterParam, value);
   }
 
   getFilterParameters(): FilterParametersInterface {
@@ -25,14 +34,16 @@ export default class CatalogController implements ControllerInterface {
         return {
           name: value,
           totalCount: this.prodService.getCountByCategoty(value),
-          filteredCount: 0,
+          filteredCount: this.prodService.getCountByCategotyFiltered(value),
+          chacked: this.prodService.isCategiryInFilter(value),
         };
       }),
       brands: this.prodService.brands.map((value) => {
         return {
           name: value,
           totalCount: this.prodService.getCountByBrand(value),
-          filteredCount: 0,
+          filteredCount: this.prodService.getCountByBrandFiltered(value),
+          chacked: this.prodService.isBrandInFilter(value),
         };
       }),
       minPrice: this.prodService.minPrice,
@@ -51,11 +62,13 @@ export default class CatalogController implements ControllerInterface {
     });
   }
   initView() {
-    const filterParams: FilterParametersInterface = this.getFilterParameters();
+    this.prodService.updateFileredProducts(this.prodService.products);
     this.viewInstance.loadContent(
       'app',
-      this.getProducts(this.prodService.products),
-      filterParams
+      this.getProducts(this.prodService.productsFiltered),
+      this.getFilterParameters(),
+      this.updateUrl.bind(this)
+
     );
   }
 }
