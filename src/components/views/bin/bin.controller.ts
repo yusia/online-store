@@ -20,8 +20,9 @@ export default class BinController implements ControllerInterface {
     return selectedProducts;
   }
 
-  initView() {
-    this.viewInstance.loadContent('app', this.getBinProductModel());
+  initView(params: URLSearchParams) {
+    const modalParam = Boolean(params.get('modal'));
+    this.viewInstance.loadContent('app', this.getBinProductModel(), { modal: modalParam });
   }
 
 }

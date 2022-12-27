@@ -1,12 +1,41 @@
-<div class="row bin-item">
-  <div class="col title">{{title}}</div>
-  <div>discountPercentage: {{discountPercentage}}</div>
-  <div class="col">rating: {{rating}}</div>
-  <div class="col">stock: {{stock}}</div>
-  <div class="col">brand: {{brand}}</div>
-  <div class="col">category: {{category}}</div>
-  <div class="col"> 
-    <label for="count">Count in bin :</label>
-    <input id="prod-count-{{id}}" data-id="{{id}}" type="number" name="count" value="{{total}}" min="0" max="{{stock}}">
+<template id="bin-item-id" class="none">
+  <div class="row bin-item">
+    <div class="col title">{{title}}</div>
+    <div>discountPercentage: {{discountPercentage}}</div>
+    <div class="col">rating: {{rating}}</div>
+    <div class="col">stock: {{stock}}</div>
+    <div class="col">brand: {{brand}}</div>
+    <div class="col">category: {{category}}</div>
+    <div class="col" class="count">
+      <label for="count">Count in bin :</label>
+      <input id="prod-count-{{id}}" data-id="{{id}}" type="number" name="count" value="{{total}}" min="0"
+        max="{{stock}}">
+    </div>
   </div>
+</template>
+<div id="bin-content">
+  <div id="bin-products-list"> </div>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Buy All
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
