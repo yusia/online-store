@@ -1,3 +1,3 @@
 export default interface ControllerInterface {
-  initView( params: URLSearchParams): void;
+  initView( params?: URLSearchParams): void;
 }

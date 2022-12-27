@@ -11,9 +11,9 @@ export default class Router {
 
   init() {
     window.addEventListener('hashchange', () => {
-        this.hasChanged();
- });
-    window.addEventListener('routechanged',()=>{ this.goToRoute(new NotFoundController(new NotFoundPageView()));});
+      this.hasChanged();
+    });
+    window.addEventListener('routenotfound', () => { this.goToRoute(new NotFoundController(new NotFoundPageView())); });
     this.hasChanged();
   }
 
@@ -27,8 +27,8 @@ export default class Router {
     this.goToRoute(routeInstance);
   }
   goToRoute(controller: ControllerInterface) {
-    const url = `?${window.location.href.split('?')[1]}`;
-    const params = new URLSearchParams(url);
+    const urlParamsPart = window.location.href.split('?')[1];
+    const params = urlParamsPart ? new URLSearchParams(`?${window.location.href.split('?')[1]}`) : undefined;
     controller.initView(params);
   }
 
