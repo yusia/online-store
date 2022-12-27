@@ -1,15 +1,13 @@
 <div class="container product-view">
-  <div class="col breadcrumbs">
-    <span >
-      <a href="#" class="brcmb-link">Store</a>
-    </span>
-    <span class="col-md-auto">/</span>
-    <span class="col">{{brand}}</span>
-    <span class="col-md-auto">/</span>
-    <span class="col">{{category}}</span>
-    <span class="col-md-auto">/</span>
-    <span class="col-md-auto bold">{{title}}</span>
-  </div>
+
+  <nav  class="col" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Store</a></li>
+      <li class="breadcrumb-item"><a href="#">{{brand}}</a></li>
+      <li class="breadcrumb-item"><a href="#">{{category}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+    </ol>
+  </nav>
   <div class="row prod-info">
     <div class="col">
       <div class="container">
