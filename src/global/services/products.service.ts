@@ -9,12 +9,23 @@ export default class ProductsService {
   private _maxPrice = 0;
   private _minStock = 0;
   private _maxStock = 0;
-  private _filter: { categories: string[]; brands: string[] };
+  private _filter: {
+    categories: string[];
+    brands: string[];
+    minPrice: number;
+    maxPrice: number;
+    minStock: number;
+    maxStock: number;
+  };
 
   constructor(private dataService: DataService) {
     this._filter = {
       categories: [],
       brands: [],
+      minPrice: 0,
+      maxPrice: 0,
+      minStock: 0,
+      maxStock: 0,
     };
 
     this.updateFilterByUrl(window.location.href);
@@ -122,7 +133,15 @@ export default class ProductsService {
     const params = new URLSearchParams(`?${url.split('?')[1]}`);
     this._filter.categories = params.getAll('category');
     this._filter.brands = params.getAll('brand');
-    console.log(this._filter);
+    if (params.get('price')) {
+      this._filter.minPrice = Number(params.get('price')?.split('↕')[0]);
+      this._filter.maxPrice = Number(params.get('price')?.split('↕')[1]);
+    }
+
+    if (params.get('stock')) {
+      this._filter.minStock = Number(params.get('stock')?.split('↕')[0]);
+      this._filter.maxStock = Number(params.get('stock')?.split('↕')[1]);
+    }
   }
 
   isCategiryInFilter(category: string): boolean {
@@ -133,10 +152,42 @@ export default class ProductsService {
     return this._filter.brands.includes(brand);
   }
 
+  getPriceFromFilter(): { min: number; max: number } {
+    return {
+      min:
+        this._filter.minPrice >
+        Math.min(...this._productsFiltered.map((product) => product.price))
+          ? this._filter.minPrice
+          : Math.min(...this._productsFiltered.map((product) => product.price)),
+      max:
+        this._filter.maxPrice <
+        Math.max(...this._productsFiltered.map((product) => product.price))
+          ? this._filter.maxPrice
+          : Math.max(...this._productsFiltered.map((product) => product.price)),
+    };
+  }
+
+  getStockFromFilter(): { min: number; max: number } {
+    return {
+      min:
+        this._filter.minStock >
+        Math.min(...this._productsFiltered.map((product) => product.stock))
+          ? this._filter.minStock
+          : Math.min(...this._productsFiltered.map((product) => product.stock)),
+      max:
+        this._filter.maxStock <
+        Math.max(...this._productsFiltered.map((product) => product.stock))
+          ? this._filter.maxStock
+          : Math.max(...this._productsFiltered.map((product) => product.stock)),
+    };
+  }
+
   updateFileredProducts(products: ProductInterface[]) {
     console.log('update filtered products');
     this._productsFiltered = this.filterProductsByCategory(products);
     this._productsFiltered = this.filterProductsByBrand(this._productsFiltered);
+    this._productsFiltered = this.filterProductsByPrice(this._productsFiltered);
+    this._productsFiltered = this.filterProductsByStock(this._productsFiltered);
     console.log(this._productsFiltered);
   }
 
@@ -162,39 +213,90 @@ export default class ProductsService {
     }
   }
 
+  filterProductsByPrice(products: ProductInterface[]): ProductInterface[] {
+    let result = products;
+    if (this._filter.minPrice)
+      result = result.filter(
+        (product) => product.price >= this._filter.minPrice
+      );
+    if (this._filter.maxPrice)
+      result = result.filter(
+        (product) => product.price <= this._filter.maxPrice
+      );
+    return result;
+  }
+
+  filterProductsByStock(products: ProductInterface[]): ProductInterface[] {
+    let result = products;
+    if (this._filter.minStock)
+      result = result.filter(
+        (product) => product.stock >= this._filter.minStock
+      );
+    if (this._filter.maxStock)
+      result = result.filter(
+        (product) => product.stock <= this._filter.maxStock
+      );
+    return result;
+  }
+
   updateUrl() {
     const paramArray: string[] = [];
     paramArray.push(
       ...this._filter.categories.map((value) => `category=${value}`)
     );
     paramArray.push(...this._filter.brands.map((value) => `brand=${value}`));
+    if (this._filter.minPrice && this._filter.maxPrice) {
+      paramArray.push(
+        `price=${this._filter.minPrice}↕${this._filter.maxPrice}`
+      );
+    }
+    if (this._filter.minStock && this._filter.maxStock) {
+      paramArray.push(
+        `stock=${this._filter.minStock}↕${this._filter.maxStock}`
+      );
+    }
 
     const newUrl =
       window.location.href.split('?')[0] + '?' + paramArray.join('&');
 
-    console.log(newUrl);
     window.location.replace(newUrl);
   }
 
-  updateFilter(filterParam: string, value: string | number) {
-    if (filterParam == 'category') {
-      if (!this._filter.categories.includes(value as string)) {
-        this._filter.categories.push(value as string);
-      } else
-        this._filter.categories = this._filter.categories.filter(
-          (category) => category != value
-        );
-    }
-    if (filterParam == 'brand') {
-      if (!this._filter.brands.includes(value as string)) {
-        this._filter.brands.push(value as string);
-      } else
-        this._filter.brands = this._filter.brands.filter(
-          (brand) => brand != value
-        );
-    }
+  updateFilter(
+    filterParam: string,
+    value: string | { min: number; max: number }
+  ) {
+    switch (filterParam) {
+      case 'category': {
+        if (!this._filter.categories.includes(value as string)) {
+          this._filter.categories.push(value as string);
+        } else
+          this._filter.categories = this._filter.categories.filter(
+            (category) => category != value
+          );
+        break;
+      }
+      case 'brand': {
+        if (!this._filter.brands.includes(value as string)) {
+          this._filter.brands.push(value as string);
+        } else
+          this._filter.brands = this._filter.brands.filter(
+            (brand) => brand != value
+          );
+        break;
+      }
 
-    console.log(this._filter);
+      case 'price': {
+        this._filter.minPrice = (value as { min: number; max: number }).min;
+        this._filter.maxPrice = (value as { min: number; max: number }).max;
+        break;
+      }
+      case 'stock': {
+        this._filter.minStock = (value as { min: number; max: number }).min;
+        this._filter.maxStock = (value as { min: number; max: number }).max;
+        break;
+      }
+    }
     this.updateUrl();
   }
 }

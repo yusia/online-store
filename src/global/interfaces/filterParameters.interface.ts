@@ -11,8 +11,8 @@ export default interface FilterParametersInterface {
     filteredCount: number;
     chacked: boolean;
   }>;
-  minPrice: number;
-  maxPrice: number;
-  minStock: number;
-  maxStock: number;
+  minPrice: { start: number; current: number };
+  maxPrice: { start: number; current: number };
+  minStock: { start: number; current: number };
+  maxStock: { start: number; current: number };
 }
