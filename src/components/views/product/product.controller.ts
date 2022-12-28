@@ -9,13 +9,6 @@ export default class ProductController extends BaseController implements Control
   constructor(private viewInstance: ProductView, private prodService: ProductsService,
     private binService: BinService) {
     super();
-    window.addEventListener('binadded', ((e: CustomEvent) => {
-      this.binService.addOneProdToBin(e.detail.productId);
-    }) as EventListener);
-
-    window.addEventListener('bindeleted', ((e: CustomEvent) => {
-      this.binService.deleteProdFromBin(e.detail.productId);
-    }) as EventListener);
   }
   initView(params: URLSearchParams,) {
     const productId = +(params.get(this.viewParam) as string);//todo looks strange

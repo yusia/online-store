@@ -12,15 +12,6 @@ export default class CatalogController implements ControllerInterface {
     private binService: BinService
 
   ) {
-    window.addEventListener('binadded', ((e: CustomEvent) => {
-      console.log('add to cart from catalog');
-      this.binService.addOneProdToBin(e.detail.productId);
-    }) as EventListener);
-
-    window.addEventListener('bindeleted', ((e: CustomEvent) => {
-      this.binService.deleteProdFromBin(e.detail.productId);
-    }) as EventListener);
-
     window.addEventListener('hashchange', ((event: HashChangeEvent) => {
       this.prodService.updateFilterByUrl(event.newURL);
     }) as EventListener);

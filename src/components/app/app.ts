@@ -12,30 +12,44 @@ import BinService from '../../global/services/bin.service';
 
 export default class App {
   private dataService: DataService | undefined;
-  private productsService!: ProductsService;
-  private binService!: BinService;
+  private productsService: ProductsService;
+  private binService: BinService;
   
-  public async start() {
+  constructor() {
     this.dataService = new DataService('https://dummyjson.com/products');
     this.productsService = new ProductsService(this.dataService);
+    this.binService = new BinService(this.productsService);
+  }
+  public async start() {
     await this.productsService.getProducts();
     await this.productsService.getFilterData();
-    this.binService = new BinService(this.productsService);
     this.setBinCount();
     const router = new Router([
       new Route('bin', new BinController(new BinView(), this.productsService, this.binService)),
       new Route(
         'product',
-        new ProductController(new ProductView(), this.productsService,this.binService, )
+        new ProductController(new ProductView(), this.productsService, this.binService,)
       ),
       new Route(
         'catalog',
-        new CatalogController(new CatalogView(), this.productsService,this.binService, ),
+        new CatalogController(new CatalogView(), this.productsService, this.binService,),
         true
       ),
     ]);
     router.init();
+    this.subscribeBinEvent();
+  }
+
+  private subscribeBinEvent() {
     window.addEventListener('binchanged', this.setBinCount.bind(this));
+
+    window.addEventListener('binadded', ((e: CustomEvent) => {
+      this.binService.addOneProdToBin(e.detail.productId);
+    }) as EventListener);
+
+    window.addEventListener('bindeleted', ((e: CustomEvent) => {
+      this.binService.deleteProdFromBin(e.detail.productId);
+    }) as EventListener);
   }
 
   private setBinCount() {
