@@ -1,6 +1,7 @@
 import catalog from '../catalog/catalog.html';
 import ProductInterface from '../../../global/interfaces/product.interface';
 import FilterParametersInterface from '../../../global/interfaces/filterParameters.interface';
+import noUiSlider from 'nouislider';
 
 export default class CatalogView {
   private fillProductCatalog(
@@ -88,7 +89,10 @@ export default class CatalogView {
     rootElem: string,
     products: Array<{ product: ProductInterface; isAddedToBin: boolean }>,
     filterParams: FilterParametersInterface,
-    updateUrl: (filterParam: string, value: string | number) => void
+    updateUrl: (
+      filterParam: string,
+      value: string | { min: number; max: number }
+    ) => void
   ): void {
     const rootElemHtml = document.getElementById(rootElem) as HTMLElement;
     rootElemHtml.innerHTML = catalog;
@@ -161,16 +165,44 @@ export default class CatalogView {
       containerBrand?.append(brandElement);
     });
 
-    const minPrice = rootElemHtml.querySelector('#min-price');
-    if (minPrice) minPrice.innerHTML = filterParams.minPrice.toString();
+    const sliderPrice = document.querySelector(
+      '.slider-price'
+    ) as HTMLElement | null;
 
-    const maxPrice = rootElemHtml.querySelector('#max-price');
-    if (maxPrice) maxPrice.innerHTML = filterParams.maxPrice.toString();
+    if (sliderPrice) {
+      const newSlider = noUiSlider.create(sliderPrice, {
+        start: [filterParams.minPrice.current, filterParams.maxPrice.current],
+        range: {
+          min: [filterParams.minPrice.start],
+          max: [filterParams.maxPrice.start],
+        },
+        behaviour: 'tap-drag',
+        tooltips: true,
+      });
+      newSlider.on('change', (e) =>
+        updateUrl('price', { min: +e[0], max: +e[1] })
+      );
+    }
 
-    const minStock = rootElemHtml.querySelector('#min-stock');
-    if (minStock) minStock.innerHTML = filterParams.minStock.toString();
+    const sliderStock = document.querySelector(
+      '.slider-stock'
+    ) as HTMLElement | null;
 
-    const maxStock = rootElemHtml.querySelector('#max-stock');
-    if (maxStock) maxStock.innerHTML = filterParams.maxStock.toString();
+    if (sliderStock) {
+      const newSlider = noUiSlider.create(sliderStock, {
+        start: [filterParams.minStock.current, filterParams.maxStock.current],
+        range: {
+          min: filterParams.minStock.start,
+          max: filterParams.maxStock.start,
+        },
+        behaviour: 'tap-drag',
+        tooltips: true,
+      });
+      newSlider.on('end', (e) =>
+        updateUrl('stock', { min: +e[0], max: +e[1] })
+      );
+    }
+
+    console.log(filterParams);
   }
 }
