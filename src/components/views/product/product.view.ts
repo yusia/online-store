@@ -68,7 +68,7 @@ export default class ProductView {
     const buttonBuy = document.getElementById("prod-buy-btn") as HTMLButtonElement;
     const buttonAdd = this.setBinBtnText(isAddedToBin);
 
-    buttonBuy?.addEventListener('click', () => { console.log("prod-buy-now") })
+    buttonBuy?.addEventListener('click', () => { this.addToCart(product.id); })
     buttonAdd?.addEventListener('click', () => {
       if (this.isAddedToBin) {
         this.deleteFromCart(product.id);

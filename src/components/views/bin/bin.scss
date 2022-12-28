@@ -1,7 +1,30 @@
 .bin-item{
   border: 1px solid $font_color1;
   border-radius: 5px;
+  margin-top: 15px;
+  align-items: center;
 }
 .bin-item .title{
   background-color: $background1;
+    margin-right: 0;
+    margin-left: 0;
+}
+.bin {
+  border: 1px solid $font_color1;
+}
+
+.sum {
+  font-weight: bold;
+}
+
+.sum:after {
+  content: "$";
+}
+
+.discount:after {
+  content: "%";
+}
+.bin-thumbnail{
+  width: 100px;
+  height: 100px;
 }

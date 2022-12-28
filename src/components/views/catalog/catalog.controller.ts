@@ -3,21 +3,15 @@ import ProductsService from '../../../global/services/products.service';
 import CatalogView from './catalog.view';
 import FilterParametersInterface from '../../../global/interfaces/filterParameters.interface';
 import ProductInterface from '../../../global/interfaces/product.interface';
+import BinService from '../../../global/services/bin.service';
 
 export default class CatalogController implements ControllerInterface {
   constructor(
     private viewInstance: CatalogView,
-    private prodService: ProductsService
+    private prodService: ProductsService,
+    private binService: BinService
+
   ) {
-    window.addEventListener('binadded', ((e: CustomEvent) => {
-      console.log('add to cart from catalog');
-      this.prodService.addOneProdToBin(e.detail.productId);
-    }) as EventListener);
-
-    window.addEventListener('bindeleted', ((e: CustomEvent) => {
-      this.prodService.deleteProdFromBin(e.detail.productId);
-    }) as EventListener);
-
     window.addEventListener('hashchange', ((event: HashChangeEvent) => {
       this.prodService.updateFilterByUrl(event.newURL);
     }) as EventListener);
@@ -57,7 +51,7 @@ export default class CatalogController implements ControllerInterface {
     return products.map((value) => {
       return {
         product: value,
-        isAddedToBin: this.prodService.countInBin(value.id) > 0,
+        isAddedToBin: this.binService.countInBin(value.id) > 0,
       };
     });
   }
@@ -68,7 +62,6 @@ export default class CatalogController implements ControllerInterface {
       this.getProducts(this.prodService.productsFiltered),
       this.getFilterParameters(),
       this.updateUrl.bind(this)
-
     );
   }
 }
