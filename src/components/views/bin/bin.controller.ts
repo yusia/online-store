@@ -14,11 +14,12 @@ export default class BinController extends BaseController implements ControllerI
       this.binService.changeCountProdInBin(e.detail.productId, Number(e.detail.count));
     }) as EventListener);
   }
-  
+
   private getBinProductModel(): SelectedProductViewInterface[] {
     const selectedProducts: SelectedProductViewInterface[] = [];
     this.binService.selectedProducts.forEach((value, key) => {
-      selectedProducts.push({ product: this.prodService.getProductById(key), total: value })
+      const prod = this.prodService.getProductById(key);
+      selectedProducts.push({ product: prod, totalCount: value, totalPrice: value * (prod?.price ?? 0) })
     });
     return selectedProducts;
   }
