@@ -1,18 +1,20 @@
 import BaseController from '../../../global/classes/base.controller';
 import ControllerInterface from '../../../global/interfaces/controller.interface';
+import BinService from '../../../global/services/bin.service';
 import ProductsService from '../../../global/services/products.service';
 import ProductView from './product.view';
 
 export default class ProductController extends BaseController implements ControllerInterface {
   private viewParam = 'prodId';
-  constructor(private viewInstance: ProductView, private prodService: ProductsService) {
+  constructor(private viewInstance: ProductView, private prodService: ProductsService,
+    private binService: BinService) {
     super();
     window.addEventListener('binadded', ((e: CustomEvent) => {
-      this.prodService.addOneProdToBin(e.detail.productId);
+      this.binService.addOneProdToBin(e.detail.productId);
     }) as EventListener);
 
     window.addEventListener('bindeleted', ((e: CustomEvent) => {
-      this.prodService.deleteProdFromBin(e.detail.productId);
+      this.binService.deleteProdFromBin(e.detail.productId);
     }) as EventListener);
   }
   initView(params: URLSearchParams,) {
@@ -22,7 +24,7 @@ export default class ProductController extends BaseController implements Control
       this.goToPageNotFound();
     }
     else {
-      const isAddedToBin = this.prodService.countInBin(product.id) > 0;
+      const isAddedToBin = this.binService.countInBin(product.id) > 0;
       this.viewInstance.loadContent('app', product, isAddedToBin);
     }
   }
