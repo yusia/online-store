@@ -3,6 +3,8 @@
 @import "./overrides.scss";
 @import "../components/views/product/product.scss";
 @import "../components/views/bin/bin.scss";
+@import "../components/views/catalog/catalog.scss";
+@import 'nouislider/dist/nouislider.css';
 
 .bin{
   border: 1px solid $font_color1;

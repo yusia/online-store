@@ -23,8 +23,7 @@ export default class CatalogController implements ControllerInterface {
     }) as EventListener);
   }
 
-  updateUrl(filterParam: string, value: string | number) {
-    console.log(filterParam, value);
+  updateUrl(filterParam: string, value: string | { min: number; max: number }) {
     this.prodService.updateFilter(filterParam, value);
   }
 
@@ -46,10 +45,30 @@ export default class CatalogController implements ControllerInterface {
           chacked: this.prodService.isBrandInFilter(value),
         };
       }),
-      minPrice: this.prodService.minPrice,
-      maxPrice: this.prodService.maxPrice,
-      minStock: this.prodService.minStock,
-      maxStock: this.prodService.maxStock,
+      minPrice: {
+        start: this.prodService.minPrice,
+        current:
+          this.prodService.getPriceFromFilter().min ||
+          this.prodService.minPrice,
+      },
+      maxPrice: {
+        start: this.prodService.maxPrice,
+        current:
+          this.prodService.getPriceFromFilter().max ||
+          this.prodService.maxPrice,
+      },
+      minStock: {
+        start: this.prodService.minStock,
+        current:
+          this.prodService.getStockFromFilter().min ||
+          this.prodService.minStock,
+      },
+      maxStock: {
+        start: this.prodService.maxStock,
+        current:
+          this.prodService.getStockFromFilter().max ||
+          this.prodService.maxStock,
+      },
     };
   }
 
