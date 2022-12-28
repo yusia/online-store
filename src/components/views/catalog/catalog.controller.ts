@@ -15,14 +15,6 @@ export default class CatalogController implements ControllerInterface {
     window.addEventListener('hashchange', ((event: HashChangeEvent) => {
       this.prodService.updateFilterByUrl(event.newURL);
     }) as EventListener);
-
-    window.addEventListener('bindeleted', ((e: CustomEvent) => {
-      this.prodService.deleteProdFromBin(e.detail.productId);
-    }) as EventListener);
-
-    window.addEventListener('hashchange', ((event: HashChangeEvent) => {
-      this.prodService.updateFilterByUrl(event.newURL);
-    }) as EventListener);
   }
 
   updateUrl(filterParam: string, value: string | number) {
