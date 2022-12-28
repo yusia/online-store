@@ -12,6 +12,7 @@ export default class BinController extends BaseController implements ControllerI
 
     window.addEventListener('bincountchanged', ((e: CustomEvent) => {
       this.binService.changeCountProdInBin(e.detail.productId, Number(e.detail.count));
+      this.viewInstance.loadContent('app', this.getBinProductModel(), { modal: false });
     }) as EventListener);
   }
 
