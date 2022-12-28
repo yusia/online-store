@@ -1,15 +1,13 @@
 <div class="container product-view">
-  <div class="col breadcrumbs">
-    <span >
-      <a href="#" class="brcmb-link">Store</a>
-    </span>
-    <span class="col-md-auto">/</span>
-    <span class="col">{{brand}}</span>
-    <span class="col-md-auto">/</span>
-    <span class="col">{{category}}</span>
-    <span class="col-md-auto">/</span>
-    <span class="col-md-auto bold">{{title}}</span>
-  </div>
+
+  <nav  class="col" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Store</a></li>
+      <li class="breadcrumb-item"><a href="#">{{brand}}</a></li>
+      <li class="breadcrumb-item"><a href="#">{{category}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+    </ol>
+  </nav>
   <div class="row prod-info">
     <div class="col">
       <div class="container">
@@ -24,14 +22,15 @@
     <div class="col">
       <div class="container ">
         <h3>{{title}}</h3>
-        <div class="row">discountPercentage: {{discountPercentage}}</div>
+        <div class="row discount">discountPercentage: {{discountPercentage}}</div>
         <div class="row">rating: {{rating}}</div>
         <div class="row">stock: {{stock}}</div>
         <div class="row">brand: {{brand}}</div>
         <div class="row">category: {{category}}</div>
+        <div class="row sum">price: {{price}}</div>
         <div class="row">
           <div class="container buttons">
-            <button id="prod-buy-btn">Buy now</button>
+            <a href="#bin?modal=true"><button id="prod-buy-btn">Buy now</button></a>
             <button id="prod-add-cart">Add to cart</button>
           </div>
         </div>

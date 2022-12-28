@@ -11,24 +11,26 @@ export default class Router {
 
   init() {
     window.addEventListener('hashchange', () => {
-        this.hasChanged();
- });
-    window.addEventListener('routechanged',()=>{ this.goToRoute(new NotFoundController(new NotFoundPageView()));});
+      this.hasChanged();
+    });
+    window.addEventListener('routenotfound', () => { this.goToRoute(new NotFoundController(new NotFoundPageView())); });
     this.hasChanged();
   }
 
-  hasChanged() {
+  hasChanged(): void {
     let routeInstance: ControllerInterface = new NotFoundController(new NotFoundPageView());
     if (window.location.hash.length > 0) {
       routeInstance = this.routes.filter((r) => r.isActiveRoute(this.getRouteName(window.location.hash.slice(1))))[0]?.controller ?? routeInstance;
     } else {
-      routeInstance = this.routes.filter((r) => r.default)[0]?.controller;
+      const defaultRoute = this.routes.filter((r) => r.default)[0]?.name;
+      window.location.href = window.location.href + '#' + defaultRoute;
+      return;
     }
     this.goToRoute(routeInstance);
   }
   goToRoute(controller: ControllerInterface) {
-    const url = `?${window.location.href.split('?')[1]}`;
-    const params = new URLSearchParams(url);
+    const urlParamsPart = window.location.href.split('?')[1];
+    const params = urlParamsPart ? new URLSearchParams(`?${window.location.href.split('?')[1]}`) : undefined;
     controller.initView(params);
   }
 
