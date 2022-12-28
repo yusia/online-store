@@ -155,6 +155,15 @@ export default class ProductsService {
     return count;
   }
 
+  getBinTotalPrice(): number {
+    let count = 0;
+
+    this.bin.forEach((key) => {
+      const price = this.getProductById(key)?.price ?? 0;
+      count += price;
+    });
+    return count;
+  }
   getCountByCategoty(category: string) {
     return this._products.filter((value) => value.category === category).length;
   }

@@ -38,5 +38,8 @@ export default class App {
   private setBinCount() {
     const bin = document.getElementById('bin') as HTMLElement;
     bin.innerText = this.productsService.getCountAllProductInBin().toString();
+
+    const binTotal = document.getElementById('bin-total') as HTMLElement;
+    binTotal.innerText = this.productsService.getBinTotalPrice().toString();
   }
 }

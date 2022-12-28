@@ -7,3 +7,10 @@
 .bin{
   border: 1px solid $font_color1;
 }
+
+.sum{
+  font-weight: bold;
+}
+
+.sum:after { 
+  content: "$" }
