@@ -17,12 +17,14 @@ export default class Router {
     this.hasChanged();
   }
 
-  hasChanged() {
+  hasChanged(): void {
     let routeInstance: ControllerInterface = new NotFoundController(new NotFoundPageView());
     if (window.location.hash.length > 0) {
       routeInstance = this.routes.filter((r) => r.isActiveRoute(this.getRouteName(window.location.hash.slice(1))))[0]?.controller ?? routeInstance;
     } else {
-      routeInstance = this.routes.filter((r) => r.default)[0]?.controller;
+      const defaultRoute = this.routes.filter((r) => r.default)[0]?.name;
+      window.location.href = window.location.href + '#' + defaultRoute;
+      return;
     }
     this.goToRoute(routeInstance);
   }

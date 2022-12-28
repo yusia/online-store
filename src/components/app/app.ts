@@ -20,14 +20,12 @@ export default class App {
     await this.productsService.getFilterData();
     this.setBinCount();
     const router = new Router([
-      new Route('bin', 'bin', new BinController(new BinView(), this.productsService)),
+      new Route('bin', new BinController(new BinView(), this.productsService)),
       new Route(
-        'product',
         'product',
         new ProductController(new ProductView(), this.productsService)
       ),
       new Route(
-        'catalog',
         'catalog',
         new CatalogController(new CatalogView(), this.productsService),
         true
