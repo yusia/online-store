@@ -2,6 +2,7 @@ import { SelectedProductViewInterface } from '../../../global/interfaces/selecte
 import { BinParamsType } from '../../../global/type/binParamsType.type'
 import content from '../bin/bin.html';
 import { Modal } from 'bootstrap';
+import ProductInterface from '../../../global/interfaces/product.interface';
 
 
 export default class BinView {
@@ -37,8 +38,7 @@ export default class BinView {
 
   private bindCountListener(products: SelectedProductViewInterface[]): void { //todo refactoring! use delegation
     products.forEach((productBin: SelectedProductViewInterface) => {
-      this.bindBtnListener(productBin.product?.id);
-      this.bindInputListener(productBin.product?.id);
+      this.bindBtnListener(productBin.product as ProductInterface);
     });
   }
 
@@ -53,7 +53,7 @@ export default class BinView {
     }
     return template;
   }
-  
+
   private dispathEventCountChanged(newCount: number, prodId: number | undefined): void {
     const countInput = document.getElementById(`prod-count-${prodId}`) as HTMLInputElement;
     const prevCount = Number(countInput.value);
@@ -64,25 +64,27 @@ export default class BinView {
     }
 
   }
-  private bindInputListener(productId: number| undefined): void {
-    document.getElementById(`prod-count-${productId}`)?.addEventListener('input', (e) => {
-      const count = (e.target as HTMLInputElement).value;
-      this.dispathEventCountChanged(+count, productId)
-    });
-  }
 
-  private bindBtnListener(productId: number| undefined): void {
-    document.getElementById(`counter-${productId}`)?.addEventListener('click', (e) => {
+
+  private bindBtnListener(product: ProductInterface): void {
+    document.getElementById(`counter-${product?.id}`)?.addEventListener('click', (e) => {
 
       const targetBtn = e.target as HTMLButtonElement;
-      const countInput = document.getElementById(`prod-count-${productId}`) as HTMLInputElement;
+      const countInput = document.getElementById(`prod-count-${product?.id}`) as HTMLInputElement;
       let count = Number(countInput.value);
-      if (targetBtn.id === `min-btn-${productId}`) {
+
+      if (targetBtn.id === `min-btn-${product?.id}`) {
         count--;
-      } else if (targetBtn.id === `plus-btn-${productId}`) {
+      } else if (targetBtn.id === `plus-btn-${product?.id}`) {
         count++;
       }
-      this.dispathEventCountChanged(+count, productId)
+
+      if (count > product?.stock) {
+        countInput.classList.add('is-invalid');
+      } else {
+        countInput.classList.remove('is-invalid');
+        this.dispathEventCountChanged(+count, product?.id)
+      }
     });
   }
 
