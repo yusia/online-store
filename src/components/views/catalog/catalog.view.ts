@@ -1,6 +1,7 @@
 import catalog from '../catalog/catalog.html';
 import ProductInterface from '../../../global/interfaces/product.interface';
 import FilterParametersInterface from '../../../global/interfaces/filterParameters.interface';
+import ViewParametersInterface from '../../../global/interfaces/viewParameters.interface';
 import noUiSlider from 'nouislider';
 
 export default class CatalogView {
@@ -11,16 +12,38 @@ export default class CatalogView {
     const rootElemHtml = document.getElementById(rootElem) as HTMLElement;
     rootElemHtml.innerHTML = catalog;
 
+    const productCountElement = document.getElementById(
+      'products-count'
+    ) as HTMLElement | null;
+    if (productCountElement)
+      productCountElement.innerHTML = `Found: ${products.length}`;
+
+    const containerProductList = rootElemHtml.querySelector('#product-list');
+
+    if (!products.length) {
+      const infoElement = document.createElement('div');
+      infoElement.innerText = 'No products found';
+      containerProductList?.append(infoElement);
+      return;
+    }
+
     const templateCard = rootElemHtml.querySelector(
       '#card-template'
     ) as HTMLTemplateElement;
-
-    const containerProductList = rootElemHtml.querySelector('#product-list');
 
     products.forEach((productItem) => {
       const cardElement = templateCard?.content.cloneNode(true) as HTMLElement;
       const cardDiv = cardElement.querySelector('.card') as HTMLElement;
       cardDiv.id = `card${productItem.product.id}`;
+
+      cardDiv.addEventListener('click', (e: MouseEvent) => {
+        if (e.target != cardDiv.querySelector('.prod-add-cart'))
+          window.dispatchEvent(
+            new CustomEvent('showproduct', {
+              detail: { productId: productItem.product.id },
+            })
+          );
+      });
 
       function setBinBtnText(isAddedToBin: boolean): HTMLButtonElement {
         const buttonAdd = cardDiv.querySelector(
@@ -69,9 +92,6 @@ export default class CatalogView {
       ) as HTMLElement;
       description.innerHTML = productItem.product.description;
 
-      const navLink = cardElement.querySelector('.nav-link') as HTMLLinkElement;
-      navLink.href = `#product?prodId=${productItem.product.id}`;
-
       const addToBinBtn = setBinBtnText(productItem.isAddedToBin);
       addToBinBtn?.addEventListener('click', () => {
         if (productItem.isAddedToBin) {
@@ -89,6 +109,7 @@ export default class CatalogView {
     rootElem: string,
     products: Array<{ product: ProductInterface; isAddedToBin: boolean }>,
     filterParams: FilterParametersInterface,
+    viewParams: ViewParametersInterface,
     updateUrl: (
       filterParam: string,
       value: string | { min: number; max: number }
@@ -203,6 +224,72 @@ export default class CatalogView {
       );
     }
 
-    console.log(filterParams);
+    const serchElement = document.getElementById(
+      'search-product'
+    ) as HTMLInputElement | null;
+    if (serchElement) {
+      serchElement.value = filterParams.searchText;
+      serchElement.addEventListener('change', (e) => {
+        updateUrl('search', (e.target as HTMLInputElement).value);
+      });
+    }
+
+    const radioGrid = document.getElementById(
+      'radio-grid'
+    ) as HTMLInputElement | null;
+    const radioList = document.getElementById(
+      'radio-list'
+    ) as HTMLInputElement | null;
+    if (radioGrid && radioList) {
+      const containerProductList = rootElemHtml.querySelector(
+        '#product-list'
+      ) as HTMLElement | null;
+
+      if (viewParams.viewType == 'grid') {
+        radioGrid.checked = true;
+        containerProductList?.classList.remove('list');
+        containerProductList?.classList.add('grid');
+      } else {
+        radioList.checked = true;
+        containerProductList?.classList.remove('grid');
+        containerProductList?.classList.add('list');
+      }
+
+      radioGrid.addEventListener('change', () => {
+        window.dispatchEvent(
+          new CustomEvent('viewparamchanged', {
+            detail: { parameter: 'viewtype', value: 'grid' },
+          })
+        );
+      });
+
+      radioList.addEventListener('change', () => {
+        window.dispatchEvent(
+          new CustomEvent('viewparamchanged', {
+            detail: { parameter: 'viewtype', value: 'list' },
+          })
+        );
+      });
+    }
+
+    const resetFilterBtn = document.getElementById(
+      'reset-filter'
+    ) as HTMLButtonElement | null;
+
+    if (resetFilterBtn) {
+      resetFilterBtn.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('resetfilterbtnclicked'));
+      });
+    }
+    const copyLinkBtn = document.getElementById(
+      'copy-link'
+    ) as HTMLButtonElement | null;
+    if (copyLinkBtn) {
+      copyLinkBtn.addEventListener('click', () => {
+        copyLinkBtn.innerText = 'link copied';
+        setTimeout(() => (copyLinkBtn.innerText = 'copy link'), 5000);
+        window.dispatchEvent(new CustomEvent('copylinkbtnclicked'));
+      });
+    }
   }
 }

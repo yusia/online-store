@@ -16,6 +16,7 @@ export default class ProductsService {
     maxPrice: number;
     minStock: number;
     maxStock: number;
+    searchText: string;
   };
 
   constructor(private dataService: DataService) {
@@ -26,6 +27,7 @@ export default class ProductsService {
       maxPrice: 0,
       minStock: 0,
       maxStock: 0,
+      searchText: '',
     };
 
     this.updateFilterByUrl(window.location.href);
@@ -130,18 +132,21 @@ export default class ProductsService {
   }
 
   updateFilterByUrl(url: string) {
-    const params = new URLSearchParams(`?${url.split('?')[1]}`);
-    this._filter.categories = params.getAll('category');
-    this._filter.brands = params.getAll('brand');
-    if (params.get('price')) {
-      this._filter.minPrice = Number(params.get('price')?.split('↕')[0]);
-      this._filter.maxPrice = Number(params.get('price')?.split('↕')[1]);
+    const searchParams = new URLSearchParams(`?${url.split('?')[1]}`);
+    this._filter.categories = searchParams.getAll('category');
+    this._filter.brands = searchParams.getAll('brand');
+    if (searchParams.has('price')) {
+      this._filter.minPrice = Number(searchParams.get('price')?.split('↕')[0]);
+      this._filter.maxPrice = Number(searchParams.get('price')?.split('↕')[1]);
     }
 
-    if (params.get('stock')) {
-      this._filter.minStock = Number(params.get('stock')?.split('↕')[0]);
-      this._filter.maxStock = Number(params.get('stock')?.split('↕')[1]);
+    if (searchParams.has('stock')) {
+      this._filter.minStock = Number(searchParams.get('stock')?.split('↕')[0]);
+      this._filter.maxStock = Number(searchParams.get('stock')?.split('↕')[1]);
     }
+
+    this._filter.searchText = searchParams.get('search') as string;
+    console.log(this._filter);
   }
 
   isCategiryInFilter(category: string): boolean {
@@ -182,17 +187,50 @@ export default class ProductsService {
     };
   }
 
+  getSearchText(): string {
+    return this._filter.searchText;
+  }
+
   updateFileredProducts(products: ProductInterface[]) {
-    console.log('update filtered products');
     this._productsFiltered = this.filterProductsByCategory(products);
     this._productsFiltered = this.filterProductsByBrand(this._productsFiltered);
     this._productsFiltered = this.filterProductsByPrice(this._productsFiltered);
     this._productsFiltered = this.filterProductsByStock(this._productsFiltered);
-    console.log(this._productsFiltered);
+    this._productsFiltered = this.filterProductsBySearch(
+      this._productsFiltered
+    );
+  }
+
+  filterProductsBySearch(products: ProductInterface[]): ProductInterface[] {
+    if (!this._filter.searchText) return products;
+    return products.filter((product) => {
+      return (
+        product.title
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.brand
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.category
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.price
+          .toString()
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.rating
+          .toString()
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.stock
+          .toString()
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase())
+      );
+    });
   }
 
   filterProductsByCategory(products: ProductInterface[]): ProductInterface[] {
-    console.log(this._filter.categories);
     if (this._filter.categories.length == 0) {
       return products;
     } else {
@@ -203,7 +241,6 @@ export default class ProductsService {
   }
 
   filterProductsByBrand(products: ProductInterface[]): ProductInterface[] {
-    console.log(this._filter.brands);
     if (this._filter.brands.length == 0) {
       return products;
     } else {
@@ -240,26 +277,41 @@ export default class ProductsService {
   }
 
   updateUrl() {
-    const paramArray: string[] = [];
-    paramArray.push(
-      ...this._filter.categories.map((value) => `category=${value}`)
+    const searchParams = new URLSearchParams(
+      `?${window.location.href.split('?')[1]}`
     );
-    paramArray.push(...this._filter.brands.map((value) => `brand=${value}`));
+
+    const newUrl = new URL(window.location.href);
+
+    searchParams.delete('category');
+    this._filter.categories.forEach((value) =>
+      searchParams.append('category', value)
+    );
+    searchParams.delete('brand');
+    this._filter.brands.forEach((value) => searchParams.append('brand', value));
+    searchParams.delete('price');
     if (this._filter.minPrice && this._filter.maxPrice) {
-      paramArray.push(
-        `price=${this._filter.minPrice}↕${this._filter.maxPrice}`
+      searchParams.set(
+        'price',
+        `${this._filter.minPrice}↕${this._filter.maxPrice}`
       );
     }
+    searchParams.delete('stock');
     if (this._filter.minStock && this._filter.maxStock) {
-      paramArray.push(
-        `stock=${this._filter.minStock}↕${this._filter.maxStock}`
+      searchParams.set(
+        'stock',
+        `${this._filter.minStock}↕${this._filter.maxStock}`
       );
     }
+    searchParams.delete('search');
+    if (this._filter.searchText) {
+      searchParams.set(`search`, `${this._filter.searchText}`);
+    }
+    newUrl.hash = '';
+    newUrl.pathname += '#catalog';
+    newUrl.search = searchParams.toString();
 
-    const newUrl =
-      window.location.href.split('?')[0] + '?' + paramArray.join('&');
-
-    window.location.replace(newUrl);
+    window.location.replace(newUrl.href.replace(`%23`, `#`));
   }
 
   updateFilter(
@@ -296,7 +348,24 @@ export default class ProductsService {
         this._filter.maxStock = (value as { min: number; max: number }).max;
         break;
       }
+      case 'search': {
+        this._filter.searchText = value as string;
+        break;
+      }
     }
+    this.updateUrl();
+  }
+
+  resetFilter() {
+    this._filter = {
+      categories: [],
+      brands: [],
+      minPrice: 0,
+      maxPrice: 0,
+      minStock: 0,
+      maxStock: 0,
+      searchText: '',
+    };
     this.updateUrl();
   }
 }
