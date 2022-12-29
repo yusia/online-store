@@ -132,20 +132,21 @@ export default class ProductsService {
   }
 
   updateFilterByUrl(url: string) {
-    const params = new URLSearchParams(`?${url.split('?')[1]}`);
-    this._filter.categories = params.getAll('category');
-    this._filter.brands = params.getAll('brand');
-    if (params.get('price')) {
-      this._filter.minPrice = Number(params.get('price')?.split('↕')[0]);
-      this._filter.maxPrice = Number(params.get('price')?.split('↕')[1]);
+    const searchParams = new URLSearchParams(`?${url.split('?')[1]}`);
+    this._filter.categories = searchParams.getAll('category');
+    this._filter.brands = searchParams.getAll('brand');
+    if (searchParams.has('price')) {
+      this._filter.minPrice = Number(searchParams.get('price')?.split('↕')[0]);
+      this._filter.maxPrice = Number(searchParams.get('price')?.split('↕')[1]);
     }
 
-    if (params.get('stock')) {
-      this._filter.minStock = Number(params.get('stock')?.split('↕')[0]);
-      this._filter.maxStock = Number(params.get('stock')?.split('↕')[1]);
+    if (searchParams.has('stock')) {
+      this._filter.minStock = Number(searchParams.get('stock')?.split('↕')[0]);
+      this._filter.maxStock = Number(searchParams.get('stock')?.split('↕')[1]);
     }
 
-    this._filter.searchText = params.get('search') as string;
+    this._filter.searchText = searchParams.get('search') as string;
+    console.log(this._filter);
   }
 
   isCategiryInFilter(category: string): boolean {
@@ -276,29 +277,38 @@ export default class ProductsService {
   }
 
   updateUrl() {
-    const paramArray: string[] = [];
-    paramArray.push(
-      ...this._filter.categories.map((value) => `category=${value}`)
+    const newUrl = new URL(window.location.href);
+
+    newUrl.searchParams.delete('category');
+    this._filter.categories.forEach((value) =>
+      newUrl.searchParams.append('category', value)
     );
-    paramArray.push(...this._filter.brands.map((value) => `brand=${value}`));
+    newUrl.searchParams.delete('brand');
+    this._filter.brands.forEach((value) =>
+      newUrl.searchParams.append('brand', value)
+    );
+    newUrl.searchParams.delete('price');
     if (this._filter.minPrice && this._filter.maxPrice) {
-      paramArray.push(
-        `price=${this._filter.minPrice}↕${this._filter.maxPrice}`
+      newUrl.searchParams.set(
+        'price',
+        `${this._filter.minPrice}↕${this._filter.maxPrice}`
       );
     }
+    newUrl.searchParams.delete('stock');
     if (this._filter.minStock && this._filter.maxStock) {
-      paramArray.push(
-        `stock=${this._filter.minStock}↕${this._filter.maxStock}`
+      newUrl.searchParams.set(
+        'stock',
+        `${this._filter.minStock}↕${this._filter.maxStock}`
       );
     }
+    newUrl.searchParams.delete('search');
     if (this._filter.searchText) {
-      paramArray.push(`search=${this._filter.searchText}`);
+      newUrl.searchParams.set(`search`, `${this._filter.searchText}`);
     }
+    newUrl.hash = '';
+    newUrl.pathname += '#catalog';
 
-    const newUrl =
-      window.location.href.split('?')[0] + '?' + paramArray.join('&');
-
-    window.location.replace(newUrl);
+    window.location.replace(newUrl.href.replace(`%23`, `#`));
   }
 
   updateFilter(
