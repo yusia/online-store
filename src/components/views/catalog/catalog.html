@@ -15,7 +15,20 @@
       <div id="slider" class="slider-stock"></div>
     </div>
   </div>
-  <div class="container" id ="product-list" style ="display: flex; flex-flow: wrap;">
+  <div class="container">
+    <div class="container button-list">
+      <div><button>Sort</button></div>
+      <div id="products-count"></div>
+      <div>
+        <input id="search-product" name="search" placeholder="search product">
+      </div>
+      <div>
+        <input type="radio"  name="view" id="radio-grid" value="grid" checked><label for="radio-grid">Grid</label>
+        <input type="radio" name="view" id="radio-line" value="line"><label for="radio-line">Line</label>
+      </div>
+    </div>
+    <div class="container" id ="product-list" style ="display: flex; flex-flow: wrap;">
+    </div>
   </div>
 </div>
 

@@ -11,11 +11,24 @@ export default class CatalogView {
     const rootElemHtml = document.getElementById(rootElem) as HTMLElement;
     rootElemHtml.innerHTML = catalog;
 
+    const productCountElement = document.getElementById(
+      'products-count'
+    ) as HTMLElement | null;
+    if (productCountElement)
+      productCountElement.innerHTML = `Found: ${products.length}`;
+
+    const containerProductList = rootElemHtml.querySelector('#product-list');
+
+    if (!products.length) {
+      const infoElement = document.createElement('div');
+      infoElement.innerText = 'No products found';
+      containerProductList?.append(infoElement);
+      return;
+    }
+
     const templateCard = rootElemHtml.querySelector(
       '#card-template'
     ) as HTMLTemplateElement;
-
-    const containerProductList = rootElemHtml.querySelector('#product-list');
 
     products.forEach((productItem) => {
       const cardElement = templateCard?.content.cloneNode(true) as HTMLElement;
@@ -203,6 +216,14 @@ export default class CatalogView {
       );
     }
 
-    console.log(filterParams);
+    const serchElement = document.getElementById(
+      'search-product'
+    ) as HTMLInputElement | null;
+    if (serchElement) {
+      serchElement.value = filterParams.searchText;
+      serchElement.addEventListener('change', (e) => {
+        updateUrl('search', (e.target as HTMLInputElement).value);
+      });
+    }
   }
 }

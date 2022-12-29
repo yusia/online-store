@@ -10,7 +10,6 @@ export default class CatalogController implements ControllerInterface {
     private viewInstance: CatalogView,
     private prodService: ProductsService,
     private binService: BinService
-
   ) {
     window.addEventListener('hashchange', ((event: HashChangeEvent) => {
       this.prodService.updateFilterByUrl(event.newURL);
@@ -63,6 +62,7 @@ export default class CatalogController implements ControllerInterface {
           this.prodService.getStockFromFilter().max ||
           this.prodService.maxStock,
       },
+      searchText: this.prodService.getSearchText(),
     };
   }
 

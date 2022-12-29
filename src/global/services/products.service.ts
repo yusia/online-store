@@ -16,6 +16,7 @@ export default class ProductsService {
     maxPrice: number;
     minStock: number;
     maxStock: number;
+    searchText: string;
   };
 
   constructor(private dataService: DataService) {
@@ -26,6 +27,7 @@ export default class ProductsService {
       maxPrice: 0,
       minStock: 0,
       maxStock: 0,
+      searchText: '',
     };
 
     this.updateFilterByUrl(window.location.href);
@@ -142,6 +144,8 @@ export default class ProductsService {
       this._filter.minStock = Number(params.get('stock')?.split('↕')[0]);
       this._filter.maxStock = Number(params.get('stock')?.split('↕')[1]);
     }
+
+    this._filter.searchText = params.get('search') as string;
   }
 
   isCategiryInFilter(category: string): boolean {
@@ -182,17 +186,50 @@ export default class ProductsService {
     };
   }
 
+  getSearchText(): string {
+    return this._filter.searchText;
+  }
+
   updateFileredProducts(products: ProductInterface[]) {
-    console.log('update filtered products');
     this._productsFiltered = this.filterProductsByCategory(products);
     this._productsFiltered = this.filterProductsByBrand(this._productsFiltered);
     this._productsFiltered = this.filterProductsByPrice(this._productsFiltered);
     this._productsFiltered = this.filterProductsByStock(this._productsFiltered);
-    console.log(this._productsFiltered);
+    this._productsFiltered = this.filterProductsBySearch(
+      this._productsFiltered
+    );
+  }
+
+  filterProductsBySearch(products: ProductInterface[]): ProductInterface[] {
+    if (!this._filter.searchText) return products;
+    return products.filter((product) => {
+      return (
+        product.title
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.brand
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.category
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.price
+          .toString()
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.rating
+          .toString()
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase()) ||
+        product.stock
+          .toString()
+          .toLowerCase()
+          .includes(this._filter.searchText.toLocaleLowerCase())
+      );
+    });
   }
 
   filterProductsByCategory(products: ProductInterface[]): ProductInterface[] {
-    console.log(this._filter.categories);
     if (this._filter.categories.length == 0) {
       return products;
     } else {
@@ -203,7 +240,6 @@ export default class ProductsService {
   }
 
   filterProductsByBrand(products: ProductInterface[]): ProductInterface[] {
-    console.log(this._filter.brands);
     if (this._filter.brands.length == 0) {
       return products;
     } else {
@@ -255,6 +291,9 @@ export default class ProductsService {
         `stock=${this._filter.minStock}↕${this._filter.maxStock}`
       );
     }
+    if (this._filter.searchText) {
+      paramArray.push(`search=${this._filter.searchText}`);
+    }
 
     const newUrl =
       window.location.href.split('?')[0] + '?' + paramArray.join('&');
@@ -294,6 +333,10 @@ export default class ProductsService {
       case 'stock': {
         this._filter.minStock = (value as { min: number; max: number }).min;
         this._filter.maxStock = (value as { min: number; max: number }).max;
+        break;
+      }
+      case 'search': {
+        this._filter.searchText = value as string;
         break;
       }
     }
