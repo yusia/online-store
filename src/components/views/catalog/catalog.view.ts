@@ -36,6 +36,15 @@ export default class CatalogView {
       const cardDiv = cardElement.querySelector('.card') as HTMLElement;
       cardDiv.id = `card${productItem.product.id}`;
 
+      cardDiv.addEventListener('click', (e: MouseEvent) => {
+        if (e.target != cardDiv.querySelector('.prod-add-cart'))
+          window.dispatchEvent(
+            new CustomEvent('showproduct', {
+              detail: { productId: productItem.product.id },
+            })
+          );
+      });
+
       function setBinBtnText(isAddedToBin: boolean): HTMLButtonElement {
         const buttonAdd = cardDiv.querySelector(
           '.prod-add-cart'
@@ -82,9 +91,6 @@ export default class CatalogView {
         '.card-text'
       ) as HTMLElement;
       description.innerHTML = productItem.product.description;
-
-      const navLink = cardElement.querySelector('.nav-link') as HTMLLinkElement;
-      navLink.href = `#product?prodId=${productItem.product.id}`;
 
       const addToBinBtn = setBinBtnText(productItem.isAddedToBin);
       addToBinBtn?.addEventListener('click', () => {

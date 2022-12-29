@@ -19,6 +19,14 @@ export default class CatalogController implements ControllerInterface {
     window.addEventListener('viewparamchanged', ((e: CustomEvent) => {
       this.updateUrl(e.detail.parameter, e.detail.value);
     }) as EventListener);
+
+    window.addEventListener('showproduct', ((e: CustomEvent) => {
+      this.showProductDetail(e.detail.productId);
+    }) as EventListener);
+  }
+
+  showProductDetail(productId: number) {
+    document.location.href = `#product?prodId=${productId}`;
   }
 
   updateUrl(parameter: string, value: string) {
