@@ -13,21 +13,32 @@
     <div class="col">stock: {{stock}}</div>
     <div class="col">brand: {{brand}}</div>
     <div class="col">category: {{category}}</div>
-    <div class="col" class="count">
-      <label for="count">Count in bin :</label>
-      <input id="prod-count-{{id}}" data-id="{{id}}" type="number" name="count" value="{{totalCount}}" min="0"
-        max="{{stock}}">
-        <div class="sum col"> {{price}}</div>
+    <div class="col-2" class="count-container">
+      <div class="counter input-group"  id="counter-{{id}}"> 
+        <span class="input-group-text" data-id="{{id}}" id="min-btn-{{id}}">-</span>
+        <input id="prod-count-{{id}}" data-id="{{id}}"  type="number" name="count" value="{{totalCount}}" min="0"
+          max="{{stock}}" class="form-control" required>
+          <span class="input-group-text" data-id="{{id}}"  id="plus-btn-{{id}}" >+</span>
+          <div class="invalid-feedback">Count in stock {{stock}}</div>
+      </div>
+      <div class="sum col"> {{price}}</div>
     </div>
     <div class="sum col"> {{totalPrice}}</div>
   </div>
 </template>
 <div id="bin-content">
   <div id="bin-products-list"> </div>
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    Buy All
-  </button>
+  <div class="container row">
+    <div class="total">
+      <h3>Total: <span class="sum" id="bin-sum"> </span></h3>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      Buy All
+    </button>
+  </div>
+
 
   <!-- Modal -->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

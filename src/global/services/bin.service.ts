@@ -7,7 +7,7 @@ export default class BinService {
   constructor(private productService: ProductsService) {
     this.bin = this.getBinFromLocalStrg();
   }
-  
+
   get selectedProducts(): Map<number, number> {
     return this.bin;
   }
@@ -48,7 +48,11 @@ export default class BinService {
   }
 
   changeCountProdInBin(productId: number, value: number) {
-    this.bin.set(productId, value);
+    if (value === 0) {
+      this.bin.delete(productId);
+    } else {
+      this.bin.set(productId, value);
+    }
     this.saveBinToLocalStrg();
   }
 
@@ -68,7 +72,7 @@ export default class BinService {
   getBinTotalPrice(): number {
     let count = 0;
 
-    this.bin.forEach((value,key) => {
+    this.bin.forEach((value, key) => {
       const price = this.productService.getProductById(key)?.price ?? 0;
       count += price * value;
     });
