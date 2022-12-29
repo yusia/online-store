@@ -355,4 +355,17 @@ export default class ProductsService {
     }
     this.updateUrl();
   }
+
+  resetFilter() {
+    this._filter = {
+      categories: [],
+      brands: [],
+      minPrice: 0,
+      maxPrice: 0,
+      minStock: 0,
+      maxStock: 0,
+      searchText: '',
+    };
+    this.updateUrl();
+  }
 }

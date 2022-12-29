@@ -23,6 +23,22 @@ export default class CatalogController implements ControllerInterface {
     window.addEventListener('showproduct', ((e: CustomEvent) => {
       this.showProductDetail(e.detail.productId);
     }) as EventListener);
+
+    window.addEventListener('resetfilterbtnclicked', (() => {
+      this.resetFilter();
+    }) as EventListener);
+
+    window.addEventListener('copylinkbtnclicked', (() => {
+      this.copyLink();
+    }) as EventListener);
+  }
+
+  resetFilter() {
+    this.prodService.resetFilter();
+  }
+
+  copyLink() {
+    navigator.clipboard.writeText(location.href);
   }
 
   showProductDetail(productId: number) {

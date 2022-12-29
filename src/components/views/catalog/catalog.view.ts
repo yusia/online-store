@@ -271,5 +271,25 @@ export default class CatalogView {
         );
       });
     }
+
+    const resetFilterBtn = document.getElementById(
+      'reset-filter'
+    ) as HTMLButtonElement | null;
+
+    if (resetFilterBtn) {
+      resetFilterBtn.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('resetfilterbtnclicked'));
+      });
+    }
+    const copyLinkBtn = document.getElementById(
+      'copy-link'
+    ) as HTMLButtonElement | null;
+    if (copyLinkBtn) {
+      copyLinkBtn.addEventListener('click', () => {
+        copyLinkBtn.innerText = 'link copied';
+        setTimeout(() => (copyLinkBtn.innerText = 'copy link'), 5000);
+        window.dispatchEvent(new CustomEvent('copylinkbtnclicked'));
+      });
+    }
   }
 }
