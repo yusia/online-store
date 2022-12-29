@@ -1,5 +1,9 @@
 <div class="container" style ="display: flex;">
   <div class="container" id ="filter" style ="display: flex;flex-flow: column; width: 450px;">
+    <div class="filter-button-list">
+      <button id="reset-filter">reset filter</button>
+      <button id="copy-link">copy link</button>
+    </div>
     <h3>Category</h3>
     <div id="category-list" style="height: 300px; overflow: scroll;width: 100%;">
     </div>
@@ -15,18 +19,30 @@
       <div id="slider" class="slider-stock"></div>
     </div>
   </div>
-  <div class="container" id ="product-list" style ="display: flex; flex-flow: wrap;">
+  <div class="container">
+    <div class="container button-list">
+      <div><button>Sort</button></div>
+      <div id="products-count"></div>
+      <div>
+        <input id="search-product" name="search" placeholder="search product">
+      </div>
+      <div>
+        <input type="radio"  name="view" id="radio-grid" value="grid" checked><label for="radio-grid">Grid</label>
+        <input type="radio" name="view" id="radio-list" value="line"><label for="radio-list">List</label>
+      </div>
+    </div>
+    <div class="container" id ="product-list">
+    </div>
   </div>
 </div>
 
 <template id = "card-template">
-  <div class="card" style="width: 18rem;">
+  <div class="card">
+    <h5 class="card-title">Card title</h5>
     <div class="card-body">
-      <h5 class="card-title">Card title</h5>
       <img class="thumbnail" src="#" alt="product" width="100%">
       <p class="card-text"></p>
-        <button class="prod-add-cart">Add to cart</button>
-        <a class="nav-link" href="#"><button>Show details</button></a>
+      <button class="prod-add-cart">Add to cart</button>
     </div>
   </div>
 </template>
