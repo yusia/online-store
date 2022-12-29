@@ -1,6 +1,7 @@
 import catalog from '../catalog/catalog.html';
 import ProductInterface from '../../../global/interfaces/product.interface';
 import FilterParametersInterface from '../../../global/interfaces/filterParameters.interface';
+import ViewParametersInterface from '../../../global/interfaces/viewParameters.interface';
 import noUiSlider from 'nouislider';
 
 export default class CatalogView {
@@ -102,6 +103,7 @@ export default class CatalogView {
     rootElem: string,
     products: Array<{ product: ProductInterface; isAddedToBin: boolean }>,
     filterParams: FilterParametersInterface,
+    viewParams: ViewParametersInterface,
     updateUrl: (
       filterParam: string,
       value: string | { min: number; max: number }
@@ -223,6 +225,44 @@ export default class CatalogView {
       serchElement.value = filterParams.searchText;
       serchElement.addEventListener('change', (e) => {
         updateUrl('search', (e.target as HTMLInputElement).value);
+      });
+    }
+
+    const radioGrid = document.getElementById(
+      'radio-grid'
+    ) as HTMLInputElement | null;
+    const radioList = document.getElementById(
+      'radio-list'
+    ) as HTMLInputElement | null;
+    if (radioGrid && radioList) {
+      const containerProductList = rootElemHtml.querySelector(
+        '#product-list'
+      ) as HTMLElement | null;
+
+      if (viewParams.viewType == 'grid') {
+        radioGrid.checked = true;
+        containerProductList?.classList.remove('list');
+        containerProductList?.classList.add('grid');
+      } else {
+        radioList.checked = true;
+        containerProductList?.classList.remove('grid');
+        containerProductList?.classList.add('list');
+      }
+
+      radioGrid.addEventListener('change', () => {
+        window.dispatchEvent(
+          new CustomEvent('viewparamchanged', {
+            detail: { parameter: 'viewtype', value: 'grid' },
+          })
+        );
+      });
+
+      radioList.addEventListener('change', () => {
+        window.dispatchEvent(
+          new CustomEvent('viewparamchanged', {
+            detail: { parameter: 'viewtype', value: 'list' },
+          })
+        );
       });
     }
   }

@@ -4,6 +4,7 @@ import CatalogView from './catalog.view';
 import FilterParametersInterface from '../../../global/interfaces/filterParameters.interface';
 import ProductInterface from '../../../global/interfaces/product.interface';
 import BinService from '../../../global/services/bin.service';
+import ViewParametersInterface from '../../../global/interfaces/viewParameters.interface';
 
 export default class CatalogController implements ControllerInterface {
   constructor(
@@ -14,9 +15,32 @@ export default class CatalogController implements ControllerInterface {
     window.addEventListener('hashchange', ((event: HashChangeEvent) => {
       this.prodService.updateFilterByUrl(event.newURL);
     }) as EventListener);
+
+    window.addEventListener('viewparamchanged', ((e: CustomEvent) => {
+      this.updateUrl(e.detail.parameter, e.detail.value);
+    }) as EventListener);
   }
 
-  updateUrl(filterParam: string, value: string | { min: number; max: number }) {
+  updateUrl(parameter: string, value: string) {
+    if (parameter == 'viewtype') {
+      const searchParams = new URLSearchParams(
+        `?${window.location.href.split('?')[1]}`
+      );
+      searchParams.set('view', value);
+
+      const newUrl = new URL(window.location.href);
+      newUrl.hash = '';
+      newUrl.pathname += '#catalog';
+      newUrl.search = searchParams.toString();
+      console.log(newUrl);
+
+      window.location.replace(newUrl.href.replace(`%23`, `#`));
+    }
+  }
+  updateFilter(
+    filterParam: string,
+    value: string | { min: number; max: number }
+  ) {
     this.prodService.updateFilter(filterParam, value);
   }
 
@@ -74,13 +98,25 @@ export default class CatalogController implements ControllerInterface {
       };
     });
   }
+
+  getViewParameters(): ViewParametersInterface {
+    const searchParams = new URLSearchParams(
+      `?${document.location.href.split('?')[1]}`
+    );
+    return {
+      viewType: searchParams.has('view')
+        ? (searchParams.get('view') as string)
+        : 'grid',
+    };
+  }
   initView() {
     this.prodService.updateFileredProducts(this.prodService.products);
     this.viewInstance.loadContent(
       'app',
       this.getProducts(this.prodService.productsFiltered),
       this.getFilterParameters(),
-      this.updateUrl.bind(this)
+      this.getViewParameters(),
+      this.updateFilter.bind(this)
     );
   }
 }

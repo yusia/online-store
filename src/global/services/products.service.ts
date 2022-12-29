@@ -277,36 +277,39 @@ export default class ProductsService {
   }
 
   updateUrl() {
+    const searchParams = new URLSearchParams(
+      `?${window.location.href.split('?')[1]}`
+    );
+
     const newUrl = new URL(window.location.href);
 
-    newUrl.searchParams.delete('category');
+    searchParams.delete('category');
     this._filter.categories.forEach((value) =>
-      newUrl.searchParams.append('category', value)
+      searchParams.append('category', value)
     );
-    newUrl.searchParams.delete('brand');
-    this._filter.brands.forEach((value) =>
-      newUrl.searchParams.append('brand', value)
-    );
-    newUrl.searchParams.delete('price');
+    searchParams.delete('brand');
+    this._filter.brands.forEach((value) => searchParams.append('brand', value));
+    searchParams.delete('price');
     if (this._filter.minPrice && this._filter.maxPrice) {
-      newUrl.searchParams.set(
+      searchParams.set(
         'price',
         `${this._filter.minPrice}↕${this._filter.maxPrice}`
       );
     }
-    newUrl.searchParams.delete('stock');
+    searchParams.delete('stock');
     if (this._filter.minStock && this._filter.maxStock) {
-      newUrl.searchParams.set(
+      searchParams.set(
         'stock',
         `${this._filter.minStock}↕${this._filter.maxStock}`
       );
     }
-    newUrl.searchParams.delete('search');
+    searchParams.delete('search');
     if (this._filter.searchText) {
-      newUrl.searchParams.set(`search`, `${this._filter.searchText}`);
+      searchParams.set(`search`, `${this._filter.searchText}`);
     }
     newUrl.hash = '';
     newUrl.pathname += '#catalog';
+    newUrl.search = searchParams.toString();
 
     window.location.replace(newUrl.href.replace(`%23`, `#`));
   }

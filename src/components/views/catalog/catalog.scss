@@ -2,3 +2,34 @@
   display: flex;
   flex-direction: row;
 }
+
+#product-list {
+  display: flex; 
+  flex-flow: wrap;
+
+  &.grid{
+    .card {
+      width: 18rem;
+    }
+  }
+  &.list {
+      .card {
+      width: 100%;
+
+      .card-body{
+        display: flex;
+        flex-direction: row;
+        .thumbnail {
+          width: 20%;
+        }
+        .card-text {
+          width: 50%;
+        }
+        .prod-add-cart {
+          height: fit-content;
+        }
+        
+      }
+    }
+  }
+}

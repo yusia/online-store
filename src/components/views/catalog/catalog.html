@@ -24,22 +24,22 @@
       </div>
       <div>
         <input type="radio"  name="view" id="radio-grid" value="grid" checked><label for="radio-grid">Grid</label>
-        <input type="radio" name="view" id="radio-line" value="line"><label for="radio-line">Line</label>
+        <input type="radio" name="view" id="radio-list" value="line"><label for="radio-list">List</label>
       </div>
     </div>
-    <div class="container" id ="product-list" style ="display: flex; flex-flow: wrap;">
+    <div class="container" id ="product-list">
     </div>
   </div>
 </div>
 
 <template id = "card-template">
-  <div class="card" style="width: 18rem;">
+  <div class="card">
+    <h5 class="card-title">Card title</h5>
     <div class="card-body">
-      <h5 class="card-title">Card title</h5>
       <img class="thumbnail" src="#" alt="product" width="100%">
       <p class="card-text"></p>
-        <button class="prod-add-cart">Add to cart</button>
-        <a class="nav-link" href="#"><button>Show details</button></a>
+      <button class="prod-add-cart">Add to cart</button>
+      <a class="nav-link" href="#"><button>Show details</button></a>
     </div>
   </div>
 </template>
