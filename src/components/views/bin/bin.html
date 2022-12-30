@@ -13,50 +13,87 @@
     <div class="col">stock: {{stock}}</div>
     <div class="col">brand: {{brand}}</div>
     <div class="col">category: {{category}}</div>
+    <div class="sum col"> {{price}}</div>
     <div class="col-2" class="count-container">
-      <div class="counter input-group"  id="counter-{{id}}"> 
+      <div class="counter input-group flex-nowrap" id="counter-{{id}}">
         <span class="input-group-text" data-id="{{id}}" id="min-btn-{{id}}">-</span>
-        <input id="prod-count-{{id}}" data-id="{{id}}"  type="number" name="count" value="{{totalCount}}" min="0"
-          max="{{stock}}" class="form-control" required>
-          <span class="input-group-text" data-id="{{id}}"  id="plus-btn-{{id}}" >+</span>
-          <div class="invalid-feedback">Count in stock {{stock}}</div>
+        <input id="prod-count-{{id}}" data-id="{{id}}" type="number" name="count" value="{{totalCount}}" min="0"
+          max="{{stock}}" class="form-control" disabled>
+        <span class="input-group-text" data-id="{{id}}" id="plus-btn-{{id}}">+</span>
+        <div class="invalid-feedback">Count in stock {{stock}}</div>
       </div>
-      <div class="sum col"> {{price}}</div>
     </div>
     <div class="sum col"> {{totalPrice}}</div>
   </div>
 </template>
 <div id="bin-content">
   <div id="bin-products-list"> </div>
-  <div class="container row">
+  <div class="total-container row">
     <div class="total">
+      <h3>Products: <span class="" id="bin-count"> </span></h3>
       <h3>Total: <span class="sum" id="bin-sum"> </span></h3>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" id="promo-value" placeholder="Promocode(rs10,rs20)"
+          aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="button" id="promo">Apply</button>
+      </div>
     </div>
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infomodal">
       Buy All
     </button>
   </div>
 
-
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="infomodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="infomodalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="infomodalLabel">Сheckout</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
+          <form>
+            <div class="input-group  mb-4">
+              <span class="input-group-text">First and last name</span>
+              <input type="text" aria-label="First name" class="form-control">
+              <input type="text" aria-label="Last name" class="form-control">
+            </div>
+
+            <div class=" mb-4">
+              <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping">@</span>
+                <input type="text" class="form-control" placeholder="Email" aria-label="email"
+                  aria-describedby="addon-wrapping">
+              </div>
+            </div>
+
+            <div class="input-group  mb-4">
+              <input type="number" id="phone" class="form-control" placeholder="Phone" />
+            </div>
+
+            <div class="input-group  mb-4">
+              <textarea class="form-control"  id="address" rows="2" placeholder="Address" ></textarea>
+            </div>
+            <h3>Card info</h3>
+            <div class="form-outline mb-4">
+              <input type="text" class="form-control" id="cardname" placeholder="Name Surname">
+            </div>
+            <div class="form-row">
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="date" placeholder="mm/yy">
+              </div>
+              <div class="col-md-2">
+                <input type="text" class="form-control" id="cvv" placeholder="XXX">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Pay order</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-</div>

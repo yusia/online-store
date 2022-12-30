@@ -32,6 +32,7 @@
 .count-container{
   width: 200px;
 }
-.counter.input-group{
-  flex-wrap: nowrap;
+
+.counter .input-group-text{
+  background-color: $background1;
 }
