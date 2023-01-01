@@ -1,33 +1,62 @@
 <template id="bin-item-id" class="none">
-  <div class="row bin-item">
-    <div class="row title">
-      <a href="#product?prodId={{id}}"> {{title}}</a>
-    </div>
-    <div class="row ">
-    </div>
+  <li class="list-group-item bin-item card ">
 
-    <img class=" col img-thumbnail bin-thumbnail" src="{{thumbnail}}">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <h5 class="card-title"> <a href="#product?prodId={{id}}"> {{title}}</a></h5>
+        <img class="img-fluid bin-thumbnail" src="{{thumbnail}}">
+      </div>
 
-    <div class="col discount">discountPercentage: {{discountPercentage}}</div>
-    <div class="col ">rating: {{rating}}</div>
-    <div class="col">stock: {{stock}}</div>
-    <div class="col">brand: {{brand}}</div>
-    <div class="col">category: {{category}}</div>
-    <div class="sum col"> {{price}}</div>
-    <div class="col-2" class="count-container">
-      <div class="counter input-group flex-nowrap" id="counter-{{id}}">
-        <span class="input-group-text" data-id="{{id}}" id="min-btn-{{id}}">-</span>
-        <input id="prod-count-{{id}}" data-id="{{id}}" type="number" name="count" value="{{totalCount}}" min="0"
-          max="{{stock}}" class="form-control" disabled>
-        <span class="input-group-text" data-id="{{id}}" id="plus-btn-{{id}}">+</span>
-        <div class="invalid-feedback">Count in stock {{stock}}</div>
+      <div class="col-md-8">
+        <div class="card-body row">
+
+          <div class="col discount">discountPercentage: {{discountPercentage}}</div>
+          <div class="col"><span class="row">rating:</span><span class="row"> {{rating}}</span></div>
+          <div class="col">stock: {{stock}}</div>
+          <div class="col">brand: {{brand}}</div>
+          <div class="col">category: {{category}}</div>
+          <div class="sum col"> {{price}}</div>
+          <p class="card-text"><small class="text-muted">{{description}}</small></p>
+
+
+          <div class="col-md-3 row" class="count-container">
+            <div class="counter input-group flex-nowrap  mb-3" id="counter-{{id}}">
+              <span class="input-group-text" data-id="{{id}}" id="min-btn-{{id}}">-</span>
+              <input id="prod-count-{{id}}" data-id="{{id}}" type="number" name="count" value="{{totalCount}}" min="0"
+                max="{{stock}}" class="form-control" disabled>
+              <span class="input-group-text" data-id="{{id}}" id="plus-btn-{{id}}">+</span>
+              <div class="invalid-feedback">Count in stock {{stock}}</div>
+            </div>
+            <div class="sum col"> {{totalPrice}}</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="sum col"> {{totalPrice}}</div>
-  </div>
+
+
+  </li>
 </template>
+
 <div id="bin-content">
-  <div id="bin-products-list"> </div>
+  <ol class="list-group list-group-numbered" id="bin-products-list"> </ol>
+
+  <nav aria-label="Products in bin">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
   <div class="total-container row">
     <div class="total">
       <h3>Products: <span class="" id="bin-count"> </span></h3>
@@ -57,7 +86,7 @@
           <form>
             <div class="input-group  mb-4">
               <span class="input-group-text">First and last name</span>
-              <input type="text" aria-label="First name" class="form-control">
+              <input type="text" aria-label="First name" class="form-control" pattern="\d{4,4}">
               <input type="text" aria-label="Last name" class="form-control">
             </div>
 
@@ -74,7 +103,7 @@
             </div>
 
             <div class="input-group  mb-4">
-              <textarea class="form-control"  id="address" rows="2" placeholder="Address" ></textarea>
+              <textarea class="form-control" id="address" rows="2" placeholder="Address"></textarea>
             </div>
             <h3>Card info</h3>
             <div class="form-outline mb-4">
