@@ -84,7 +84,7 @@ export default class CatalogView {
       const name = cardElement.querySelector('.card-title') as HTMLElement;
       name.innerHTML = productItem.product.title;
 
-      const img = cardElement.querySelector('.thumbnail') as HTMLImageElement;
+      const img = cardElement.querySelector('#thumbnail') as HTMLImageElement;
       img.src = productItem.product.thumbnail;
 
       const description = cardElement.querySelector(

@@ -1,57 +1,68 @@
-<div class="container" style ="display: flex;">
-  <div class="container" id ="filter" style ="display: flex;flex-flow: column; width: 450px;">
-    <div class="filter-button-list">
-      <button id="reset-filter">reset filter</button>
-      <button id="copy-link">copy link</button>
+<div class="container" style="display: flex;">
+  <div class="container" id="filter" style="display: flex;flex-flow: column; width: 450px;">
+    <div class="filter-button-list ">
+      <button class="btn btn-primary" id="reset-filter">reset filter</button>
+      <button class="btn btn-primary" id="copy-link">copy link</button>
     </div>
     <h3>Category</h3>
-    <div id="category-list" style="height: 300px; overflow: scroll;width: 100%;">
+    <div id="category-list" class="category-list list-group">
     </div>
     <h3>Brand</h3>
-    <div id="brand-list" style="height: 300px; overflow: scroll; width: 100%;">
+    <div id="brand-list" class="brand-list list-group">
     </div>
     <h3>Price</h3>
-    <div id="price" style ="width: 100%">
+    <div id="price" style="width: 100%">
       <div id="slider" class="slider-price"></div>
     </div>
     <h3>Stock</h3>
-    <div id="stock" style ="width: 100%">
+    <div id="stock" style="width: 100%">
       <div id="slider" class="slider-stock"></div>
     </div>
   </div>
   <div class="container">
     <div class="container button-list">
-      <div><button>Sort</button></div>
+      <div>
+        <button class="btn btn-primary">Sort</button>
+      </div>
       <div id="products-count"></div>
       <div>
         <input id="search-product" name="search" placeholder="search product">
       </div>
-      <div>
-        <input type="radio"  name="view" id="radio-grid" value="grid" checked><label for="radio-grid">Grid</label>
-        <input type="radio" name="view" id="radio-list" value="line"><label for="radio-list">List</label>
+
+      <div class="form-check form-check-inline">
+        <input type="radio" class="form-check-input" name="view" id="radio-grid" value="grid" checked>
+        <label class="form-check-label" for="radio-grid">Grid</label>
+        <input type="radio" name="view" id="radio-list" value="line">
+        <label for="radio-list">List</label>
       </div>
     </div>
-    <div class="container" id ="product-list">
+    <div class="container" id="product-list">
     </div>
   </div>
 </div>
 
-<template id = "card-template">
-  <div class="card">
-    <h5 class="card-title">Card title</h5>
+<template id="card-template">
+
+  <div class="card mb-3">
+    <div class="img-container">
+    <img class="card-img-top" id="thumbnail" src="#" alt="product" width="100%">
+  </div>
+
     <div class="card-body">
-      <img class="thumbnail" src="#" alt="product" width="100%">
+      <h5 class="card-title">Card title</h5>
       <p class="card-text"></p>
-      <button class="prod-add-cart">Add to cart</button>
+      <button class="btn btn-primary prod-add-cart">Add to cart</button>
     </div>
+
   </div>
 </template>
 
 <template id="category-brand-template">
-  <div class="category-brand-wrapper" style="display: flex; justify-content: space-between;">
-    <div style="display: flex;">
-      <input class="category-brand-name" type="checkbox"></input>
-      <div class = "category-brand-label"></div></div>
-    <div class = "count"></div>
+  <div class="category-brand-wrapper  list-group-item  d-flex justify-content-between ">
+    <div class="form-check">
+      <input class="category-brand-name form-check-input" type="checkbox"></input>
+      <div class="category-brand-label form-check-label"></div>
+    </div>
+    <span class="badge bg-light text-dark rounded-pill count ">14</span>
   </div>
 </template>

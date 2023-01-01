@@ -6,7 +6,8 @@
 #product-list {
   display: flex; 
   flex-flow: wrap;
-
+  gap: 8px;
+  
   &.grid{
     .card {
       width: 18rem;
@@ -32,4 +33,17 @@
       }
     }
   }
+}
+.brand-list,
+.category-list{
+  height: 300px; 
+  overflow: scroll; 
+}
+
+.img-container{
+  height: 150px;
+  overflow: hidden;
+}
+.img-container:hover{
+  height: 300px;
 }
