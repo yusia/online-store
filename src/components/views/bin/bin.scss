@@ -24,14 +24,14 @@
 .discount:after {
   content: "%";
 }
-.bin-thumbnail{
-  width: 100px;
-  height: 100px;
-}
+// .bin-thumbnail{
+//   width: 100px;
+//   height: 100px;
+// }
 
 .count-container{
   width: 200px;
 }
-.counter.input-group{
-  flex-wrap: nowrap;
+.counter .input-group-text{
+  background-color: $background1;
 }

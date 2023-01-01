@@ -2,6 +2,7 @@ import { SelectedProductViewInterface } from '../../../global/interfaces/selecte
 import { BinParamsType } from '../../../global/type/binParamsType.type'
 import content from '../bin/bin.html';
 import { Modal } from 'bootstrap';
+import ProductInterface from '../../../global/interfaces/product.interface';
 
 
 export default class BinView {
@@ -13,13 +14,22 @@ export default class BinView {
     } else {
       rootElemHtml.innerHTML = content;
       this.buildProductsList(products, 'bin-products-list', 'bin-item-id');
-
-      this.setTotalSum(products);
+      this.bindPromoListener();
+      this.setTotals(products);
       if (params.modal) {
-        const myModal = new Modal('#staticBackdrop');
+        const myModal = new Modal('#infomodal');
         myModal.show();
       }
     }
+  }
+
+  private bindPromoListener() {
+    document.getElementById('promo')?.addEventListener('click', () => {
+      const promoInput = document.getElementById('promo-value') as HTMLInputElement;
+      window.dispatchEvent(new CustomEvent('promocodeapplied',{
+        detail: { productId: promoInput.value },
+      }));
+    });
   }
 
   private buildProductsList(products: SelectedProductViewInterface[], listId: string, itemId: string): void {
@@ -34,11 +44,9 @@ export default class BinView {
     this.bindCountListener(products);
   }
 
-
   private bindCountListener(products: SelectedProductViewInterface[]): void { //todo refactoring! use delegation
     products.forEach((productBin: SelectedProductViewInterface) => {
-      this.bindBtnListener(productBin.product?.id);
-      this.bindInputListener(productBin.product?.id);
+      this.bindBtnListener(productBin.product as ProductInterface);
     });
   }
 
@@ -53,7 +61,6 @@ export default class BinView {
     }
     return template;
   }
-  
   private dispathEventCountChanged(newCount: number, prodId: number | undefined): void {
     const countInput = document.getElementById(`prod-count-${prodId}`) as HTMLInputElement;
     const prevCount = Number(countInput.value);
@@ -62,39 +69,44 @@ export default class BinView {
         detail: { productId: prodId, count: newCount }
       }));
     }
-
-  }
-  private bindInputListener(productId: number| undefined): void {
-    document.getElementById(`prod-count-${productId}`)?.addEventListener('input', (e) => {
-      const count = (e.target as HTMLInputElement).value;
-      this.dispathEventCountChanged(+count, productId)
-    });
   }
 
-  private bindBtnListener(productId: number| undefined): void {
-    document.getElementById(`counter-${productId}`)?.addEventListener('click', (e) => {
+  private bindBtnListener(product: ProductInterface): void {
+    document.getElementById(`counter-${product?.id}`)?.addEventListener('click', (e) => {
 
       const targetBtn = e.target as HTMLButtonElement;
-      const countInput = document.getElementById(`prod-count-${productId}`) as HTMLInputElement;
+      const countInput = document.getElementById(`prod-count-${product?.id}`) as HTMLInputElement;
       let count = Number(countInput.value);
-      if (targetBtn.id === `min-btn-${productId}`) {
+
+      if (targetBtn.id === `min-btn-${product?.id}`) {
         count--;
-      } else if (targetBtn.id === `plus-btn-${productId}`) {
+      } else if (targetBtn.id === `plus-btn-${product?.id}`) {
         count++;
       }
-      this.dispathEventCountChanged(+count, productId)
+
+      if (count > product?.stock) {
+        countInput.classList.add('is-invalid');
+      } else {
+        countInput.classList.remove('is-invalid');
+        this.dispathEventCountChanged(+count, product?.id)
+      }
     });
   }
 
-
-  private setTotalSum(products: SelectedProductViewInterface[],): void {
-    const sumElem = document.getElementById('bin-sum') as HTMLDivElement;
-    let count = 0;
+  private setTotals(products: SelectedProductViewInterface[],): void {
+    let count = 0, total = 0;
 
     products.forEach(item => {
       const price = item.product?.price ?? 0;
-      count += price * item.totalCount;
+      total += price * item.totalCount;
+      count += item.totalCount;
     });
+    this.setCount('bin-sum', total);
+    this.setCount('bin-count', count);
+  }
+
+  private setCount(elemId: string, count: number): void {
+    const sumElem = document.getElementById(elemId) as HTMLDivElement;
     sumElem.innerText = count.toString();
   }
 }
