@@ -17,9 +17,7 @@
           <div class="col">category: {{category}}</div>
           <div class="sum col"> {{price}}</div>
           <p class="card-text"><small class="text-muted">{{description}}</small></p>
-
-
-          <div class="col-md-3 row" class="count-container">
+           <div class="col-md-3 row" class="count-container">
             <div class="counter input-group flex-nowrap  mb-3" id="counter-{{id}}">
               <span class="input-group-text" data-id="{{id}}" id="min-btn-{{id}}">-</span>
               <input id="prod-count-{{id}}" data-id="{{id}}" type="number" name="count" value="{{totalCount}}" min="0"
@@ -39,7 +37,6 @@
 
 <div id="bin-content">
   <ol class="list-group list-group-numbered" id="bin-products-list"> </ol>
-
   <nav aria-label="Products in bin">
     <ul class="pagination">
       <li class="page-item">
@@ -73,7 +70,6 @@
       Buy All
     </button>
   </div>
-
   <div class="modal fade" id="infomodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="infomodalLabel" aria-hidden="true">
     <div class="modal-dialog">

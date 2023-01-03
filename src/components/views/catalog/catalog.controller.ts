@@ -54,7 +54,7 @@ export default class CatalogController implements ControllerInterface {
   updateUrl(parameter: string, value: string) {
     if (parameter == 'viewtype') {
       const searchParams = new URLSearchParams(
-        `?${window.location.href.split('?')[1]}`
+        `?${window.location.href.split('?')[1] || ''}`
       );
       searchParams.set('view', value);
 

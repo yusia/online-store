@@ -280,10 +280,14 @@ export default class ProductsService {
   }
 
   updateUrl() {
-    const urlParamsPart = window.location.href.split('?')[1] ?? "";
-    const searchParams = new URLSearchParams(`?${urlParamsPart}`);
+    const searchParams = new URLSearchParams(
+      `?${window.location.href.split('?')[1] || ''}`
+    );
+
     this.setParam(searchParams, SearchParams.Category, this._filter.categories);
     this.setParam(searchParams, SearchParams.Brand, this._filter.brands);
+
+
 
     searchParams.delete(SearchParams.Price);
     if (this._filter.minPrice && this._filter.maxPrice) {
