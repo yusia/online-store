@@ -278,7 +278,7 @@ export default class ProductsService {
 
   updateUrl() {
     const searchParams = new URLSearchParams(
-      `?${window.location.href.split('?')[1]}`
+      `?${window.location.href.split('?')[1] || ''}`
     );
 
     const newUrl = new URL(window.location.href);
