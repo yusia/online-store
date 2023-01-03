@@ -1,6 +1,5 @@
 import ProductInterface from '../interfaces/product.interface';
 import DataService from './data.service';
-import { SearchParams } from '../../global/searchParams.enum';
 
 export default class ProductsService {
   private _products: ProductInterface[] = [];
@@ -65,6 +64,10 @@ export default class ProductsService {
 
   get maxStock() {
     return this._maxStock;
+  }
+
+  get filter() {
+    return this._filter;
   }
 
   async getProducts() {
@@ -279,60 +282,6 @@ export default class ProductsService {
     return result;
   }
 
-  updateUrl() {
-    const searchParams = new URLSearchParams(
-      `?${window.location.href.split('?')[1] || ''}`
-    );
-
-    this.setParam(searchParams, SearchParams.Category, this._filter.categories);
-    this.setParam(searchParams, SearchParams.Brand, this._filter.brands);
-
-
-
-    searchParams.delete(SearchParams.Price);
-    if (this._filter.minPrice && this._filter.maxPrice) {
-      searchParams.set(SearchParams.Price, `${this._filter.minPrice}↕${this._filter.maxPrice}`);
-    }
-    searchParams.delete(SearchParams.Stock);
-    if (this._filter.minStock && this._filter.maxStock) {
-      searchParams.set(SearchParams.Stock, `${this._filter.minStock}↕${this._filter.maxStock}`);
-    }
-    searchParams.delete( SearchParams.Search);
-    if (this._filter.searchText) {
-      searchParams.set( SearchParams.Search, this._filter.searchText);
-    }
-    this.updateCatalogUrl(searchParams);
-  }
-
-  updateCatalogUrl(searchParams: URLSearchParams) {
-    const newUrl = new URL(window.location.href);
-    newUrl.hash = '';
-    newUrl.pathname += '#catalog';
-    newUrl.search = searchParams.toString();
-
-    window.location.replace(newUrl.href.replace(`%23`, `#`));
-  }
-  setSortParam(field: string, direction: string): void {
-    const urlParamsPart = window.location.href.split('?')[1] ?? "";
-    let params = new URLSearchParams(`?${urlParamsPart}`);
-
-    params = this.setParam(params, SearchParams.SortField, [field]);
-    params = this.setParam(params, SearchParams.SortDir, [direction]);
-
-    this.updateCatalogUrl(params);
-  }
-
-  setParam(params: URLSearchParams, newParam: string, newValues: string[]): URLSearchParams {
-    if (params.has(newParam)) {
-      params.delete(newParam);
-    }
-    newValues.forEach(value => { 
-      if (value) { 
-        params.append(newParam, value); }})
-
-    return params;
-  }
-
   updateFilter(
     filterParam: string,
     value: string | { min: number; max: number }
@@ -372,7 +321,6 @@ export default class ProductsService {
         break;
       }
     }
-    this.updateUrl();
   }
 
   resetFilter() {
@@ -385,6 +333,5 @@ export default class ProductsService {
       maxStock: 0,
       searchText: '',
     };
-    this.updateUrl();
   }
 }
