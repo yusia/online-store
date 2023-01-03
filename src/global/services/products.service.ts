@@ -291,11 +291,11 @@ export default class ProductsService {
 
     searchParams.delete(SearchParams.Price);
     if (this._filter.minPrice && this._filter.maxPrice) {
-      this.setParam(searchParams, SearchParams.Price, [`${this._filter.minPrice}↕${this._filter.maxPrice}`]);
+      searchParams.set(SearchParams.Price, `${this._filter.minPrice}↕${this._filter.maxPrice}`);
     }
     searchParams.delete(SearchParams.Stock);
     if (this._filter.minStock && this._filter.maxStock) {
-      this.setParam(searchParams,SearchParams.Stock, [`${this._filter.minStock}↕${this._filter.maxStock}`]);
+      searchParams.set(SearchParams.Stock, `${this._filter.minStock}↕${this._filter.maxStock}`);
     }
     searchParams.delete( SearchParams.Search);
     if (this._filter.searchText) {
