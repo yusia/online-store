@@ -280,35 +280,23 @@ export default class ProductsService {
   }
 
   updateUrl() {
-    const searchParams = new URLSearchParams(
-      `?${window.location.href.split('?')[1]}`
-    );
+    const urlParamsPart = window.location.href.split('?')[1] ?? "";
+    const searchParams = new URLSearchParams(`?${urlParamsPart}`);
+    this.setParam(searchParams, SearchParams.Category, this._filter.categories);
+    this.setParam(searchParams, SearchParams.Brand, this._filter.brands);
 
-    searchParams.delete('category');
-    this._filter.categories.forEach((value) =>
-      searchParams.append('category', value)
-    );
-    searchParams.delete('brand');
-    this._filter.brands.forEach((value) => searchParams.append('brand', value));
-    searchParams.delete('price');
+    searchParams.delete(SearchParams.Price);
     if (this._filter.minPrice && this._filter.maxPrice) {
-      searchParams.set(
-        'price',
-        `${this._filter.minPrice}↕${this._filter.maxPrice}`
-      );
+      this.setParam(searchParams, SearchParams.Price, [`${this._filter.minPrice}↕${this._filter.maxPrice}`]);
     }
-    searchParams.delete('stock');
+    searchParams.delete(SearchParams.Stock);
     if (this._filter.minStock && this._filter.maxStock) {
-      searchParams.set(
-        'stock',
-        `${this._filter.minStock}↕${this._filter.maxStock}`
-      );
+      this.setParam(searchParams,SearchParams.Stock, [`${this._filter.minStock}↕${this._filter.maxStock}`]);
     }
-    searchParams.delete('search');
+    searchParams.delete( SearchParams.Search);
     if (this._filter.searchText) {
-      searchParams.set(`search`, `${this._filter.searchText}`);
+      searchParams.set( SearchParams.Search, this._filter.searchText);
     }
-
     this.updateCatalogUrl(searchParams);
   }
 
@@ -320,7 +308,6 @@ export default class ProductsService {
 
     window.location.replace(newUrl.href.replace(`%23`, `#`));
   }
-
   setSortParam(field: string, direction: string): void {
     const urlParamsPart = window.location.href.split('?')[1] ?? "";
     let params = new URLSearchParams(`?${urlParamsPart}`);
@@ -335,8 +322,9 @@ export default class ProductsService {
     if (params.has(newParam)) {
       params.delete(newParam);
     }
-    newValues.forEach(value => { params.set(newParam, value); 
-    })
+    newValues.forEach(value => { 
+      if (value) { 
+        params.append(newParam, value); }})
 
     return params;
   }
