@@ -1,41 +1,55 @@
 <div class="container" style="display: flex;">
   <div class="container" id="filter" style="display: flex;flex-flow: column; width: 450px;">
-    <div class="filter-button-list ">
+    <div class="filter-button-list mb-3">
       <button class="btn btn-primary" id="reset-filter">reset filter</button>
       <button class="btn btn-primary" id="copy-link">copy link</button>
     </div>
-    <h3>Category</h3>
+    <h3 class="mb-3">Category</h3>
     <div id="category-list" class="category-list list-group">
     </div>
-    <h3>Brand</h3>
+    <h3 class="mb-3">Brand</h3>
     <div id="brand-list" class="brand-list list-group">
     </div>
-    <h3>Price</h3>
+    <h3 class="mb-3">Price</h3>
     <div id="price" style="width: 100%">
       <div id="slider" class="slider-price"></div>
     </div>
-    <h3>Stock</h3>
+    <h3 class="mb-3">Stock</h3>
     <div id="stock" style="width: 100%">
       <div id="slider" class="slider-stock"></div>
     </div>
   </div>
   <div class="container">
-    <div class="container button-list">
-      <div>
-        <button class="btn btn-primary">Sort</button>
+    <div class="col input-group  mb-3">
+      <input id="search-product" class="form-control" name="search" placeholder="search product" />
+      <span id="products-count" class="input-group-text"></span>
+    </div>
+    <div class="container button-list row gx-3 gy-2 mb-3">
+      <div class="col align-items-center">
+        <div class="form-check  form-check-inline">
+          <input class="form-check-input" type="radio" name="view" id="radio-grid" value="grid" checked>
+          <label class="form-check-label" for="radio-grid">Grid</label>
+        </div>
+        <div class="form-check  form-check-inline">
+          <input class="form-check-input" type="radio" name="view" id="radio-list" value="line">
+          <label class="form-check-label" for="radio-list">List</label>
+        </div>
       </div>
-      <div id="products-count"></div>
-      <div>
-        <input id="search-product" name="search" placeholder="search product">
-      </div>
+      <div class=" col dropdown">
+        <button class="btn btn-secondary dropdown-toggle" role="button" id="dropdownSort" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Sort by
+        </button>
 
-      <div class="form-check form-check-inline">
-        <input type="radio" class="form-check-input" name="view" id="radio-grid" value="grid" checked>
-        <label class="form-check-label" for="radio-grid">Grid</label>
-        <input type="radio" name="view" id="radio-list" value="line">
-        <label for="radio-list">List</label>
+        <ul class="dropdown-menu" aria-labelledby="dropdownSort" id="sorting">
+          <li data-field="price" data-dir="asc" class="dropdown-item">price ↑</li>
+          <li data-field="price" data-dir="desc" class="dropdown-item">price ↓</li>
+          <li data-field="rating" data-dir="asc" class="dropdown-item">rating ↑</li>
+          <li data-field="rating" data-dir="desc" class="dropdown-item">rating ↓</li>
+        </ul>
       </div>
     </div>
+
     <div class="container" id="product-list">
     </div>
   </div>
@@ -43,10 +57,10 @@
 
 <template id="card-template">
 
-  <div class="card mb-3">
+  <div class="card ">
     <div class="img-container">
-    <img class="card-img-top" id="thumbnail" src="#" alt="product" width="100%">
-  </div>
+      <img class="card-img-top" id="thumbnail" src="#" alt="product" width="100%">
+    </div>
 
     <div class="card-body">
       <h5 class="card-title">Card title</h5>

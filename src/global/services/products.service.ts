@@ -1,5 +1,7 @@
 import ProductInterface from '../interfaces/product.interface';
 import DataService from './data.service';
+import { SearchParams } from '../../global/searchParams.enum';
+
 export default class ProductsService {
   private _products: ProductInterface[] = [];
   private _productsFiltered: ProductInterface[] = [];
@@ -161,12 +163,12 @@ export default class ProductsService {
     return {
       min:
         this._filter.minPrice >
-        Math.min(...this._productsFiltered.map((product) => product.price))
+          Math.min(...this._productsFiltered.map((product) => product.price))
           ? this._filter.minPrice
           : Math.min(...this._productsFiltered.map((product) => product.price)),
       max:
         this._filter.maxPrice <
-        Math.max(...this._productsFiltered.map((product) => product.price))
+          Math.max(...this._productsFiltered.map((product) => product.price))
           ? this._filter.maxPrice
           : Math.max(...this._productsFiltered.map((product) => product.price)),
     };
@@ -176,12 +178,12 @@ export default class ProductsService {
     return {
       min:
         this._filter.minStock >
-        Math.min(...this._productsFiltered.map((product) => product.stock))
+          Math.min(...this._productsFiltered.map((product) => product.stock))
           ? this._filter.minStock
           : Math.min(...this._productsFiltered.map((product) => product.stock)),
       max:
         this._filter.maxStock <
-        Math.max(...this._productsFiltered.map((product) => product.stock))
+          Math.max(...this._productsFiltered.map((product) => product.stock))
           ? this._filter.maxStock
           : Math.max(...this._productsFiltered.map((product) => product.stock)),
     };
@@ -199,6 +201,7 @@ export default class ProductsService {
     this._productsFiltered = this.filterProductsBySearch(
       this._productsFiltered
     );
+
   }
 
   filterProductsBySearch(products: ProductInterface[]): ProductInterface[] {
@@ -281,8 +284,6 @@ export default class ProductsService {
       `?${window.location.href.split('?')[1]}`
     );
 
-    const newUrl = new URL(window.location.href);
-
     searchParams.delete('category');
     this._filter.categories.forEach((value) =>
       searchParams.append('category', value)
@@ -307,11 +308,37 @@ export default class ProductsService {
     if (this._filter.searchText) {
       searchParams.set(`search`, `${this._filter.searchText}`);
     }
+
+    this.updateCatalogUrl(searchParams);
+  }
+
+  updateCatalogUrl(searchParams: URLSearchParams) {
+    const newUrl = new URL(window.location.href);
     newUrl.hash = '';
     newUrl.pathname += '#catalog';
     newUrl.search = searchParams.toString();
 
     window.location.replace(newUrl.href.replace(`%23`, `#`));
+  }
+
+  setSortParam(field: string, direction: string): void {
+    const urlParamsPart = window.location.href.split('?')[1] ?? "";
+    let params = new URLSearchParams(`?${urlParamsPart}`);
+
+    params = this.setParam(params, SearchParams.SortField, [field]);
+    params = this.setParam(params, SearchParams.SortDir, [direction]);
+
+    this.updateCatalogUrl(params);
+  }
+
+  setParam(params: URLSearchParams, newParam: string, newValues: string[]): URLSearchParams {
+    if (params.has(newParam)) {
+      params.delete(newParam);
+    }
+    newValues.forEach(value => { params.set(newParam, value); 
+    })
+
+    return params;
   }
 
   updateFilter(

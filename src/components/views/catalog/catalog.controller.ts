@@ -5,6 +5,8 @@ import FilterParametersInterface from '../../../global/interfaces/filterParamete
 import ProductInterface from '../../../global/interfaces/product.interface';
 import BinService from '../../../global/services/bin.service';
 import ViewParametersInterface from '../../../global/interfaces/viewParameters.interface';
+import {Sort} from '../../../global/sort.enum';
+import {SearchParams} from '../../../global/searchParams.enum';
 
 export default class CatalogController implements ControllerInterface {
   constructor(
@@ -14,6 +16,10 @@ export default class CatalogController implements ControllerInterface {
   ) {
     window.addEventListener('hashchange', ((event: HashChangeEvent) => {
       this.prodService.updateFilterByUrl(event.newURL);
+    }) as EventListener);
+
+    window.addEventListener('sortChanged', ((event: CustomEvent) => {
+      this.prodService.setSortParam(event.detail.sortField, event.detail.sortDirection);
     }) as EventListener);
 
     window.addEventListener('viewparamchanged', ((e: CustomEvent) => {
@@ -133,14 +139,41 @@ export default class CatalogController implements ControllerInterface {
         : 'grid',
     };
   }
-  initView() {
+
+  initView(params: URLSearchParams) {
     this.prodService.updateFileredProducts(this.prodService.products);
+
+    const sortedProd = this.sortProductsByParams(params, this.prodService.productsFiltered);
+
     this.viewInstance.loadContent(
       'app',
-      this.getProducts(this.prodService.productsFiltered),
+      this.getProducts(sortedProd),
       this.getFilterParameters(),
       this.getViewParameters(),
       this.updateFilter.bind(this)
     );
   }
+  
+  private sortProductsByParams(params: URLSearchParams, products: ProductInterface[]): ProductInterface[] {
+    if (params && params.has(SearchParams.SortField)) {
+
+      const fnAsc = (a: number, b: number) => {
+        return a < b ? -1 : a > b ? 1 : 0;
+      };
+      const fnDesc = (a: number, b: number) => {
+        return a > b ? -1 : a < b ? 1 : 0;
+      };
+      const field = params.get(SearchParams.SortField);
+      const direction = params.get(SearchParams.SortDir);
+
+      if (field==="price") {
+        return products.sort((a, b) => { return direction === Sort.Desc ? fnDesc(a.price, b.price) : fnAsc(a.price, b.price) })
+      }
+      if (field==="rating") {
+        return products.sort((a, b) => { return direction === Sort.Desc ? fnDesc(a.rating, b.rating) : fnAsc(a.rating, b.rating) })
+      }
+    }
+    return products;
+  }
+
 }
