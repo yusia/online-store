@@ -61,7 +61,6 @@ export default class BinView {
     }
     return template;
   }
-
   private dispathEventCountChanged(newCount: number, prodId: number | undefined): void {
     const countInput = document.getElementById(`prod-count-${prodId}`) as HTMLInputElement;
     const prevCount = Number(countInput.value);

@@ -9,16 +9,19 @@ import CatalogController from '../views/catalog/catalog.controller';
 import BinView from '../views/bin/bin.view';
 import BinController from '../views/bin/bin.controller';
 import BinService from '../../global/services/bin.service';
+import SearchParamService from '../../global/services/searchParam.service';
 
 export default class App {
   private dataService: DataService | undefined;
   private productsService: ProductsService;
   private binService: BinService;
-  
+  private paramService: SearchParamService;
+
   constructor() {
     this.dataService = new DataService('https://dummyjson.com/products');
     this.productsService = new ProductsService(this.dataService);
     this.binService = new BinService(this.productsService);
+    this.paramService = new SearchParamService();
   }
   public async start() {
     await this.productsService.getProducts();
@@ -32,7 +35,7 @@ export default class App {
       ),
       new Route(
         'catalog',
-        new CatalogController(new CatalogView(), this.productsService, this.binService,),
+        new CatalogController(new CatalogView(), this.productsService, this.binService, this.paramService),
         true
       ),
     ]);

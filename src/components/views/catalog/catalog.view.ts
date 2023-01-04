@@ -103,6 +103,20 @@ export default class CatalogView {
 
       containerProductList?.append(cardElement);
     });
+    this.bindSortListener(rootElemHtml.querySelector('#sorting') as HTMLElement);
+  }
+
+  private bindSortListener(dropdownSort: HTMLElement): void {
+    dropdownSort.addEventListener('click', (event: MouseEvent) => {
+      const sortingByOption=event.target as HTMLElement;
+      const field= sortingByOption.getAttribute('data-field');
+      const direction= sortingByOption.getAttribute('data-dir');
+      window.dispatchEvent(
+        new CustomEvent('sortChanged', {
+          detail: { sortField: field, sortDirection: direction },
+        })
+      );
+    });
   }
 
   loadContent(
