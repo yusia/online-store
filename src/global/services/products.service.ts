@@ -1,5 +1,6 @@
 import ProductInterface from '../interfaces/product.interface';
 import DataService from './data.service';
+
 export default class ProductsService {
   private _products: ProductInterface[] = [];
   private _productsFiltered: ProductInterface[] = [];
@@ -63,6 +64,10 @@ export default class ProductsService {
 
   get maxStock() {
     return this._maxStock;
+  }
+
+  get filter() {
+    return this._filter;
   }
 
   async getProducts() {
@@ -161,12 +166,12 @@ export default class ProductsService {
     return {
       min:
         this._filter.minPrice >
-        Math.min(...this._productsFiltered.map((product) => product.price))
+          Math.min(...this._productsFiltered.map((product) => product.price))
           ? this._filter.minPrice
           : Math.min(...this._productsFiltered.map((product) => product.price)),
       max:
         this._filter.maxPrice <
-        Math.max(...this._productsFiltered.map((product) => product.price))
+          Math.max(...this._productsFiltered.map((product) => product.price))
           ? this._filter.maxPrice
           : Math.max(...this._productsFiltered.map((product) => product.price)),
     };
@@ -176,12 +181,12 @@ export default class ProductsService {
     return {
       min:
         this._filter.minStock >
-        Math.min(...this._productsFiltered.map((product) => product.stock))
+          Math.min(...this._productsFiltered.map((product) => product.stock))
           ? this._filter.minStock
           : Math.min(...this._productsFiltered.map((product) => product.stock)),
       max:
         this._filter.maxStock <
-        Math.max(...this._productsFiltered.map((product) => product.stock))
+          Math.max(...this._productsFiltered.map((product) => product.stock))
           ? this._filter.maxStock
           : Math.max(...this._productsFiltered.map((product) => product.stock)),
     };
@@ -199,6 +204,7 @@ export default class ProductsService {
     this._productsFiltered = this.filterProductsBySearch(
       this._productsFiltered
     );
+
   }
 
   filterProductsBySearch(products: ProductInterface[]): ProductInterface[] {
@@ -276,44 +282,6 @@ export default class ProductsService {
     return result;
   }
 
-  updateUrl() {
-    const searchParams = new URLSearchParams(
-      `?${window.location.href.split('?')[1] || ''}`
-    );
-
-    const newUrl = new URL(window.location.href);
-
-    searchParams.delete('category');
-    this._filter.categories.forEach((value) =>
-      searchParams.append('category', value)
-    );
-    searchParams.delete('brand');
-    this._filter.brands.forEach((value) => searchParams.append('brand', value));
-    searchParams.delete('price');
-    if (this._filter.minPrice && this._filter.maxPrice) {
-      searchParams.set(
-        'price',
-        `${this._filter.minPrice}↕${this._filter.maxPrice}`
-      );
-    }
-    searchParams.delete('stock');
-    if (this._filter.minStock && this._filter.maxStock) {
-      searchParams.set(
-        'stock',
-        `${this._filter.minStock}↕${this._filter.maxStock}`
-      );
-    }
-    searchParams.delete('search');
-    if (this._filter.searchText) {
-      searchParams.set(`search`, `${this._filter.searchText}`);
-    }
-    newUrl.hash = '';
-    newUrl.pathname += '#catalog';
-    newUrl.search = searchParams.toString();
-
-    window.location.replace(newUrl.href.replace(`%23`, `#`));
-  }
-
   updateFilter(
     filterParam: string,
     value: string | { min: number; max: number }
@@ -353,7 +321,6 @@ export default class ProductsService {
         break;
       }
     }
-    this.updateUrl();
   }
 
   resetFilter() {
@@ -366,6 +333,5 @@ export default class ProductsService {
       maxStock: 0,
       searchText: '',
     };
-    this.updateUrl();
   }
 }
