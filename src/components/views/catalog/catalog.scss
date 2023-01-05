@@ -20,11 +20,16 @@
       .card-body{
         display: flex;
         flex-direction: row;
-        .thumbnail {
-          width: 20%;
-        }
         .card-text {
-          width: 50%;
+          width: 80%;
+        }
+        .card-title,
+        .card-price,
+        .card-discount,
+        .card-rating,
+        .card-stock,
+        .prod-add-cart { 
+          width: 20%;
         }
         .prod-add-cart {
           height: fit-content;

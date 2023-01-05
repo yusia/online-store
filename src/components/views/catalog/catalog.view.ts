@@ -89,8 +89,29 @@ export default class CatalogView {
 
       const description = cardElement.querySelector(
         '.card-text'
-      ) as HTMLElement;
-      description.innerHTML = productItem.product.description;
+      ) as HTMLElement | null;
+      if (description) description.innerHTML = productItem.product.description;
+
+      const price = cardElement.querySelector(
+        '.card-price'
+      ) as HTMLElement | null;
+      if (price) price.innerHTML = `${productItem.product.price}$`;
+
+      const discount = cardElement.querySelector(
+        '.card-discount'
+      ) as HTMLElement | null;
+      if (discount)
+        discount.innerHTML = `${productItem.product.discountPercentage}%`;
+
+      const rating = cardElement.querySelector(
+        '.card-rating'
+      ) as HTMLElement | null;
+      if (rating) rating.innerHTML = `Rating: ${productItem.product.rating}`;
+
+      const stock = cardElement.querySelector(
+        '.card-stock'
+      ) as HTMLElement | null;
+      if (stock) stock.innerHTML = `Stock: ${productItem.product.stock}`;
 
       const addToBinBtn = setBinBtnText(productItem.isAddedToBin);
       addToBinBtn?.addEventListener('click', () => {
@@ -103,14 +124,16 @@ export default class CatalogView {
 
       containerProductList?.append(cardElement);
     });
-    this.bindSortListener(rootElemHtml.querySelector('#sorting') as HTMLElement);
+    this.bindSortListener(
+      rootElemHtml.querySelector('#sorting') as HTMLElement
+    );
   }
 
   private bindSortListener(dropdownSort: HTMLElement): void {
     dropdownSort.addEventListener('click', (event: MouseEvent) => {
-      const sortingByOption=event.target as HTMLElement;
-      const field= sortingByOption.getAttribute('data-field');
-      const direction= sortingByOption.getAttribute('data-dir');
+      const sortingByOption = event.target as HTMLElement;
+      const field = sortingByOption.getAttribute('data-field');
+      const direction = sortingByOption.getAttribute('data-dir');
       window.dispatchEvent(
         new CustomEvent('sortChanged', {
           detail: { sortField: field, sortDirection: direction },
