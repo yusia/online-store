@@ -35,3 +35,23 @@
 .counter .input-group-text{
   background-color: $background1;
 }
+
+.invalid-info {
+  display: none;
+}
+
+.input-group {
+  &:has(input:invalid:focus:not(:placeholder-shown)) {
+    & + .invalid-info {
+      display: block;
+      color: $blue-200;
+    }
+  }
+  input:invalid:not(:focus):not(:placeholder-shown) {
+    border: 2px solid $red-300;
+    color: $red-300;
+  }
+  input:invalid:focus:not(:placeholder-shown) {
+    color: $red-400;
+  }
+}

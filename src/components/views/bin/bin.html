@@ -79,11 +79,14 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
+          <form novalidate>
             <div class="input-group  mb-4">
               <span class="input-group-text">First and last name</span>
               <input type="text" aria-label="First name" class="form-control" pattern="\d{4,4}">
               <input type="text" aria-label="Last name" class="form-control">
+            </div>
+            <div class="invalid-info">
+              <p>First and last name must have at least 4 symbols</p>
             </div>
 
             <div class=" mb-4">
@@ -95,7 +98,10 @@
             </div>
 
             <div class="input-group  mb-4">
-              <input type="number" id="phone" class="form-control" placeholder="Phone" />
+              <input type="text" id="phone" class="form-control" placeholder="Phone" pattern="^\+[0-9]{9}">
+            </div>
+            <div class="invalid-info">
+              <p>Phone must contain + and 9 digits</p>
             </div>
 
             <div class="input-group  mb-4">
@@ -115,7 +121,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Pay order</button>
+              <button type="button" class="btn btn-primary">Pay order</button>
             </div>
           </form>
         </div>
