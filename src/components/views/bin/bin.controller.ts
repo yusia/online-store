@@ -3,16 +3,59 @@ import { SelectedProductViewInterface } from '../../../global/interfaces/selecte
 import ProductsService from '../../../global/services/products.service';
 import BinService from '../../../global/services/bin.service';
 import BinView from './bin.view';
-import BaseController from '../../../global/classes/base.controller'
+import BaseController from '../../../global/classes/base.controller';
+import PromoService from '../../../global/services/promo.service';
 
-export default class BinController extends BaseController implements ControllerInterface {
+export default class BinController
+  extends BaseController
+  implements ControllerInterface
+{
   private viewParam = 'modal';
-  constructor(private viewInstance: BinView, private prodService: ProductsService, private binService: BinService) {
+  constructor(
+    private viewInstance: BinView,
+    private prodService: ProductsService,
+    private binService: BinService,
+    private promoService: PromoService
+  ) {
     super();
 
     window.addEventListener('bincountchanged', ((e: CustomEvent) => {
-      this.binService.changeCountProdInBin(e.detail.productId, Number(e.detail.count));
-      this.viewInstance.loadContent('app', this.getBinProductModel(), { modal: false });
+      this.binService.changeCountProdInBin(
+        e.detail.productId,
+        Number(e.detail.count)
+      );
+      this.viewInstance.loadContent(
+        'app',
+        this.getBinProductModel(),
+        {
+          modal: false,
+        },
+        this.promoService.getPromoList(),
+        this.promoService.getSelectedPromoList()
+      );
+    }) as EventListener);
+
+    window.addEventListener('promoApplyChanged', ((e: CustomEvent) => {
+      console.log(e.detail.action, e.detail.promoId);
+      switch (e.detail.action) {
+        case 'add': {
+          this.promoService.addPromoToSelected(e.detail.promoId);
+          break;
+        }
+        case 'drop': {
+          this.promoService.deletePromoFromSelected(e.detail.promoId);
+          break;
+        }
+      }
+      this.viewInstance.loadContent(
+        'app',
+        this.getBinProductModel(),
+        {
+          modal: false,
+        },
+        this.promoService.getPromoList(),
+        this.promoService.getSelectedPromoList()
+      );
     }) as EventListener);
   }
 
@@ -20,7 +63,11 @@ export default class BinController extends BaseController implements ControllerI
     const selectedProducts: SelectedProductViewInterface[] = [];
     this.binService.selectedProducts.forEach((value, key) => {
       const prod = this.prodService.getProductById(key);
-      selectedProducts.push({ product: prod, totalCount: value, totalPrice: value * (prod?.price ?? 0) })
+      selectedProducts.push({
+        product: prod,
+        totalCount: value,
+        totalPrice: value * (prod?.price ?? 0),
+      });
     });
     return selectedProducts;
   }
@@ -28,10 +75,17 @@ export default class BinController extends BaseController implements ControllerI
   initView(params: URLSearchParams) {
     const showModal = params?.get(this.viewParam) === 'true';
     if (showModal === true || params === undefined) {
-      this.viewInstance.loadContent('app', this.getBinProductModel(), { modal: showModal });
+      this.viewInstance.loadContent(
+        'app',
+        this.getBinProductModel(),
+        {
+          modal: showModal,
+        },
+        this.promoService.getPromoList(),
+        this.promoService.getSelectedPromoList()
+      );
     } else {
       this.goToPageNotFound();
     }
   }
-
 }

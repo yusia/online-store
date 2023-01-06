@@ -10,32 +10,52 @@ import BinView from '../views/bin/bin.view';
 import BinController from '../views/bin/bin.controller';
 import BinService from '../../global/services/bin.service';
 import SearchParamService from '../../global/services/searchParam.service';
+import PromoService from '../../global/services/promo.service';
 
 export default class App {
   private dataService: DataService | undefined;
   private productsService: ProductsService;
   private binService: BinService;
   private paramService: SearchParamService;
+  private promoService: PromoService;
 
   constructor() {
     this.dataService = new DataService('https://dummyjson.com/products');
     this.productsService = new ProductsService(this.dataService);
     this.binService = new BinService(this.productsService);
     this.paramService = new SearchParamService();
+    this.promoService = new PromoService();
   }
   public async start() {
     await this.productsService.getProducts();
     await this.productsService.getFilterData();
     this.setBinCount();
     const router = new Router([
-      new Route('bin', new BinController(new BinView(), this.productsService, this.binService)),
+      new Route(
+        'bin',
+        new BinController(
+          new BinView(),
+          this.productsService,
+          this.binService,
+          this.promoService
+        )
+      ),
       new Route(
         'product',
-        new ProductController(new ProductView(), this.productsService, this.binService,)
+        new ProductController(
+          new ProductView(),
+          this.productsService,
+          this.binService
+        )
       ),
       new Route(
         'catalog',
-        new CatalogController(new CatalogView(), this.productsService, this.binService, this.paramService),
+        new CatalogController(
+          new CatalogView(),
+          this.productsService,
+          this.binService,
+          this.paramService
+        ),
         true
       ),
     ]);
