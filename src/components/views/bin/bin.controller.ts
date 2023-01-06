@@ -8,9 +8,11 @@ import PromoService from '../../../global/services/promo.service';
 
 export default class BinController
   extends BaseController
-  implements ControllerInterface {
+  implements ControllerInterface
+{
   private viewParam = 'modal';
-  constructor(private viewInstance: BinView,
+  constructor(
+    private viewInstance: BinView,
     private prodService: ProductsService,
     private binService: BinService,
     private promoService: PromoService
@@ -23,7 +25,10 @@ export default class BinController
 
   private bindCountChangedListener() {
     window.addEventListener('bincountchanged', ((e: CustomEvent) => {
-      this.binService.changeCountProdInBin(e.detail.productId, Number(e.detail.count));
+      this.binService.changeCountProdInBin(
+        e.detail.productId,
+        Number(e.detail.count)
+      );
       this.viewInstance.loadContent(
         'app',
         this.getBinProductModel(),
@@ -37,8 +42,25 @@ export default class BinController
   }
 
   private binPromoAppliedListener() {
+    window.addEventListener('promocodeapplied', ((e: CustomEvent) => {
+      const promo = this.promoService.findPromo(
+        e.detail.promoName,
+        this.promoService.getPromoList()
+      );
+      if (promo) {
+        this.promoService.addPromoToSelected(promo.id);
+      }
+      this.viewInstance.loadContent(
+        'app',
+        this.getBinProductModel(),
+        {
+          modal: false,
+        },
+        this.promoService.getPromoList(),
+        this.promoService.getSelectedPromoList()
+      );
+    }) as EventListener);
     window.addEventListener('promoApplyChanged', ((e: CustomEvent) => {
-      console.log(e.detail.action, e.detail.promoId);
       switch (e.detail.action) {
         case 'add': {
           this.promoService.addPromoToSelected(e.detail.promoId);
