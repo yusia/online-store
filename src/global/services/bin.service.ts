@@ -47,6 +47,11 @@ export default class BinService {
     this.saveBinToLocalStrg();
   }
 
+  cleanBin() {
+    this.bin = new Map()
+    this.saveBinToLocalStrg();
+  }
+  
   changeCountProdInBin(productId: number, value: number) {
     if (value === 0) {
       this.bin.delete(productId);

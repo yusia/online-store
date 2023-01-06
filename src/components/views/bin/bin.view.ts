@@ -2,13 +2,15 @@ import { SelectedProductViewInterface } from '../../../global/interfaces/selecte
 import { BinParamsType } from '../../../global/type/binParamsType.type';
 import content from '../bin/bin.html';
 import checkoutHtml from '../bin/checkout.html';
-import { Modal } from 'bootstrap';
+import { Modal, Toast } from 'bootstrap';
 import ProductInterface from '../../../global/interfaces/product.interface';
 import PromoInterface from '../../../global/interfaces/promo.interface';
 
 export default class BinView {
   private promoList: PromoInterface[] = [];
   private selectedPromoList: PromoInterface[] = [];
+  private modal!: Modal;
+
   loadContent(
     rootElem: string,
     products: SelectedProductViewInterface[],
@@ -21,22 +23,31 @@ export default class BinView {
       rootElemHtml.innerHTML = '<div>Cart is Empty</div>';
     } else {
       rootElemHtml.innerHTML = content;
+
       const modal = rootElemHtml.querySelector('#infomodal') as HTMLElement;
       modal.innerHTML = checkoutHtml;
+      this.bindPayClickListener();
+      this.addOpenModalListener();
+
       this.buildProductsList(products, 'bin-products-list', 'bin-item-id');
       this.bindPromoListener();
       this.bindPromoValueListener();
       this.setTotals(products, selectedPromoList);
       this.setSelectedPromoList(selectedPromoList);
       if (params.modal) {
-        const myModal = new Modal('#infomodal');
-        myModal.show();
+        this.createModal();
       }
+
       this.promoList = promoList;
       this.selectedPromoList = selectedPromoList;
     }
-  }
 
+
+  }
+  private createModal(): void {
+    this.modal = new Modal('#infomodal');
+    this.modal.show();
+  }
   private bindPromoListener() {
     document.getElementById('promo')?.addEventListener('click', () => {
       const promoInput = document.getElementById(
@@ -49,7 +60,11 @@ export default class BinView {
       );
     });
   }
-
+  private addOpenModalListener() {
+    document.getElementById('buy-all')?.addEventListener('click', () => {
+      this.createModal();
+    });
+  }
   private bindPromoValueListener() {
     document
       .getElementById('promo-value')
@@ -249,5 +264,20 @@ export default class BinView {
       );
     });
     promoContainer.append(btn);
+  }
+
+  private bindPayClickListener() {
+    const payBtn = document.getElementById('pay-btn');
+    payBtn?.addEventListener('click', () => {
+      const toastLiveExample = document.getElementById('liveToast') as HTMLElement;
+      const toast = new Toast(toastLiveExample);
+      toast.show();
+      this.modal.hide();
+      setTimeout(() => {
+        window.dispatchEvent(
+          new CustomEvent('orderpaid')
+        );
+      }, 3000);
+    });
   }
 }

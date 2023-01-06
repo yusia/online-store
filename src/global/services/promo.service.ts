@@ -47,4 +47,9 @@ export default class PromoService {
   getSelectedPromoList(): PromoInterface[] {
     return this.getPromoList().filter((x) => this.promoList.includes(x.id));
   }
+  
+  cleanSavedPromo(){
+    this.promoList=[];
+    this.savePromoToLocalStrg();
+  }
 }
