@@ -269,7 +269,7 @@ export default class BinView {
   private bindPayClickListener() {
     const payBtn = document.getElementById('pay-btn');
     payBtn?.addEventListener('click', () => {
-      const toastLiveExample = document.getElementById('liveToast') as HTMLElement;
+      const toastLiveExample = document.getElementById('successOrder') as HTMLElement;
       const toast = new Toast(toastLiveExample);
       toast.show();
       this.modal.hide();
