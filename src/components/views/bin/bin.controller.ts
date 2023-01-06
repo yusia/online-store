@@ -42,24 +42,6 @@ export default class BinController
   }
 
   private binPromoAppliedListener() {
-    window.addEventListener('promocodeapplied', ((e: CustomEvent) => {
-      const promo = this.promoService.findPromo(
-        e.detail.promoName,
-        this.promoService.getPromoList()
-      );
-      if (promo) {
-        this.promoService.addPromoToSelected(promo.id);
-      }
-      this.viewInstance.loadContent(
-        'app',
-        this.getBinProductModel(),
-        {
-          modal: false,
-        },
-        this.promoService.getPromoList(),
-        this.promoService.getSelectedPromoList()
-      );
-    }) as EventListener);
     window.addEventListener('promoApplyChanged', ((e: CustomEvent) => {
       switch (e.detail.action) {
         case 'add': {

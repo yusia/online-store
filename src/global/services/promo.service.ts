@@ -7,10 +7,6 @@ export default class PromoService {
   constructor() {
     this.promoList = this.getPromoFromLocalStrg();
   }
-  findPromo(name: string, promoList: PromoInterface[]): PromoInterface | null {
-    const promos = promoList.filter((x) => x.title === name);
-    return promos.length ? promos[0] : null;
-  }
 
   getPromoList(): PromoInterface[] {
     return [

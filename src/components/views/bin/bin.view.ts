@@ -51,11 +51,14 @@ export default class BinView {
       const promoInput = document.getElementById(
         'promo-value'
       ) as HTMLInputElement;
-      window.dispatchEvent(
-        new CustomEvent('promocodeapplied', {
-          detail: { promoName: promoInput.value },
-        })
-      );
+      const promo = this.promoList.find((x) => x.title === promoInput.value);
+      if (promo) {
+        window.dispatchEvent(
+          new CustomEvent('promoApplyChanged', {
+            detail: { promoId: promo?.id, action: 'add' },
+          })
+        );
+      }
     });
   }
   private addOpenModalListener() {
