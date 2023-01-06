@@ -1,6 +1,7 @@
 import { SelectedProductViewInterface } from '../../../global/interfaces/selectedProductView.interface';
 import { BinParamsType } from '../../../global/type/binParamsType.type';
 import content from '../bin/bin.html';
+import checkoutHtml from '../bin/checkout.html';
 import { Modal } from 'bootstrap';
 import ProductInterface from '../../../global/interfaces/product.interface';
 import PromoInterface from '../../../global/interfaces/promo.interface';
@@ -20,6 +21,8 @@ export default class BinView {
       rootElemHtml.innerHTML = '<div>Cart is Empty</div>';
     } else {
       rootElemHtml.innerHTML = content;
+      const modal = rootElemHtml.querySelector('#infomodal') as HTMLElement;
+      modal.innerHTML = checkoutHtml;
       this.buildProductsList(products, 'bin-products-list', 'bin-item-id');
       this.bindPromoListener();
       this.bindPromoValueListener();
