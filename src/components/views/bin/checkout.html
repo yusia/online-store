@@ -25,7 +25,7 @@
         </div>
 
         <div class="input-group has-validation mb-4">
-          <input type="text" id="phone" class="form-control" placeholder="Phone" pattern="^\+[0-9]{9,}"
+          <input type="tel" id="phone" class="form-control" placeholder="Phone" pattern="^\+[0-9]{9,}"
             value="+3752933252" required>
           <div class="invalid-feedback">
             <p>Phone must contain + and 9 digits</p>
@@ -36,20 +36,26 @@
           <input type="text" class="form-control" id="address" rows="2" placeholder="Address"
             pattern="(([a-zA-Z])\w{4,}\s){2}([a-zA-Z])\w{4,}[\s\S]{0,}" required />
           <div class="invalid-feedback">
-            <p>Phone must contain at least 3 word with at least 5 symbols</p>
+            <p>Address must contain at least 3 word with at least 5 symbols</p>
           </div>
         </div>
 
         <h3>Card info</h3>
-        <div class="form-outline has-validation mb-4">
-          <input type="text" class="form-control" id="cardname" placeholder="Name Surname" required>
+        <div class="form-outline input-group  has-validation mb-4">
+          <input type="text" class="form-control" id="cardnumber" placeholder="xxxx xxxx xxxx xxxx"  pattern="\d[0-9]{15}" required>
+          <div class="invalid-feedback">
+            <p> Number must contain at  16 digits</p>
+          </div>
         </div>
         <div class="form-row">
           <div class="col-md-2 has-validation">
-            <input type="text" class="form-control" id="date" placeholder="mm/yy" required>
+            <input type="text" class="form-control" id="date" placeholder="mm/yy" />
           </div>
           <div class="col-md-2 has-validation">
-            <input type="text" class="form-control" id="cvv" placeholder="XXX" required>
+            <input type="text" class="form-control" id="cvv" placeholder="XXX" pattern="\d[0-9]{2}" required>
+            <div class="invalid-feedback">
+              <p> Cvv must contain at 3 digits</p>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
