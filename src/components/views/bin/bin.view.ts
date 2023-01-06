@@ -41,8 +41,6 @@ export default class BinView {
       this.promoList = promoList;
       this.selectedPromoList = selectedPromoList;
     }
-
-
   }
   private createModal(): void {
     this.modal = new Modal('#infomodal');
@@ -53,11 +51,14 @@ export default class BinView {
       const promoInput = document.getElementById(
         'promo-value'
       ) as HTMLInputElement;
-      window.dispatchEvent(
-        new CustomEvent('promocodeapplied', {
-          detail: { productId: promoInput.value },
-        })
-      );
+      const promo = this.promoList.find((x) => x.title === promoInput.value);
+      if (promo) {
+        window.dispatchEvent(
+          new CustomEvent('promoApplyChanged', {
+            detail: { promoId: promo?.id, action: 'add' },
+          })
+        );
+      }
     });
   }
   private addOpenModalListener() {
@@ -140,15 +141,17 @@ export default class BinView {
       if (promo) {
         foundPromoElement.classList.remove('hide');
         if (foundPromoValueElemet)
-          foundPromoValueElemet.innerHTML = `${promo.title}: ${promo.percent}%`;
+          foundPromoValueElemet.innerHTML = promo.description;
         const foundPromoBtnElemet = foundPromoElement.querySelector(
           '#found-promo-btn'
         ) as HTMLElement | null;
         if (foundPromoBtnElemet) {
           if (this.selectedPromoList.map((x) => x.id).includes(promo.id)) {
             foundPromoBtnElemet.classList.add('hide');
+            foundPromoElement.classList.remove('input-group');
           } else {
             foundPromoBtnElemet.classList.remove('hide');
+            foundPromoElement.classList.add('input-group');
           }
           foundPromoBtnElemet.addEventListener('click', () => {
             window.dispatchEvent(
@@ -219,19 +222,43 @@ export default class BinView {
   }
 
   private setSelectedPromoList(selectedPromoList: PromoInterface[]): void {
+    const selectedPromoWrapper = document.getElementById(
+      'selected-promo-wrapper'
+    ) as HTMLElement | null;
     const selectedPromoListElement = document.getElementById(
       'selected-promo-list'
     ) as HTMLElement | null;
-    if (selectedPromoListElement) {
+    if (selectedPromoListElement && selectedPromoWrapper) {
       if (selectedPromoList.length !== 0) {
-        selectedPromoListElement.classList.remove('hide');
+        selectedPromoWrapper.classList.remove('hide');
         selectedPromoList.forEach((x) =>
           this.createPromoElement(x, selectedPromoListElement)
         );
+        this.styleTotalPrice(true);
       } else {
-        selectedPromoListElement.classList.add('hide');
+        selectedPromoWrapper.classList.add('hide');
+        this.styleTotalPrice(false);
       }
     }
+  }
+
+  private styleTotalPrice(withPromo: boolean) {
+    const totalMainElement = document.querySelector(
+      '.total .main'
+    ) as HTMLElement | null;
+    const totalPromoElement = document.querySelector(
+      '.total .promo'
+    ) as HTMLElement | null;
+
+    if (totalMainElement)
+      withPromo
+        ? totalMainElement.classList.add('promo-apply')
+        : totalMainElement.classList.remove('promo-apply');
+
+    if (totalPromoElement)
+      withPromo
+        ? totalPromoElement.classList.remove('hide')
+        : totalPromoElement.classList.add('hide');
   }
 
   private createPromoElement(promo: PromoInterface, container: HTMLElement) {
@@ -248,7 +275,7 @@ export default class BinView {
     container.append(promoContainer);
 
     const valueElem = document.createElement('div') as HTMLElement;
-    valueElem.innerHTML = `${promo.title}: ${promo.percent}%`;
+    valueElem.innerHTML = promo.description;
     valueElem.classList.add('form-control');
     promoContainer.append(valueElem);
 
@@ -272,12 +299,17 @@ export default class BinView {
       if (this.isFormValid()) {
         this.showSuccessMessage();
         this.modal.hide();
-        setTimeout(() => window.dispatchEvent(new CustomEvent('orderpaid')), 3000);
+        setTimeout(
+          () => window.dispatchEvent(new CustomEvent('orderpaid')),
+          3000
+        );
       }
     });
   }
   private showSuccessMessage() {
-    const toastLiveExample = document.getElementById('successOrder') as HTMLElement;
+    const toastLiveExample = document.getElementById(
+      'successOrder'
+    ) as HTMLElement;
     const toast = new Toast(toastLiveExample);
     toast.show();
   }

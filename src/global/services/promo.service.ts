@@ -7,16 +7,27 @@ export default class PromoService {
   constructor() {
     this.promoList = this.getPromoFromLocalStrg();
   }
-  findPromo(name: string, promoList: PromoInterface[]): PromoInterface | null {
-    const promos = promoList.filter((x) => x.title === name);
-    return promos.length ? promos[0] : null;
-  }
 
   getPromoList(): PromoInterface[] {
     return [
-      { id: 1, title: 'rs10', percent: 10 },
-      { id: 2, title: 'rs20', percent: 20 },
-      { id: 3, title: 'rs30', percent: 30 },
+      {
+        id: 1,
+        title: 'rs10',
+        percent: 10,
+        description: 'Rolling Scopes School - 10%',
+      },
+      {
+        id: 2,
+        title: 'rs20',
+        percent: 20,
+        description: 'Rolling Scopes School - 20%',
+      },
+      {
+        id: 3,
+        title: 'rs30',
+        percent: 30,
+        description: 'Rolling Scopes School - 30%',
+      },
     ];
   }
   private getPromoFromLocalStrg(): number[] {
@@ -47,9 +58,9 @@ export default class PromoService {
   getSelectedPromoList(): PromoInterface[] {
     return this.getPromoList().filter((x) => this.promoList.includes(x.id));
   }
-  
-  cleanSavedPromo(){
-    this.promoList=[];
+
+  cleanSavedPromo() {
+    this.promoList = [];
     this.savePromoToLocalStrg();
   }
 }

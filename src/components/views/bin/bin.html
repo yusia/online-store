@@ -42,8 +42,13 @@
     <div class="total">
       <h3>Products: <span class="" id="bin-count"> </span></h3>
       <h3 class="main">Total: <span class="sum" id="bin-sum"> </span></h3>
-      <h3 class="promo">Total: <span class="sum" id="bin-promo"> </span></h3>
-      <div id="selected-promo-list" class="list-group"></div>
+      <h3 class="promo hide">Total: <span class="sum" id="bin-promo"> </span></h3>
+      <div class="card hide" id="selected-promo-wrapper">
+        <div class="card-header">
+          Applied codes
+        </div>
+        <div id="selected-promo-list" class="list-group list-group-flush"></div>
+      </div>
       <div class="input-group mb-3">
         <input type="text" class="form-control" id="promo-value" placeholder="Promocode(rs10,rs20)"
           aria-label="Recipient's username" aria-describedby="button-addon2">
