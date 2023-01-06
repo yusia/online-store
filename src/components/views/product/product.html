@@ -1,6 +1,6 @@
 <div class="container product-view">
 
-  <nav  class="col" aria-label="breadcrumb">
+  <nav class="col" aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="#catalog">Store</a></li>
       <li class="breadcrumb-item"><a href="#catalog?brand={{brand}}">{{brand}}</a></li>
@@ -30,8 +30,10 @@
         <div class="row sum">price: {{price}}</div>
         <div class="row">
           <div class="container buttons">
-            <a href="#bin?modal=true"><button id="prod-buy-btn">Buy now</button></a>
-            <button id="prod-add-cart">Add to cart</button>
+            <a href="#bin?modal=true">
+              <button id="prod-buy-btn" class="btn btn-primary">Buy now</button>
+            </a>
+            <button id="prod-add-cart" class="btn btn-primary">Add to cart</button>
           </div>
         </div>
       </div>

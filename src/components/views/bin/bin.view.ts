@@ -269,15 +269,21 @@ export default class BinView {
   private bindPayClickListener() {
     const payBtn = document.getElementById('pay-btn');
     payBtn?.addEventListener('click', () => {
-      const toastLiveExample = document.getElementById('successOrder') as HTMLElement;
-      const toast = new Toast(toastLiveExample);
-      toast.show();
-      this.modal.hide();
-      setTimeout(() => {
-        window.dispatchEvent(
-          new CustomEvent('orderpaid')
-        );
-      }, 3000);
+      if (this.isFormValid()) {
+        this.showSuccessMessage();
+        this.modal.hide();
+        setTimeout(() => window.dispatchEvent(new CustomEvent('orderpaid')), 3000);
+      }
     });
+  }
+  private showSuccessMessage() {
+    const toastLiveExample = document.getElementById('successOrder') as HTMLElement;
+    const toast = new Toast(toastLiveExample);
+    toast.show();
+  }
+  private isFormValid(): boolean {
+    const form = document.getElementById('checkout-form') as HTMLFormElement;
+    form.classList.add('was-validated');
+    return form.checkValidity();
   }
 }
