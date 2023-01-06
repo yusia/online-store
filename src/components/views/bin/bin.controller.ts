@@ -8,22 +8,22 @@ import PromoService from '../../../global/services/promo.service';
 
 export default class BinController
   extends BaseController
-  implements ControllerInterface
-{
+  implements ControllerInterface {
   private viewParam = 'modal';
-  constructor(
-    private viewInstance: BinView,
+  constructor(private viewInstance: BinView,
     private prodService: ProductsService,
     private binService: BinService,
     private promoService: PromoService
   ) {
     super();
+    this.bindCountChangedListener();
+    this.binPromoAppliedListener();
+    this.bindOrderPaidListener();
+  }
 
+  private bindCountChangedListener() {
     window.addEventListener('bincountchanged', ((e: CustomEvent) => {
-      this.binService.changeCountProdInBin(
-        e.detail.productId,
-        Number(e.detail.count)
-      );
+      this.binService.changeCountProdInBin(e.detail.productId, Number(e.detail.count));
       this.viewInstance.loadContent(
         'app',
         this.getBinProductModel(),
@@ -34,7 +34,9 @@ export default class BinController
         this.promoService.getSelectedPromoList()
       );
     }) as EventListener);
+  }
 
+  private binPromoAppliedListener() {
     window.addEventListener('promoApplyChanged', ((e: CustomEvent) => {
       console.log(e.detail.action, e.detail.promoId);
       switch (e.detail.action) {
@@ -57,6 +59,18 @@ export default class BinController
         this.promoService.getSelectedPromoList()
       );
     }) as EventListener);
+  }
+
+  private bindOrderPaidListener() {
+    window.addEventListener('orderpaid', () => {
+      this.binService.cleanBin();
+      this.promoService.cleanSavedPromo();
+      this.goToInitPage();
+    });
+  }
+
+  private goToInitPage() {
+    window.location.href = window.location.origin;
   }
 
   private getBinProductModel(): SelectedProductViewInterface[] {

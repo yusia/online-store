@@ -1,0 +1,62 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="infomodalLabel">Сheckout</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form class="form" id="checkout-form">
+        <div class="input-group mb-4 has-validation">
+          <span class="input-group-text">First and last name</span>
+          <input type="text" aria-label="First name" class="form-control" pattern="\b[a-zA-Z]{3,}\b\s+\b[a-zA-Z]{3,}\b"
+            value="First last" required>
+          <div class="invalid-feedback">
+            <p>First and last name must have at least 3 symbols</p>
+          </div>
+        </div>
+
+        <div class="input-group mb-4  has-validation">
+          <span class="input-group-text" id="addon-wrapping">@</span>
+          <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            value="sample@gmail.com" placeholder="Email" aria-label="email" aria-describedby="addon-wrapping" required>
+          <div class="invalid-feedback">
+            Please provide a valid email
+          </div>
+        </div>
+
+        <div class="input-group has-validation mb-4">
+          <input type="text" id="phone" class="form-control" placeholder="Phone" pattern="^\+[0-9]{9,}"
+            value="+3752933252" required>
+          <div class="invalid-feedback">
+            <p>Phone must contain + and 9 digits</p>
+          </div>
+        </div>
+
+        <div class="input-group has-validation mb-4 ">
+          <input type="text" class="form-control" id="address" rows="2" placeholder="Address"
+            pattern="(([a-zA-Z])\w{4,}\s){2}([a-zA-Z])\w{4,}[\s\S]{0,}" required />
+          <div class="invalid-feedback">
+            <p>Phone must contain at least 3 word with at least 5 symbols</p>
+          </div>
+        </div>
+
+        <h3>Card info</h3>
+        <div class="form-outline has-validation mb-4">
+          <input type="text" class="form-control" id="cardname" placeholder="Name Surname" required>
+        </div>
+        <div class="form-row">
+          <div class="col-md-2 has-validation">
+            <input type="text" class="form-control" id="date" placeholder="mm/yy" required>
+          </div>
+          <div class="col-md-2 has-validation">
+            <input type="text" class="form-control" id="cvv" placeholder="XXX" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="pay-btn">Pay order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
