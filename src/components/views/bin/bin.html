@@ -17,13 +17,15 @@
           <div class="col">category: {{category}}</div>
           <div class="sum col"> {{price}}</div>
           <p class="card-text"><small class="text-muted">{{description}}</small></p>
-           <div class="col-md-3 row" class="count-container">
-            <div class="counter input-group flex-nowrap  mb-3" id="counter-{{id}}">
+           <div class="col-md-3 row count-container">
+            <div class="counter input-group mb-3 has-validation" id="counter-{{id}}">
               <span class="input-group-text" data-id="{{id}}" id="min-btn-{{id}}">-</span>
               <input id="prod-count-{{id}}" data-id="{{id}}" type="number" name="count" value="{{totalCount}}" min="0"
                 max="{{stock}}" class="form-control" disabled>
               <span class="input-group-text" data-id="{{id}}" id="plus-btn-{{id}}">+</span>
-              <div class="invalid-feedback">Count in stock {{stock}}</div>
+              <div class="invalid-feedback">
+                <p>Count in stock {{stock}}</p>
+              </div>
             </div>
             <div class="sum col"> {{totalPrice}}</div>
           </div>

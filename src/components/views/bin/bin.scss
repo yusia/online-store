@@ -30,8 +30,12 @@
 }
 .counter .input-group-text{
   background-color: $background1;
-}
 
+  &:hover {
+    background-color: $primary;
+    color: #fff;
+  }
+}
 
 .hide {
   display: none;

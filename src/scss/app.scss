@@ -1,0 +1,24 @@
+#main-nav {
+  a:first-child {    
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    padding: 0 5px;
+
+    img {
+      height: 30px;
+    }
+  }
+}
+
+#footer-logo {
+  height: 40px;
+}
+
+.github-logo {
+  width: 17px;
+}
+
+.rss-logo {
+  width: 100px;
+}
