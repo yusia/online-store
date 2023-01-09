@@ -10,8 +10,8 @@
 
 <body>
   <header>
-    <nav class="nav">
-      <h1 class="nav-link" href="#catalog">Online store</h1>
+    <nav class="nav" id="main-nav">
+      <a class="nav-link" href="#catalog"><img src="../online-store/src/assets/images/yc-logo.png" alt="logo"><h1 hidden>Online store</h1></a>
       <a class="nav-link active" aria-current="page" href="#catalog">Catalog</a>
 
       <a class="nav-link bin" href="#bin">Bin
@@ -26,36 +26,25 @@
     </main>
   </div>
   <footer class="pt-4 my-md-5 pt-md-5 border-top">
-    <div class="row">
-      <div class="col-12 col-md">
-        Our logo
+    <div class="row g-0" >
+      <div class="col-md-4 d-flex align-items-center justify-content-center">
+        <img id="footer-logo"src="./src/assets/images/yc-logo.png" alt="logo">
       </div>
-      <div class="col-6 col-md">
+      <div class="col-md-4 d-flex align-items-center justify-content-center">
         <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Cool stuff</a></li>
-          <li><a class="text-muted" href="#">Random feature</a></li>
-          <li><a class="text-muted" href="#">Team feature</a></li>
-          <li><a class="text-muted" href="#">Stuff for developers</a></li>
-          <li><a class="text-muted" href="#">Another one</a></li>
-          <li><a class="text-muted" href="#">Last time</a></li>
+          <li><a class="text-muted" href="https://github.com/yusia"><img class="github-logo" src="./src/assets/images/logo-github.png" alt="github"> Julia Antonova</a></li>
+          <li><a class="text-muted" href="https://github.com/ChristinaKarlovich"><img class="github-logo" src="./src/assets/images/logo-github.png" alt="github"> Chris Karlovich</a></li>
         </ul>
       </div>
-      <div class="col-6 col-md">
+      <div class="col-md-4 d-flex align-items-center justify-content-center">
         <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Resource</a></li>
-          <li><a class="text-muted" href="#">Resource name</a></li>
-          <li><a class="text-muted" href="#">Another resource</a></li>
-          <li><a class="text-muted" href="#">Final resource</a></li>
+          <li><a class="text-muted" href="https://rs.school/"><img  class="rss-logo" src="./src/assets/images/rs_school_js.svg" alt="rs-school"></a></li>
+          <li><a class="text-muted" href="https://rs.school/js/">«JavaScript/Front-end»</a></li>
         </ul>
       </div>
-      <div class="col-6 col-md">
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Team</a></li>
-          <li><a class="text-muted" href="#">Locations</a></li>
-          <li><a class="text-muted" href="#">Privacy</a></li>
-          <li><a class="text-muted" href="#">Terms</a></li>
-        </ul>
-      </div>
+    </div>
+    <div class="d-flex justify-content-around">
+      <div>@2023</div>
     </div>
   </footer>
 

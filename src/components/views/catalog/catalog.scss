@@ -3,6 +3,10 @@
   flex-direction: row;
 }
 
+#filter {
+  width: 25%;
+}
+
 #product-list {
   display: flex; 
   flex-flow: wrap;
@@ -10,14 +14,20 @@
   
   &.grid{
     .card {
-      width: 18rem;
+      width: 32%;
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
     }
   }
   &.list {
-      .card {
+    .card {
       width: 100%;
 
-      .card-body{
+      .card-body {
+
         display: flex;
         flex-direction: row;
         .card-text {
@@ -46,15 +56,26 @@
 }
 
 .img-container{
-  height: 150px;
-  overflow: hidden;
+  height: 30%;
+  overflow: hidden; 
 }
+
 .img-container:hover{
-  height: 300px;
+  height: auto;
 }
+
 .list .img-container{
   height: 300px;
 }
 .list .img-container:hover{
-  height: 400px;
+  height: auto;
+}
+
+input,
+label,
+.card,
+.dropdown-menu > li,
+.category-brand-wrapper > div,
+#slider {
+  cursor: pointer;
 }
