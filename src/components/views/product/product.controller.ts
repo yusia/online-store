@@ -11,14 +11,18 @@ export default class ProductController extends BaseController implements Control
     super();
   }
   initView(params: URLSearchParams,) {
-    const productId = +(params.get(this.viewParam) as string);//todo looks strange
-    const product = this.prodService.getProductById(productId);
-    if (product === null) {
-      this.goToPageNotFound();
-    }
-    else {
-      const isAddedToBin = this.binService.countInBin(product.id) > 0;
-      this.viewInstance.loadContent('app', product, isAddedToBin);
+    const isAbleParam = params.has(this.viewParam);
+    if (isAbleParam) {
+      const productId = +(params.get(this.viewParam) as string);
+      const product = this.prodService.getProductById(productId);
+      if (product === null) {
+        this.goToPageNotFound();
+      }
+      else {
+        const isAddedToBin = this.binService.countInBin(product.id) > 0;
+        this.viewInstance.loadContent('app', product, isAddedToBin);
+      }
+
     }
   }
 

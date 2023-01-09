@@ -8,8 +8,7 @@ import PromoService from '../../../global/services/promo.service';
 
 export default class BinController
   extends BaseController
-  implements ControllerInterface
-{
+  implements ControllerInterface {
   private viewParam = 'modal';
   constructor(
     private viewInstance: BinView,
@@ -92,18 +91,12 @@ export default class BinController
 
   initView(params: URLSearchParams) {
     const showModal = params?.get(this.viewParam) === 'true';
-    if (showModal === true || params === undefined) {
-      this.viewInstance.loadContent(
-        'app',
-        this.getBinProductModel(),
-        {
-          modal: showModal,
-        },
-        this.promoService.getPromoList(),
-        this.promoService.getSelectedPromoList()
-      );
-    } else {
-      this.goToPageNotFound();
-    }
+    this.viewInstance.loadContent(  'app', this.getBinProductModel(),{
+        modal: showModal,
+      },
+      this.promoService.getPromoList(),
+      this.promoService.getSelectedPromoList()
+    );
   }
+
 }
