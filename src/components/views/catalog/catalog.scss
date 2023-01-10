@@ -4,17 +4,18 @@
 }
 
 #filter {
-  width: 25%;
+  width: 250px;
+
+  @media (max-width:781px) {
+    width: 450px;
+  }
 }
 
-#product-list {
-  display: flex; 
-  flex-flow: wrap;
-  gap: 8px;
-  
+#product-list {  
+  gap: 5px;
   &.grid{
     .card {
-      width: 32%;
+      width: 250px;
       .card-body {
         display: flex;
         flex-direction: column;
