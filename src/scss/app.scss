@@ -25,3 +25,11 @@
 .main-nav{
   background-color: $background1;
 }
+
+#bin {
+  background-image: url("../assets/images/shopping-cart.png");   
+  width: 35px;
+  height: 35px;
+  background-size: contain;
+  padding: 9px;
+}
