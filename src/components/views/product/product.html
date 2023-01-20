@@ -1,0 +1,47 @@
+<div class="container product-view">
+
+  <nav class="col" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#catalog">Store</a></li>
+      <li class="breadcrumb-item"><a href="#catalog?brand={{brand}}">{{brand}}</a></li>
+      <li class="breadcrumb-item"><a href="#catalog?category={{category}}&brand={{brand}}">{{category}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+    </ol>
+  </nav>
+  <div class="row prod-info">
+    <div class="col">
+      <div class="container">
+        <div class="row">
+          <img class="img-thumbnail" id="big-image" src="{{thumbnail}}" alt="main image" />
+        </div>
+        <div class="row images-set" id="images-set">
+        </div>
+      </div>
+
+    </div>
+    <div class="col">
+      <div class="container ">
+        <h3>{{title}}</h3>
+        <div class="row discount">discountPercentage: {{discountPercentage}}</div>
+        <div class="row">rating: {{rating}}</div>
+        <div class="row">stock: {{stock}}</div>
+        <div class="row">brand: {{brand}}</div>
+        <div class="row">category: {{category}}</div>
+        <div class="row sum">price: {{price}}</div>
+        <div class="row">
+          <div class="container buttons">
+            <a href="#bin?modal=true">
+              <button id="prod-buy-btn" class="btn btn-primary">Buy now</button>
+            </a>
+            <button id="prod-add-cart" class="btn btn-primary">Add to cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row description">
+    <h5>Description</h5>
+    <p>{{description}}</p>
+  </div>
+</div>

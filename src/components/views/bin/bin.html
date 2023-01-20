@@ -1,0 +1,71 @@
+<template id="bin-item-id" class="none">
+  <li class="list-group-item bin-item card ">
+
+    <div class="row g-0">
+      <div class="col-md-4">
+        <h5 class="card-title"> <a href="#product?prodId={{id}}"> {{title}}</a></h5>
+        <img class="img-fluid bin-thumbnail" src="{{thumbnail}}">
+      </div>
+
+      <div class="col-md-8">
+        <div class="card-body row">
+
+          <div class="col discount">discountPercentage: {{discountPercentage}}</div>
+          <div class="col"><span class="row">rating:</span><span class="row"> {{rating}}</span></div>
+          <div class="col">stock: {{stock}}</div>
+          <div class="col">brand: {{brand}}</div>
+          <div class="col">category: {{category}}</div>
+          <div class="sum col"> {{price}}</div>
+          <p class="card-text"><small class="text-muted">{{description}}</small></p>
+           <div class="col-md-3 row count-container">
+            <div class="counter input-group mb-3 has-validation" id="counter-{{id}}">
+              <span class="input-group-text" data-id="{{id}}" id="min-btn-{{id}}">-</span>
+              <input id="prod-count-{{id}}" data-id="{{id}}" type="number" name="count" value="{{totalCount}}" min="0"
+                max="{{stock}}" class="form-control" disabled>
+              <span class="input-group-text" data-id="{{id}}" id="plus-btn-{{id}}">+</span>
+              <div class="invalid-feedback">
+                <p>Count in stock {{stock}}</p>
+              </div>
+            </div>
+            <div class="sum col"> {{totalPrice}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </li>
+</template>
+
+<div id="bin-content">
+  <ol class="list-group list-group-numbered" id="bin-products-list"> </ol>
+
+  <div class="total-container row">
+    <div class="total">
+      <h3>Products: <span class="" id="bin-count"> </span></h3>
+      <h3 class="main">Total: <span class="sum" id="bin-sum"> </span></h3>
+      <h3 class="promo hide">Total: <span class="sum" id="bin-promo"> </span></h3>
+      <div class="card hide" id="selected-promo-wrapper">
+        <div class="card-header">
+          Applied codes
+        </div>
+        <div id="selected-promo-list" class="list-group list-group-flush"></div>
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" id="promo-value" placeholder="Promocode(rs10,rs20)"
+          aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="button" id="promo">Apply</button>
+      </div>
+      <div class="input-group mb-3 hide" id="found-promo">
+        <div class="form-control" id="found-promo-value"></div>
+        <button class="btn btn-outline-secondary" type="button" id="found-promo-btn">Add</button>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" id="buy-all">
+      Buy All
+    </button>
+  </div>
+  <div class="modal fade" id="infomodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="infomodalLabel" aria-hidden="true">
+  </div>

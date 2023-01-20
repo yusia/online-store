@@ -1,0 +1,87 @@
+<div class="container-fluid row g-0">
+  <div class="container-fluid col-sm-4" id="filter">
+    <div class="filter-button-list mb-3">
+      <button class="btn btn-primary" id="reset-filter">reset filter</button>
+      <button class="btn btn-primary" id="copy-link">copy link</button>
+    </div>    
+    <h3 class="mb-3">Category</h3>
+    <div id="category-list" class="category-list list-group">
+    </div>
+    <h3 class="mb-3">Brand</h3>
+    <div id="brand-list" class="brand-list list-group">
+    </div>
+    <h3 class="mb-3">Price</h3>
+    <div id="price" style="width: 100%">
+      <div id="slider" class="slider-price"></div>
+    </div>
+    <h3 class="mb-3">Stock</h3>
+    <div id="stock" style="width: 100%">
+      <div id="slider" class="slider-stock"></div>
+    </div>
+  </div>
+  <div class="container-fluid col-sm-8">
+    <div class="col input-group  mb-3">
+      <input id="search-product" class="form-control" name="search" placeholder="search product" />
+      <span id="products-count" class="input-group-text"></span>
+    </div>
+    <div class="container button-list row gx-3 gy-2 mb-3">
+      <div class="col align-items-center">
+        <div class="form-check  form-check-inline">
+          <input class="form-check-input" type="radio" name="view" id="radio-grid" value="grid" checked>
+          <label class="form-check-label" for="radio-grid">Grid</label>
+        </div>
+        <div class="form-check  form-check-inline">
+          <input class="form-check-input" type="radio" name="view" id="radio-list" value="line">
+          <label class="form-check-label" for="radio-list">List</label>
+        </div>
+      </div>
+      <div class=" col dropdown">
+        <button class="btn btn-secondary dropdown-toggle" role="button" id="dropdownSort" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Sort by <span class="sortValue"></span>
+        </button>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownSort" id="sorting">
+          <li data-field="price" data-dir="asc" class="dropdown-item">price ↑</li>
+          <li data-field="price" data-dir="desc" class="dropdown-item">price ↓</li>
+          <li data-field="rating" data-dir="asc" class="dropdown-item">rating ↑</li>
+          <li data-field="rating" data-dir="desc" class="dropdown-item">rating ↓</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container d-flex justify-content-start flex-wrap" id="product-list">
+    </div>
+  </div>
+</div>
+
+<template id="card-template">
+
+  <div class="card ">
+    <div class="img-container">
+      <img class="card-img-top" id="thumbnail" src="#" alt="product" width="100%">
+    </div>
+
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text"></p>
+    </div>
+    <div class="card-body">
+      <h6 class="card-price"></h6>
+      <h6 class="card-discount"></h6>
+      <p class="card-rating"></p>
+      <p class="card-stock"></p>
+      <button class="btn btn-primary prod-add-cart">Add to cart</button>
+    </div>
+  </div>
+</template>
+
+<template id="category-brand-template">
+  <div class="category-brand-wrapper  list-group-item  d-flex justify-content-between ">
+    <div class="form-check">
+      <input class="category-brand-name form-check-input" type="checkbox"></input>
+      <div class="category-brand-label form-check-label"></div>
+    </div>
+    <span class="badge bg-light text-dark rounded-pill count ">14</span>
+  </div>
+</template>

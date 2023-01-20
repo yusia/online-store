@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online store</title>
+</head>
+
+<body>
+  <header class="main-nav ">
+    <nav class="nav container row" id="main-nav">
+
+      <a class="nav-link col-4" href="#catalog"><img src="./src/assets/images/yc-logo.png" alt="logo">
+        <h1 hidden>Online store</h1>
+      </a>
+      <a class="nav-link active col" aria-current="page" href="#catalog">Catalog</a>
+
+      <a class="btn btn-primary bin  col-2 justify-content-center " href="#bin">
+        <span class="badge badge-secondary" id="bin">0</span>
+        <span class="badge badge-secondary sum" id="bin-total">0</span>
+      </a>
+    </nav>
+  </header>
+
+  <div class="container-fluid py-4 px-3 mx-auto">
+    <main id="app">
+    </main>
+  </div>
+  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row g-0">
+      <div class="col-md-4 d-flex align-items-center justify-content-center">
+        <img id="footer-logo" src="./src/assets/images/yc-logo.png" alt="logo">
+      </div>
+      <div class="col-md-4 d-flex align-items-center justify-content-center">
+        <ul class="list-unstyled text-small">
+          <li>
+            <a class="text-muted" href="https://github.com/yusia">
+              <img class="github-logo" src="./src/assets/images/logo-github.png" alt="github"> Julia Antonova</a>
+          </li>
+          <li>
+            <a class="text-muted" href="https://github.com/ChristinaKarlovich">
+              <img class="github-logo" src="./src/assets/images/logo-github.png" alt="github"> Chris Karlovich</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4 d-flex align-items-center justify-content-center">
+        <ul class="list-unstyled text-small">
+          <li>
+            <a class="text-muted" href="https://rs.school/"><img class="rss-logo"
+                src="./src/assets/images/rs_school_js.svg" alt="rs-school"></a>
+          </li>
+          <li><a class="text-muted" href="https://rs.school/js/">«JavaScript/Front-end»</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-flex justify-content-around">
+      <div>@2023</div>
+    </div>
+  </footer>
+
+  <div class="toast-container top-0 end-0 p-3">
+    <div id="successOrder" class="toast " role="alert" aria-live="assertive">
+      <div class="toast-header">
+        <strong class="me-auto">Order successfully completed.</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        Our delivery will contact you soon
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
