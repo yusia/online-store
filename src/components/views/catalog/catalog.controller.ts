@@ -16,10 +16,6 @@ export default class CatalogController implements ControllerInterface {
     private binService: BinService,
     private paramService: SearchParamService
   ) {
-    window.addEventListener('hashchange', ((event: HashChangeEvent) => {
-      this.prodService.updateFilterByUrl(event.newURL);
-    }) as EventListener);
-
     window.addEventListener('sortChanged', ((event: CustomEvent) => {
       this.paramService.setSortParam(event.detail.sortField, event.detail.sortDirection);
     }) as EventListener);
@@ -65,7 +61,6 @@ export default class CatalogController implements ControllerInterface {
       newUrl.hash = '';
       newUrl.pathname += '#catalog';
       newUrl.search = searchParams.toString();
-      console.log(newUrl);
 
       window.location.replace(newUrl.href.replace(`%23`, `#`));
     }
