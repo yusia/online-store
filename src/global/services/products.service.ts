@@ -132,10 +132,6 @@ export default class ProductsService {
       .length;
   }
 
-  updateFilterByCategory(category: string) {
-    console.log(category);
-  }
-
   updateFilterByUrl(url: string) {
     const searchParams = new URLSearchParams(`?${url.split('?')[1]}`);
     this._filter.categories = searchParams.getAll('category');
@@ -151,7 +147,6 @@ export default class ProductsService {
     }
 
     this._filter.searchText = searchParams.get('search') as string;
-    console.log(this._filter);
   }
 
   isCategiryInFilter(category: string): boolean {

@@ -61,7 +61,6 @@ export default class CatalogController implements ControllerInterface {
       newUrl.hash = '';
       newUrl.pathname += '#catalog';
       newUrl.search = searchParams.toString();
-      console.log(newUrl);
 
       window.location.replace(newUrl.href.replace(`%23`, `#`));
     }
